@@ -13,13 +13,15 @@ edition.workspace = true
 rust-version.workspace = true
 
 [features]
+default = ["std"]
+std = []
 system = []
 complex = []
 # Can be used to accelerate check builds by not building C code
 check_only = []
 
 [package.metadata.docs.rs]
-features = ["system"]
+features = ["std", "system"]
 
 [build-dependencies]
 cc = "1.0"

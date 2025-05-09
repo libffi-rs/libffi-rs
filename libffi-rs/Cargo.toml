@@ -12,17 +12,19 @@ edition.workspace = true
 rust-version.workspace = true
 
 [dependencies]
-libffi-sys = { path = "../libffi-sys-rs", version = "^3.3" }
+libffi-sys = { path = "../libffi-sys-rs", version = "^3.3", default-features = false }
 libc = "0.2.65"
 
 [features]
 complex = []
+default = ["std"]
+std = ["libffi-sys/std"]
 system = ["libffi-sys/system"]
 # Can be used to accelerate check builds by not building C code
 check_only = ["libffi-sys/check_only"]
 
 [package.metadata.docs.rs]
-features = ["system"]
+features = ["std", "system"]
 
 [lints]
 workspace = true
