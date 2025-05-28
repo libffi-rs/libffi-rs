@@ -155,15 +155,19 @@ macro_rules! define_closure_mod {
                 /// and result types.
                 #[allow(non_snake_case)]
                 pub fn new($( $T: Type<$T>, )* result: Type<R>) -> Self {
-                    let cif = middle::Cif::new(
-                        alloc::vec![$( $T.into_middle() ),*].into_iter(),
-                        result.into_middle());
-                    $cif { untyped: cif, _marker: PhantomData }
+                    Self::new_with_abi($($T, )* result, ffi_abi_FFI_DEFAULT_ABI)
                 }
 
-                /// Sets the CIF to use the given calling convention.
-                pub fn set_abi(&mut self, abi: FfiAbi) {
-                    self.untyped.set_abi(abi);
+                /// Creates a new statically-typed CIF with the given argument
+                /// and result types for the specified ABI.
+                #[allow(non_snake_case)]
+                pub fn new_with_abi($( $T: Type<$T>, )* result: Type<R>, abi: FfiAbi) -> Self {
+                    let cif = middle::Cif::new_with_abi(
+                        alloc::vec![$( $T.into_middle() ),*].into_iter(),
+                        result.into_middle(),
+                        abi,
+                    );
+                    $cif { untyped: cif, _marker: PhantomData }
                 }
             }
 
