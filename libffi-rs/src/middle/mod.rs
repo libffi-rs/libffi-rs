@@ -460,7 +460,8 @@ impl ClosureOnce {
 mod test {
     use super::*;
     use crate::low;
-    use core::ffi::c_void;
+    use core::ffi::{c_char, c_void};
+    use std::ffi::CStr;
 
     #[test]
     fn call() {
@@ -576,5 +577,55 @@ mod test {
             assert_eq!(struct_size, clone_struct_size);
             assert_eq!(substruct_size, clone_substruct_size);
         }
+    }
+
+    /// Test variadic functions by calling `snprintf`
+    #[test]
+    fn call_snprintf() {
+        extern "C" {
+            fn snprintf(s: *mut c_char, n: usize, format: *const c_char, ...) -> i32;
+        }
+
+        let mut output_buffer = [0u8; 50];
+
+        let expected = c"num: 123, pi: 3.14, This is a &Cstr";
+
+        let format_str = c"num: %d, pi: %.2f, %s";
+
+        let num = 123;
+        let pi = core::f64::consts::PI;
+        let cstr = c"This is a &Cstr";
+
+        let cif = Cif::new_variadic(
+            [
+                Type::pointer(),
+                Type::usize(),
+                Type::pointer(),
+                Type::i32(),
+                Type::f64(),
+                Type::pointer(),
+            ],
+            3,
+            Type::i32(),
+        );
+
+        let result: i32 = unsafe {
+            cif.call(
+                CodePtr(snprintf as *mut _),
+                &[
+                    arg(&output_buffer.as_mut_ptr()),
+                    arg(&output_buffer.len()),
+                    arg(&format_str.as_ptr()),
+                    arg(&num),
+                    arg(&pi),
+                    arg(&cstr.as_ptr()),
+                ],
+            )
+        };
+
+        let output_cstr = CStr::from_bytes_until_nul(&output_buffer).unwrap();
+
+        assert_eq!(result, expected.to_bytes().len().try_into().unwrap());
+        assert_eq!(expected, output_cstr);
     }
 }
