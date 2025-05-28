@@ -105,13 +105,26 @@ impl Clone for Cif {
 
 impl Cif {
     /// Creates a new [CIF](Cif) for the given argument and result
-    /// types.
+    /// types with the default ABI.
     ///
     /// Takes ownership of the argument and result [`Type`]s, because
     /// the resulting [`Cif`] retains references to them. Defaults to
-    /// the platform’s default calling convention; this can be adjusted
-    /// using [`Cif::set_abi`].
+    /// the platform’s default calling convention; this can be changed by
+    /// creating the [`Cif´] using [`Cif::new_with_abi`].
     pub fn new<I>(args: I, result: Type) -> Self
+    where
+        I: IntoIterator<Item = Type>,
+        I::IntoIter: ExactSizeIterator<Item = Type>,
+    {
+        Self::new_with_abi(args, result, ffi_abi_FFI_DEFAULT_ABI)
+    }
+
+    /// Creates a new [CIF](Cif) for the given argument and result
+    /// types with the specified ABI.
+    ///
+    /// Takes ownership of the argument and result [`Type`]s, because
+    /// the resulting [`Cif`] retains references to them.
+    pub fn new_with_abi<I>(args: I, result: Type, abi: FfiAbi) -> Self
     where
         I: IntoIterator<Item = Type>,
         I::IntoIter: ExactSizeIterator<Item = Type>,
@@ -121,16 +134,8 @@ impl Cif {
         let args = types::TypeArray::new(args);
         let mut cif = low::ffi_cif::default();
 
-        unsafe {
-            low::prep_cif(
-                &mut cif,
-                low::ffi_abi_FFI_DEFAULT_ABI,
-                nargs,
-                result.as_raw_ptr(),
-                args.as_raw_ptr(),
-            )
-        }
-        .expect("low::prep_cif");
+        unsafe { low::prep_cif(&mut cif, abi, nargs, result.as_raw_ptr(), args.as_raw_ptr()) }
+            .expect("low::prep_cif");
 
         // Note that cif retains references to args and result,
         // which is why we hold onto them here.
@@ -138,13 +143,26 @@ impl Cif {
     }
 
     /// Creates a new variadic [CIF](Cif) for the given argument and result
-    /// types.
+    /// types with the default ABI.
     ///
     /// Takes ownership of the argument and result [`Type`]s, because
     /// the resulting [`Cif`] retains references to them. Defaults to
-    /// the platform’s default calling convention; this can be adjusted
-    /// using [`Cif::set_abi`].
+    /// the platform’s default calling convention; this can be changed by
+    /// creating the [`Cif`] using [`Cif::new_variadic_with_abi`].
     pub fn new_variadic<I>(args: I, fixed_args: usize, result: Type) -> Self
+    where
+        I: IntoIterator<Item = Type>,
+        I::IntoIter: ExactSizeIterator<Item = Type>,
+    {
+        Self::new_variadic_with_abi(args, fixed_args, result, ffi_abi_FFI_DEFAULT_ABI)
+    }
+
+    /// Creates a new variadic [CIF](Cif) for the given argument and result
+    /// types with the default ABI.
+    ///
+    /// Takes ownership of the argument and result [`Type`]s, because
+    /// the resulting [`Cif`] retains references to them.
+    pub fn new_variadic_with_abi<I>(args: I, fixed_args: usize, result: Type, abi: FfiAbi) -> Self
     where
         I: IntoIterator<Item = Type>,
         I::IntoIter: ExactSizeIterator<Item = Type>,
@@ -157,7 +175,7 @@ impl Cif {
         unsafe {
             low::prep_cif_var(
                 &mut cif,
-                low::ffi_abi_FFI_DEFAULT_ABI,
+                abi,
                 fixed_args,
                 nargs,
                 result.as_raw_ptr(),
@@ -193,11 +211,6 @@ impl Cif {
             fun,
             args.as_ptr() as *mut *mut c_void,
         )
-    }
-
-    /// Sets the CIF to use the given calling convention.
-    pub fn set_abi(&mut self, abi: FfiAbi) {
-        self.cif.abi = abi;
     }
 
     /// Gets a raw pointer to the underlying [`low::ffi_cif`].

@@ -108,9 +108,7 @@ impl Builder {
 
     /// Builds a CIF.
     pub fn into_cif(self) -> super::Cif {
-        let mut result = super::Cif::new(self.args, self.res);
-        result.set_abi(self.abi);
-        result
+        super::Cif::new_with_abi(self.args, self.res, self.abi)
     }
 
     /// Builds an immutable closure.
