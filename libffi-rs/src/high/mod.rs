@@ -71,7 +71,7 @@
 pub use crate::middle::{ffi_abi_FFI_DEFAULT_ABI, FfiAbi};
 
 pub mod types;
-pub use types::{CType, Type};
+pub use types::{CRetType, CType, Type};
 
 pub mod call;
 pub use call::*;
@@ -150,32 +150,36 @@ macro_rules! define_closure_mod {
                 _marker: PhantomData<fn($( $T, )*) -> R>,
             }
 
-            impl<$( $T, )* R> $cif<$( $T, )* R> {
+            impl<$( $T, )* R> $cif<$( $T, )* R>
+            where
+                R: CRetType,
+            {
                 /// Creates a new statically-typed CIF with the given argument
                 /// and result types.
+                #[allow(clippy::new_without_default)]
                 #[allow(non_snake_case)]
-                pub fn new($( $T: Type<$T>, )* result: Type<R>) -> Self {
-                    Self::new_with_abi($($T, )* result, ffi_abi_FFI_DEFAULT_ABI)
+                pub fn new($( $T: Type<$T>, )*) -> Self {
+                    Self::new_with_abi($($T, )* ffi_abi_FFI_DEFAULT_ABI)
                 }
 
                 /// Creates a new statically-typed CIF with the given argument
                 /// and result types for the specified ABI.
                 #[allow(non_snake_case)]
-                pub fn new_with_abi($( $T: Type<$T>, )* result: Type<R>, abi: FfiAbi) -> Self {
+                pub fn new_with_abi($( $T: Type<$T>, )* abi: FfiAbi) -> Self {
                     let cif = middle::Cif::new_with_abi(
                         alloc::vec![$( $T.into_middle() ),*].into_iter(),
-                        result.into_middle(),
+                        <R as CRetType>::get_return_type(),
                         abi,
                     );
                     $cif { untyped: cif, _marker: PhantomData }
                 }
             }
 
-            impl<$( $T: CType, )* R: CType> $cif<$( $T, )* R> {
+            impl<$( $T: CType, )* R: CRetType> $cif<$( $T, )* R> {
                 /// Creates a new statically-typed CIF by reifying the
                 /// argument types as `Type<T>`s.
                 pub fn reify() -> Self {
-                    Self::new($( $T::reify(), )* R::reify())
+                    Self::new($( $T::reify(), )*)
                 }
             }
 
@@ -220,7 +224,7 @@ macro_rules! define_closure_mod {
                 _marker: PhantomData<fn($( $T, )*) -> R>,
             }
 
-            impl<'a, $($T: CType,)* R: CType> $closure<'a, $($T,)* R> {
+            impl<'a, $($T: CType,)* R: CRetType> $closure<'a, $($T,)* R> {
                 /// Constructs a typed closure callable from C from a
                 /// Rust closure.
                 pub fn new<Callback>(callback: &'a Callback) -> Self
@@ -230,7 +234,7 @@ macro_rules! define_closure_mod {
                 }
             }
 
-            impl<'a, $( $T, )* R: CType> $closure<'a, $( $T, )* R> {
+            impl<'a, $( $T, )* R: CRetType> $closure<'a, $( $T, )* R> {
                 /// Gets the C code pointer that is used to invoke the
                 /// closure.
                 pub fn code_ptr(&self) -> & $fnptr <'a, $( $T, )* R> {
@@ -256,10 +260,10 @@ macro_rules! define_closure_mod {
                 /// type of the callback must follow the libffi implicit
                 /// extension rules.
                 pub fn from_parts<U>(cif: $cif<$( $T, )* R>,
-                                     callback: $callback<U, $( $T, )* R::RetType>,
+                                     callback: $callback<U, $( $T, )* R>,
                                      userdata: &'a U) -> Self
                 {
-                    let callback: middle::Callback<U, R::RetType>
+                    let callback: middle::Callback<U, R>
                         = unsafe { mem::transmute(callback) };
                     let closure
                         = middle::Closure::new(cif.untyped,
@@ -272,7 +276,7 @@ macro_rules! define_closure_mod {
                 }
             }
 
-            impl<'a, $( $T: Copy, )* R: CType> $closure<'a, $( $T, )* R> {
+            impl<'a, $( $T: Copy, )* R: CRetType> $closure<'a, $( $T, )* R> {
                 /// Constructs a typed closure callable from C from a CIF
                 /// describing the calling convention for the resulting
                 /// function and the Rust closure to call.
@@ -288,7 +292,7 @@ macro_rules! define_closure_mod {
                 #[allow(non_snake_case)]
                 extern "C" fn static_callback<Callback>
                     (_cif:     &low::ffi_cif,
-                     result:   &mut R::RetType,
+                     result:   &mut R,
                      &($( &$T, )*):
                                &($( &$T, )*),
                      userdata: &Callback)
@@ -316,7 +320,7 @@ macro_rules! define_closure_mod {
                 _marker: PhantomData<fn($( $T, )*) -> R>,
             }
 
-            impl<'a, $($T: CType,)* R: CType>
+            impl<'a, $($T: CType,)* R: CRetType>
                 $closure_mut<'a, $($T,)* R>
             {
                 /// Constructs a typed closure callable from C from a
@@ -328,7 +332,7 @@ macro_rules! define_closure_mod {
                 }
             }
 
-            impl<'a, $( $T, )* R: CType> $closure_mut<'a, $( $T, )* R> {
+            impl<'a, $( $T, )* R: CRetType> $closure_mut<'a, $( $T, )* R> {
                 /// Gets the C code pointer that is used to invoke the
                 /// closure.
                 pub fn code_ptr(&self) -> & $fnptr <'a, $( $T, )* R> {
@@ -344,10 +348,10 @@ macro_rules! define_closure_mod {
                 /// type of the callback must follow the libffi implicit
                 /// extension rules.
                 pub fn from_parts<U>(cif:      $cif<$( $T, )* R>,
-                                     callback: $callback_mut<U, $( $T, )* R::RetType>,
+                                     callback: $callback_mut<U, $( $T, )* R>,
                                      userdata: &'a mut U) -> Self
                 {
-                    let callback: middle::CallbackMut<U, R::RetType>
+                    let callback: middle::CallbackMut<U, R>
                         = unsafe { mem::transmute(callback) };
                     let closure
                         = middle::Closure::new_mut(cif.untyped,
@@ -360,7 +364,7 @@ macro_rules! define_closure_mod {
                 }
             }
 
-            impl<'a, $( $T: Copy, )* R: CType> $closure_mut<'a, $( $T, )* R> {
+            impl<'a, $( $T: Copy, )* R: CRetType> $closure_mut<'a, $( $T, )* R> {
                 /// Constructs a typed closure callable from C from a CIF
                 /// describing the calling convention for the resulting
                 /// function and the Rust closure to call.
@@ -377,7 +381,7 @@ macro_rules! define_closure_mod {
                 #[allow(non_snake_case)]
                 extern "C" fn static_callback<Callback>
                     (_cif:     &low::ffi_cif,
-                     result:   &mut R::RetType,
+                     result:   &mut R,
                      &($( &$T, )*):
                                &($( &$T, )*),
                      userdata: &mut Callback)
@@ -402,7 +406,7 @@ macro_rules! define_closure_mod {
                 _marker: PhantomData<fn($( $T, )*) -> R>,
             }
 
-            impl<$($T: CType,)* R: CType> $closure_once<$($T,)* R> {
+            impl<$($T: CType,)* R: CRetType> $closure_once<$($T,)* R> {
                 /// Constructs a typed closure callable from C from a
                 /// Rust closure.
                 pub fn new<Callback>(callback: Callback) -> Self
@@ -412,7 +416,7 @@ macro_rules! define_closure_mod {
                 }
             }
 
-            impl<$( $T: Copy, )* R: CType> $closure_once<$( $T, )* R> {
+            impl<$( $T: Copy, )* R: CRetType> $closure_once<$( $T, )* R> {
                 /// Constructs a one-shot closure callable from C from a CIF
                 /// describing the calling convention for the resulting
                 /// function and the Rust closure to call.
@@ -428,7 +432,7 @@ macro_rules! define_closure_mod {
                 #[allow(non_snake_case)]
                 extern "C" fn static_callback<Callback>
                     (_cif:     &low::ffi_cif,
-                     result:   &mut R::RetType,
+                     result:   &mut R,
                      &($( &$T, )*):
                                &($( &$T, )*),
                      userdata: &mut Option<Callback>)
@@ -459,7 +463,7 @@ macro_rules! define_closure_mod {
                 }
             }
 
-            impl<$( $T, )* R: CType> $closure_once<$( $T, )* R> {
+            impl<$( $T, )* R: CRetType> $closure_once<$( $T, )* R> {
                 /// Gets the C code pointer that is used to invoke the
                 /// closure.
                 pub fn code_ptr(&self) -> & $fnptr <'_, $( $T, )* R> {
@@ -476,11 +480,11 @@ macro_rules! define_closure_mod {
                 /// extension rules.
                 pub fn from_parts<U: Any>(
                     cif:      $cif<$( $T, )* R>,
-                    callback: $callback_once<U, $( $T, )* R::RetType>,
+                    callback: $callback_once<U, $( $T, )* R>,
                     userdata: U)
                     -> Self
                 {
-                    let callback: middle::CallbackOnce<U, R::RetType>
+                    let callback: middle::CallbackOnce<U, R>
                         = unsafe { mem::transmute(callback) };
                     let closure
                         = middle::ClosureOnce::new(cif.untyped,
@@ -561,7 +565,7 @@ mod test {
         let f = |y: u64, z: u64| x + y + z;
 
         let type_ = u64::reify();
-        let cif = Cif2::new(type_.clone(), type_.clone(), type_.clone());
+        let cif = Cif2::new(type_.clone(), type_.clone());
         let closure = Closure2::new_with_cif(cif, &f);
 
         assert_eq!(12, closure.code_ptr().call(5, 6));
@@ -576,7 +580,7 @@ mod test {
         };
 
         let type_ = u64::reify();
-        let cif = Cif1::new(type_.clone(), type_.clone());
+        let cif = Cif1::new(type_.clone());
         let closure = ClosureMut1::new_with_cif(cif, &mut f);
 
         let counter = closure.code_ptr();
