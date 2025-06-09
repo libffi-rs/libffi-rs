@@ -242,12 +242,10 @@ mod powerpc {
         pub const ffi_abi_FFI_LINUX: ffi_abi = 0b00_1000;
 
         mod elfv1 {
-            pub const STRUCT_ALIGN_FLAG: crate::ffi_abi = 0b0;
             pub const FFI_TRAMPOLINE_SIZE: usize = 24;
         }
 
         mod elfv2 {
-            pub const STRUCT_ALIGN_FLAG: crate::ffi_abi = super::ffi_abi_FFI_LINUX_STRUCT_ALIGN;
             pub const FFI_TRAMPOLINE_SIZE: usize = 32;
         }
 
@@ -279,7 +277,6 @@ mod powerpc {
         }
 
         pub use elf::FFI_TRAMPOLINE_SIZE;
-        use elf::STRUCT_ALIGN_FLAG;
 
         mod long_double_64 {
             pub const LONG_DOUBLE_128_FLAG: crate::ffi_abi = 0b0;
@@ -300,7 +297,7 @@ mod powerpc {
         use long_double_128::*;
 
         pub const ffi_abi_FFI_DEFAULT_ABI: ffi_abi =
-            ffi_abi_FFI_LINUX | STRUCT_ALIGN_FLAG | LONG_DOUBLE_128_FLAG;
+            ffi_abi_FFI_LINUX | ffi_abi_FFI_LINUX_STRUCT_ALIGN | LONG_DOUBLE_128_FLAG;
 
         pub const FFI_NATIVE_RAW_API: u32 = 0;
         pub const FFI_GO_CLOSURES: u32 = 1;
