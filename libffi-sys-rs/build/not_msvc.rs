@@ -6,6 +6,7 @@ pub fn build_and_link() {
     let build_dir = Path::new(&out_dir).join("libffi-build");
     let prefix = Path::new(&out_dir).join("libffi-root");
     let libdir = Path::new(&prefix).join("lib");
+    let libdir32 = Path::new(&prefix).join("lib32");
     let libdir64 = Path::new(&prefix).join("lib64");
 
     // Copy LIBFFI_DIR into build_dir to avoid an unnecessary build
@@ -53,6 +54,7 @@ pub fn build_and_link() {
     // Cargo linking directives
     println!("cargo:rustc-link-lib=static=ffi");
     println!("cargo:rustc-link-search={}", libdir.display());
+    println!("cargo:rustc-link-search={}", libdir32.display());
     println!("cargo:rustc-link-search={}", libdir64.display());
 }
 
