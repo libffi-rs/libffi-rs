@@ -22,4 +22,4 @@ jobs:
       - name: Cargo Authentication
         run: cargo login ${{ secrets.CRATES_IO_TOKEN }}
       - name: Release
-        run: cargo release --execute
+        run: cargo release --execute --no-confirm
