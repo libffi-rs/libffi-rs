@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog] and this project adheres to
 [Keep a Changelog]: http://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: http://semver.org/spec/v2.0.0.html
 
-## [Unreleased]
+## [3.3.2] - 2025-06-30
 
 - Fix build under multilib setup: https://github.com/libffi-rs/libffi-rs/pull/160 
 - Fix default ABI on powerpc64: https://github.com/libffi-rs/libffi-rs/pull/157
