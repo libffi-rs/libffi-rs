@@ -2,7 +2,8 @@ name: Release
 
 on:
   workflow_dispatch
-
+permissions:
+  contents: write
 jobs:
   release:
     name: Release
@@ -14,7 +15,11 @@ jobs:
       - uses: taiki-e/install-action@v2
         with:
           tool: cargo-release
+      - name: Setup git
+        run: |
+          git config --global user.name 'Ashwin Naren'
+          git config --global user.email 'arihant2math@users.noreply.github.com'
       - name: Cargo Authentication
         run: cargo login ${{ secrets.CRATES_IO_TOKEN }}
       - name: Release
-        run: cargo release publish --execute
+        run: cargo release --execute
