@@ -14,5 +14,7 @@ jobs:
       - uses: taiki-e/install-action@v2
         with:
           tool: cargo-release
+      - name: Cargo Authentication
+        run: cargo login ${{ secrets.CRATES_IO_TOKEN }}
       - name: Release
-        run: cargo release publish
+        run: cargo release publish --execute
