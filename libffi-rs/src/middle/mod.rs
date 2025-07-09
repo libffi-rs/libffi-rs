@@ -37,7 +37,7 @@ impl Arg {
     ///
     /// This is used to wrap each argument pointer before passing them
     /// to [`Cif::call`].
-    pub fn new<T>(r: &T) -> Self {
+    pub fn new<T: ?Sized>(r: &T) -> Self {
         Arg(r as *const T as *mut c_void)
     }
 }
@@ -46,7 +46,7 @@ impl Arg {
 ///
 /// This is used to wrap each argument pointer before passing them
 /// to [`Cif::call`]. (This is the same as [`Arg::new`]).
-pub fn arg<T>(r: &T) -> Arg {
+pub fn arg<T: ?Sized>(r: &T) -> Arg {
     Arg::new(r)
 }
 
