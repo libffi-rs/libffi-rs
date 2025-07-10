@@ -253,12 +253,30 @@ pub union ffi_trampoline {
 /// should be invoked to allocate memory for the `ffi_closure` before its fields
 /// are populated by [`ffi_prep_closure`].
 ///
-/// **Caution** Do not use this struct directly as its fields may differ to
-/// those used by libffi. `ffi_closure` should not be generated manually, but
-/// allocated by `ffi_closure_alloc` and passed around as a pointer.
+/// **Caution** `ffi_closure` should not be generated or modified manually, but
+/// allocated by `ffi_closure_alloc` and passed around to libffi functions as a
+/// pointer.
 #[repr(C, align(8))]
 #[derive(Copy, Clone)]
 pub struct ffi_closure {
+    // https://github.com/libffi/libffi/blob/252c0f463641e6100169c3f0a4a590d7df438278/include/ffi.h.in#L325
+    // https://github.com/libffi/libffi/blob/252c0f463641e6100169c3f0a4a590d7df438278/configure.ac#L227
+    // On Apple systems with ARM CPUs, two pointers `trampoline_table` and
+    // `trampoline_table_entry` are used instead of the `ffi_trampoline`.
+    #[cfg(all(
+        target_vendor = "apple",
+        any(target_arch = "arm", target_arch = "aarch64")
+    ))]
+    pub trampoline_table: *mut c_void,
+    #[cfg(all(
+        target_vendor = "apple",
+        any(target_arch = "arm", target_arch = "aarch64")
+    ))]
+    pub trampoline_table_entry: *mut c_void,
+    #[cfg(not(all(
+        target_vendor = "apple",
+        any(target_arch = "arm", target_arch = "aarch64")
+    )))]
     pub tramp: ffi_trampoline,
     pub cif: *mut ffi_cif,
     pub fun: Option<
@@ -278,8 +296,25 @@ pub struct ffi_closure {
 /// Implements Debug manually since sometimes `FFI_TRAMPOLINE_SIZE` is too large
 impl Debug for ffi_closure {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        f.debug_struct("ffi_closure")
-            .field("tramp", unsafe { &&self.tramp.tramp[..] })
+        let mut debug_struct = f.debug_struct("ffi_closure");
+
+        #[cfg(all(
+            target_vendor = "apple",
+            any(target_arch = "arm", target_arch = "aarch64")
+        ))]
+        debug_struct
+            .field("trampoline_table", &self.trampoline_table)
+            .field("trampoline_table_entry", &self.trampoline_table_entry);
+        #[cfg(not(all(
+            target_vendor = "apple",
+            any(target_arch = "arm", target_arch = "aarch64")
+        )))]
+        debug_struct
+            // SAFETY: This might be undefined behavior if `tramp` is a `ftramp`. It is probably
+            // okay for debug purposes, however.
+            .field("tramp", unsafe { &self.tramp.tramp });
+
+        debug_struct
             .field("cif", &self.cif)
             .field("fun", &self.fun)
             .field("user_data", &self.user_data)
