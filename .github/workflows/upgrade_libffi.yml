@@ -1,0 +1,99 @@
+name: Upgrade libffi
+permissions:
+  contents: write
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Libffi version number'
+        required: true
+        type: text
+      url:
+        description: 'URL of libffi .tar.gz release file'
+        required: true
+        type: text
+
+env:
+  VERSION: ${{ github.event.inputs.version }}
+  PR_BRANCH: action-upgrade-${{ github.ref_name }}-to-libffi-${{ github.event.inputs.version }}
+  BRANCH: ${{ github.ref_name }}
+  LIBFFI_URL: ${{ github.event.inputs.url }}
+
+jobs:
+  download_unpack:
+    name: 'Download and unpack'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Setup git author
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+      - name: Create new branch
+        run: git switch -c "$PR_BRANCH"
+      - name: Delete old libffi, download an unpack new
+        run: |
+          rm -rf libffi-sys-rs/libffi/
+          mkdir libffi-sys-rs/libffi/
+          curl -Lo "${{ runner.temp }}/libffi.tar.gz" "$LIBFFI_URL"
+          sha256sum "${{ runner.temp }}/libffi.tar.gz"
+          export SHASUM=$(sha256sum "${{ runner.temp }}/libffi.tar.gz" | cut -d " " -f 1)
+          tar zxvf "${{ runner.temp }}/libffi.tar.gz" -C libffi-sys-rs/libffi/ --strip-components=1
+          git add libffi-sys-rs/libffi
+          git commit -m "Downloaded libffi $VERSION from $LIBFFI_URL. SHA256 of the .tar.gz was $SHASUM."
+          git push origin "$PR_BRANCH"
+  
+  generate_msvc_headers:
+    name: 'Generate MSVC headers'
+    runs-on: windows-latest
+    needs: download_unpack
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ env.PR_BRANCH }}
+      - name: Setup git author
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+      - name: Generate x86_64 headers
+        shell: cmd
+        run: |
+          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
+          C:\msys64\usr\bin\env MSYS2_PATH_TYPE=inherit MSYSTEM=mingw64 CHERE_INVOKING=enabled_from_arguments /usr/bin/bash -lc "cd libffi-sys-rs/libffi && ./configure --build x86_64-pc-msys --target x86_64-pc-msys --host x86_64-pc-msys --disable-dependency-tracking --with-pic --disable-shared --disable-docs CC=""$(pwd)/msvcc.sh -m64"" CXX=""$(pwd)/msvcc.sh -m64"" CPP=""cl.exe -nologo -EP"" CXXCPP=""cl.exe -nologo -EP"""
+          COPY /Y libffi-sys-rs\libffi\x86_64-pc-msys\include\ffi.h libffi-sys-rs\include\msvc\x86_64\ffi.h
+          COPY /Y libffi-sys-rs\libffi\x86_64-pc-msys\fficonfig.h libffi-sys-rs\include\msvc\x86_64\fficonfig.h
+      - name: Generate 32-bit x86 headers
+        shell: cmd
+        run: |
+          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" amd64_x86
+          C:\msys64\usr\bin\env MSYS2_PATH_TYPE=inherit MSYSTEM=mingw32 CHERE_INVOKING=enabled_from_arguments /usr/bin/bash -lc "cd libffi-sys-rs/libffi && ./configure --build i686-pc-msys --target i686-pc-msys --host i686-pc-msys --disable-dependency-tracking --with-pic --disable-shared --disable-docs CC=""$(pwd)/msvcc.sh"" CXX=""$(pwd)/msvcc.sh"" CPP=""cl.exe -nologo -EP"" CXXCPP=""cl.exe -nologo -EP"""
+          COPY /Y libffi-sys-rs\libffi\i686-pc-msys\include\ffi.h libffi-sys-rs\include\msvc\x86\ffi.h
+          COPY /Y libffi-sys-rs\libffi\i686-pc-msys\fficonfig.h libffi-sys-rs\include\msvc\x86\fficonfig.h
+      - name: Generate aarch64 headers
+        shell: cmd
+        run: |
+          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" amd64_arm64
+          C:\msys64\usr\bin\env MSYS2_PATH_TYPE=inherit MSYSTEM=mingw32 CHERE_INVOKING=enabled_from_arguments /usr/bin/bash -lc "cd libffi-sys-rs/libffi && ./configure --build x86_64-pc-msys --target aarch64-pc-msys --host aarch64-pc-msys --disable-dependency-tracking --with-pic --disable-shared --disable-docs CC=""$(pwd)/msvcc.sh"" CXX=""$(pwd)/msvcc.sh"" CPP=""cl.exe -nologo -EP"" CXXCPP=""cl.exe -nologo -EP"""
+          COPY /Y libffi-sys-rs\libffi\aarch64-pc-msys\include\ffi.h libffi-sys-rs\include\msvc\aarch64\ffi.h
+          COPY /Y libffi-sys-rs\libffi\aarch64-pc-msys\fficonfig.h libffi-sys-rs\include\msvc\aarch64\fficonfig.h
+      - name: Commit changes to git
+        continue-on-error: true
+        run: |
+          git add libffi-sys-rs/include
+          git commit -m "Added updated headers for MSVC."
+          git push origin
+  
+  create_pr:
+    name: 'Create pull request'
+    runs-on: ubuntu-latest
+    needs: generate_msvc_headers
+    permissions:
+      pull-requests: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ env.PR_BRANCH }}
+      - name: 'Create pull request'
+        run: gh pr create -B "$BRANCH" -H "$PR_BRANCH" --title "Upgrade to libffi $VERSION" --body "Upgraded to libffi $VERSION from .tar.gz at $LIBFFI_URL."
