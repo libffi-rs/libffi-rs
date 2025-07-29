@@ -10,6 +10,9 @@ use msvc::*;
 use not_msvc::*;
 
 fn main() {
+    if cfg!(feature = "check_only") {
+        return;
+    }
     if cfg!(feature = "system") {
         probe_and_link();
     } else {
