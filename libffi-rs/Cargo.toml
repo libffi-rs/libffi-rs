@@ -18,6 +18,8 @@ libc = "0.2.65"
 [features]
 complex = []
 system = ["libffi-sys/system"]
+# Can be used to accelerate check builds by not building C code
+check_only = ["libffi-sys/check_only"]
 
 [package.metadata.docs.rs]
 features = ["system"]
