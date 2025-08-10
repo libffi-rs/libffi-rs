@@ -55,14 +55,17 @@ into an ordinary C code pointer. The type of `fun` below is
 ```rust
 use libffi::high::Closure2;
 
-let x = 5u64;
-let f = |y: u64, z: u64| x + y + z;
+fn main() {
+    let x = 5u64;
+    let f = |y: u64, z: u64| x + y + z;
 
-let closure = Closure2::new(&f);
-let fun     = closure.code_ptr();
+    let closure = Closure2::new(&f);
+    let fun = closure.code_ptr();
 
-assert_eq!(18, fun(6, 7));
+    assert_eq!(18, fun(6, 7));
+}
 ```
 
 [the `libffi-sys` crate]: https://crates.io/crates/libffi-sys/
 [the `libffi-sys` documentation]: https://docs.rs/libffi-sys/#usage
+
