@@ -26,7 +26,7 @@ you can add
 
 ```toml
 [dependencies]
-libffi = "2.0.0"
+libffi = "4.1.1"
 ```
 
 to your `Cargo.toml`.
@@ -38,7 +38,7 @@ feature in your `Cargo.toml`:
 
 ```toml
 [features]
-libffi = { version = "2.0.0", features = ["system"] }
+libffi = { version = "4.1.1", features = ["system"] }
 ```
 
 See [the `libffi-sys` documentation] for more information about how it
@@ -68,4 +68,5 @@ fn main() {
 
 [the `libffi-sys` crate]: https://crates.io/crates/libffi-sys/
 [the `libffi-sys` documentation]: https://docs.rs/libffi-sys/#usage
+
 
