@@ -51,7 +51,7 @@ impl<'a> Arg<'a> {
 }
 
 /// Constructs an [`Arg`] for passing to [`fn@call`].
-pub fn arg<T: super::CType>(arg: &T) -> Arg {
+pub fn arg<T: super::CType>(arg: &T) -> Arg<'_> {
     Arg::new(arg)
 }
 

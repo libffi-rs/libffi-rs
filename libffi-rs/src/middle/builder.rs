@@ -128,7 +128,7 @@ impl Builder {
         self,
         callback: super::Callback<U, R>,
         userdata: &U,
-    ) -> super::Closure {
+    ) -> super::Closure<'_> {
         super::Closure::new(self.into_cif(), callback, userdata)
     }
 
@@ -147,7 +147,7 @@ impl Builder {
         self,
         callback: super::CallbackMut<U, R>,
         userdata: &mut U,
-    ) -> super::Closure {
+    ) -> super::Closure<'_> {
         super::Closure::new_mut(self.into_cif(), callback, userdata)
     }
 
