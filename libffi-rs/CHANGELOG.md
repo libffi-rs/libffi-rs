@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog] and this project adheres to
 ## [Unreleased]
 
 - Add `check-only` feature to reduce build times when running cargo check (#166)
+- Relax sized requirement on Arg (#163)
 
 ## [4.1.1] - 2025-06-30
 
