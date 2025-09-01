@@ -8,13 +8,13 @@
 //! aren’t checked. See the [`high`](crate::high) layer for closures
 //! with type-checked arguments.
 
+use crate::low;
+pub use crate::low::{ffi_abi as FfiAbi, ffi_abi_FFI_DEFAULT_ABI, Callback, CallbackMut, CodePtr};
 use alloc::boxed::Box;
 use core::any::Any;
 use core::ffi::c_void;
 use core::marker::PhantomData;
-
-use crate::low;
-pub use crate::low::{ffi_abi as FfiAbi, ffi_abi_FFI_DEFAULT_ABI, Callback, CallbackMut, CodePtr};
+use core::ptr::NonNull;
 
 mod util;
 
@@ -23,6 +23,17 @@ pub use types::Type;
 
 mod builder;
 pub use builder::Builder;
+
+#[derive(Debug)]
+pub(crate) struct ClosureAlloc(NonNull<low::ffi_closure>);
+
+impl Drop for ClosureAlloc {
+    fn drop(&mut self) {
+        unsafe {
+            low::closure_free(self.0.as_ptr());
+        }
+    }
+}
 
 /// Contains an untyped pointer to a function argument.
 ///
@@ -50,7 +61,7 @@ impl<'arg> Arg<'arg> {
 ///
 /// This is used to wrap each argument pointer before passing them
 /// to [`Cif::call`]. (This is the same as [`Arg::new`]).
-pub fn arg<T: ?Sized>(r: &T) -> Arg {
+pub fn arg<T: ?Sized>(r: &T) -> Arg<'_> {
     Arg::new(r)
 }
 
@@ -277,17 +288,9 @@ impl Cif {
 #[derive(Debug)]
 pub struct Closure<'a> {
     _cif: Box<Cif>,
-    alloc: *mut low::ffi_closure,
+    _alloc: ClosureAlloc,
     code: CodePtr,
     _marker: PhantomData<&'a ()>,
-}
-
-impl Drop for Closure<'_> {
-    fn drop(&mut self) {
-        unsafe {
-            low::closure_free(self.alloc);
-        }
-    }
 }
 
 impl<'a> Closure<'a> {
@@ -307,10 +310,11 @@ impl<'a> Closure<'a> {
     pub fn new<U, R>(cif: Cif, callback: Callback<U, R>, userdata: &'a U) -> Self {
         let cif = Box::new(cif);
         let (alloc, code) = low::closure_alloc();
+        let alloc = ClosureAlloc(NonNull::new(alloc).unwrap());
 
         unsafe {
             low::prep_closure(
-                alloc,
+                alloc.0.as_ptr(),
                 cif.as_raw_ptr(),
                 callback,
                 userdata as *const U,
@@ -321,7 +325,7 @@ impl<'a> Closure<'a> {
 
         Closure {
             _cif: cif,
-            alloc,
+            _alloc: alloc,
             code,
             _marker: PhantomData,
         }
@@ -343,15 +347,22 @@ impl<'a> Closure<'a> {
     pub fn new_mut<U, R>(cif: Cif, callback: CallbackMut<U, R>, userdata: &'a mut U) -> Self {
         let cif = Box::new(cif);
         let (alloc, code) = low::closure_alloc();
+        let alloc = ClosureAlloc(NonNull::new(alloc).unwrap());
 
         unsafe {
-            low::prep_closure_mut(alloc, cif.as_raw_ptr(), callback, userdata as *mut U, code)
-                .unwrap();
+            low::prep_closure_mut(
+                alloc.0.as_ptr(),
+                cif.as_raw_ptr(),
+                callback,
+                userdata as *mut U,
+                code,
+            )
+            .unwrap();
         }
 
         Closure {
             _cif: cif,
-            alloc,
+            _alloc: alloc,
             code,
             _marker: PhantomData,
         }
@@ -391,18 +402,10 @@ pub type CallbackOnce<U, R> = CallbackMut<Option<U>, R>;
 /// which case the userdata will be gone if called again.
 #[derive(Debug)]
 pub struct ClosureOnce {
-    alloc: *mut low::ffi_closure,
+    _alloc: ClosureAlloc,
     code: CodePtr,
     _cif: Box<Cif>,
     _userdata: Box<dyn Any>,
-}
-
-impl Drop for ClosureOnce {
-    fn drop(&mut self) {
-        unsafe {
-            low::closure_free(self.alloc);
-        }
-    }
 }
 
 impl ClosureOnce {
@@ -423,14 +426,13 @@ impl ClosureOnce {
         let _cif = Box::new(cif);
         let _userdata = Box::new(Some(userdata)) as Box<dyn Any>;
         let (alloc, code) = low::closure_alloc();
-
-        assert!(!alloc.is_null(), "closure_alloc: returned null");
+        let alloc = ClosureAlloc(NonNull::new(alloc).unwrap());
 
         {
             let borrow = _userdata.downcast_ref::<Option<U>>().unwrap();
             unsafe {
                 low::prep_closure_mut(
-                    alloc,
+                    alloc.0.as_ptr(),
                     _cif.as_raw_ptr(),
                     callback,
                     borrow as *const _ as *mut _,
@@ -441,7 +443,7 @@ impl ClosureOnce {
         }
 
         ClosureOnce {
-            alloc,
+            _alloc: alloc,
             code,
             _cif,
             _userdata,
