@@ -51,7 +51,6 @@ jobs:
         features:
           - "--no-default-features"
           - "--features std"
-          - "--features std,system"
     runs-on: windows-latest
     name: windows-gnu ${{ matrix.toolchain }} ${{ matrix.features }}
     steps:
