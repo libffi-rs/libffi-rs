@@ -41,7 +41,7 @@ pub fn build_and_link() {
     // Generate configure, run configure, make, make install
     configure_libffi(prefix, &build_dir);
 
-    let make_command = if cfg!(target_os = "aix") {
+    let make_command = if cfg!(target_os = "aix") || cfg!(target_os = "illumos") {
         "gmake"
     } else {
         "make"
@@ -151,7 +151,7 @@ pub fn configure_libffi(prefix: PathBuf, build_dir: &Path) {
         command.arg("--prefix").arg(prefix);
     }
 
-    if cfg!(target_os = "aix") {
+    if cfg!(target_os = "aix") || cfg!(target_os = "illumos") {
         command.env("MAKE", "gmake");
     }
 
