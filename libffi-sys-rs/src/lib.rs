@@ -748,4 +748,23 @@ mod test {
             assert_eq!(rval, 9);
         }
     }
+
+    // Verify that `ffi_closure` is the correct size. This does not guarantee
+    // that the layout of the struct is correct, but it *should* not matter much
+    // as `ffi_closure` *should* not be modified outside of libffi.
+    // `ffi_get_closure_size` was added in libffi v3.5.0. This test cannot be
+    // executed without the function, so it is disabled when performing dynamic
+    // linking to libffi until version 3.5.0. is required for dynamic linking by
+    // libffi-rs.
+    #[cfg(not(feature = "system"))]
+    #[test]
+    fn verify_ffi_closure_size() {
+        extern "C" {
+            fn ffi_get_closure_size() -> usize;
+        }
+
+        unsafe {
+            assert_eq!(std::mem::size_of::<ffi_closure>(), ffi_get_closure_size());
+        }
+    }
 }
