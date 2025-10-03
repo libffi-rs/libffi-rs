@@ -39,7 +39,7 @@ jobs:
         with:
           toolchain: ${{ matrix.toolchain }}
       - name: Run tests
-        run: cargo test ${{ matrix.features }}
+        run: cargo test --workspace ${{ matrix.features }}
 
   windows-gnu:
     strategy:
@@ -65,7 +65,7 @@ jobs:
           toolchain: ${{ matrix.toolchain }}
       - name: Run tests
         shell: msys2 {0}
-        run: cargo test ${{ matrix.features }}
+        run: cargo test --workspace ${{ matrix.features }}
 
   macos:
     strategy:
@@ -91,7 +91,7 @@ jobs:
         with:
           toolchain: ${{ matrix.toolchain }}
       - name: Run tests
-        run: 'cargo test ${{ matrix.features }}'
+        run: 'cargo test --workspace ${{ matrix.features }}'
 
   linux:
     strategy:
@@ -115,7 +115,7 @@ jobs:
         with:
           toolchain: ${{ matrix.toolchain }}
       - name: Run tests
-        run: 'cargo test ${{ matrix.features }}'
+        run: 'cargo test --workspace ${{ matrix.features }}'
 
   free-bsd:
     runs-on: ubuntu-latest
@@ -132,7 +132,7 @@ jobs:
             curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
           run: |
             . "$HOME/.cargo/env"
-            cargo test
+            cargo test --workspace 
 
   qemu:
     runs-on: ubuntu-latest
