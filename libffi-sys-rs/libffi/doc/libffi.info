@@ -1,9 +1,9 @@
-This is libffi.info, produced by makeinfo version 7.1 from libffi.texi.
+This is libffi.info, produced by makeinfo version 7.2 from libffi.texi.
 
 This manual is for libffi, a portable foreign function interface
 library.
 
-   Copyright © 2008-2024 Anthony Green and Red Hat, Inc.
+   Copyright © 2008-2025 Anthony Green and Red Hat, Inc.
 
    Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
@@ -38,7 +38,7 @@ libffi
 This manual is for libffi, a portable foreign function interface
 library.
 
-   Copyright © 2008-2024 Anthony Green and Red Hat, Inc.
+   Copyright © 2008-2025 Anthony Green and Red Hat, Inc.
 
    Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
@@ -222,6 +222,21 @@ function:
      RVALUE should point to an object declared as a larger type -
      usually ‘ffi_arg’.
 
+ -- Function: const char * ffi_get_version (void)
+     Returns the library version as a string.  This string is also
+     available at build time as the macro ‘FFI_VERSION_STRING’.
+
+ -- Function: unsigned long ffi_get_version_number (void)
+     Returns the library version as an unsigned long value where version
+     "x.y.z" is represented as the number x*10000+y*100+z.  This number
+     is also available at build time as the macro ‘FFI_VERSION_NUMBER’.
+
+ -- Function: unsigned int ffi_get_default_abi (void)
+     Return the value of ‘FFI_DEFAULT_ABI’.
+
+ -- Function: size_t ffi_get_closure_size (void)
+     Return ‘sizeof(ffi_closure)’.
+
 
 File: libffi.info,  Node: Simple Example,  Next: Types,  Prev: The Basics,  Up: Using libffi
 
@@ -250,14 +265,14 @@ Here is a trivial example that calls ‘puts’ a few times.
      		       &ffi_type_sint, args) == FFI_OK)
          {
            s = "Hello World!";
-           ffi_call(&cif, puts, &rc, values);
+           ffi_call(&cif, (void(*)())puts, &rc, values);
            /* rc now holds the result of the call to puts */
 
            /* values holds a pointer to the function's arg, so to
               call puts() again all we need to do is change the
               value of s */
            s = "This is cool!";
-           ffi_call(&cif, puts, &rc, values);
+           ffi_call(&cif, (void(*)())puts, &rc, values);
          }
 
        return 0;
@@ -890,7 +905,6 @@ A trivial example that creates a new ‘puts’ by binding ‘fputs’ with
        return 0;
      }
 
-
 
 File: libffi.info,  Node: Thread Safety,  Prev: Closure Example,  Up: Using libffi
 
@@ -976,58 +990,65 @@ Index
  [index ]
 * Menu:
 
-* ABI:                                   Introduction.         (line 13)
-* Application Binary Interface:          Introduction.         (line 13)
-* calling convention:                    Introduction.         (line 13)
-* cif:                                   The Basics.           (line 14)
-* closure API:                           The Closure API.      (line 13)
-* closures:                              The Closure API.      (line 13)
-* FFI:                                   Introduction.         (line 31)
-* ffi_call:                              The Basics.           (line 72)
-* ffi_closure_alloc:                     The Closure API.      (line 19)
-* ffi_closure_free:                      The Closure API.      (line 26)
-* FFI_CLOSURES:                          The Closure API.      (line 13)
-* ffi_get_struct_offsets:                Size and Alignment.   (line 39)
-* ffi_prep_cif:                          The Basics.           (line 16)
-* ffi_prep_cif_var:                      The Basics.           (line 39)
-* ffi_prep_closure_loc:                  The Closure API.      (line 34)
-* ffi_status:                            The Basics.           (line 16)
-* ffi_status <1>:                        The Basics.           (line 39)
-* ffi_status <2>:                        Size and Alignment.   (line 39)
-* ffi_status <3>:                        The Closure API.      (line 34)
-* ffi_type:                              Structures.           (line 10)
-* ffi_type <1>:                          Structures.           (line 10)
-* ffi_type <2>:                          Complex.              (line 15)
-* ffi_type <3>:                          Complex.              (line 15)
-* ffi_type_complex_double:               Primitive Types.      (line 82)
-* ffi_type_complex_float:                Primitive Types.      (line 79)
-* ffi_type_complex_longdouble:           Primitive Types.      (line 85)
-* ffi_type_double:                       Primitive Types.      (line 41)
-* ffi_type_float:                        Primitive Types.      (line 38)
-* ffi_type_longdouble:                   Primitive Types.      (line 71)
-* ffi_type_pointer:                      Primitive Types.      (line 75)
-* ffi_type_schar:                        Primitive Types.      (line 47)
-* ffi_type_sint:                         Primitive Types.      (line 62)
-* ffi_type_sint16:                       Primitive Types.      (line 23)
-* ffi_type_sint32:                       Primitive Types.      (line 29)
-* ffi_type_sint64:                       Primitive Types.      (line 35)
-* ffi_type_sint8:                        Primitive Types.      (line 17)
-* ffi_type_slong:                        Primitive Types.      (line 68)
-* ffi_type_sshort:                       Primitive Types.      (line 56)
-* ffi_type_uchar:                        Primitive Types.      (line 44)
-* ffi_type_uint:                         Primitive Types.      (line 59)
-* ffi_type_uint16:                       Primitive Types.      (line 20)
-* ffi_type_uint32:                       Primitive Types.      (line 26)
-* ffi_type_uint64:                       Primitive Types.      (line 32)
-* ffi_type_uint8:                        Primitive Types.      (line 14)
-* ffi_type_ulong:                        Primitive Types.      (line 65)
-* ffi_type_ushort:                       Primitive Types.      (line 53)
-* ffi_type_void:                         Primitive Types.      (line 10)
-* Foreign Function Interface:            Introduction.         (line 31)
-* void:                                  The Basics.           (line 72)
-* void <1>:                              The Closure API.      (line 19)
-* void <2>:                              The Closure API.      (line 26)
-
+* ABI:                                   Introduction.        (line  13)
+* Application Binary Interface:          Introduction.        (line  13)
+* calling convention:                    Introduction.        (line  13)
+* cif:                                   The Basics.          (line  14)
+* closure API:                           The Closure API.     (line  13)
+* closures:                              The Closure API.     (line  13)
+* const char *:                          The Basics.          (line 106)
+* FFI:                                   Introduction.        (line  31)
+* ffi_call:                              The Basics.          (line  72)
+* ffi_closure_alloc:                     The Closure API.     (line  19)
+* ffi_closure_free:                      The Closure API.     (line  26)
+* FFI_CLOSURES:                          The Closure API.     (line  13)
+* ffi_get_closure_size:                  The Basics.          (line 118)
+* ffi_get_default_abi:                   The Basics.          (line 115)
+* ffi_get_struct_offsets:                Size and Alignment.  (line  39)
+* ffi_get_version:                       The Basics.          (line 106)
+* ffi_get_version_number:                The Basics.          (line 110)
+* ffi_prep_cif:                          The Basics.          (line  16)
+* ffi_prep_cif_var:                      The Basics.          (line  39)
+* ffi_prep_closure_loc:                  The Closure API.     (line  34)
+* ffi_status:                            The Basics.          (line  16)
+* ffi_status <1>:                        The Basics.          (line  39)
+* ffi_status <2>:                        Size and Alignment.  (line  39)
+* ffi_status <3>:                        The Closure API.     (line  34)
+* ffi_type:                              Structures.          (line  10)
+* ffi_type <1>:                          Structures.          (line  10)
+* ffi_type <2>:                          Complex.             (line  15)
+* ffi_type <3>:                          Complex.             (line  15)
+* ffi_type_complex_double:               Primitive Types.     (line  82)
+* ffi_type_complex_float:                Primitive Types.     (line  79)
+* ffi_type_complex_longdouble:           Primitive Types.     (line  85)
+* ffi_type_double:                       Primitive Types.     (line  41)
+* ffi_type_float:                        Primitive Types.     (line  38)
+* ffi_type_longdouble:                   Primitive Types.     (line  71)
+* ffi_type_pointer:                      Primitive Types.     (line  75)
+* ffi_type_schar:                        Primitive Types.     (line  47)
+* ffi_type_sint:                         Primitive Types.     (line  62)
+* ffi_type_sint16:                       Primitive Types.     (line  23)
+* ffi_type_sint32:                       Primitive Types.     (line  29)
+* ffi_type_sint64:                       Primitive Types.     (line  35)
+* ffi_type_sint8:                        Primitive Types.     (line  17)
+* ffi_type_slong:                        Primitive Types.     (line  68)
+* ffi_type_sshort:                       Primitive Types.     (line  56)
+* ffi_type_uchar:                        Primitive Types.     (line  44)
+* ffi_type_uint:                         Primitive Types.     (line  59)
+* ffi_type_uint16:                       Primitive Types.     (line  20)
+* ffi_type_uint32:                       Primitive Types.     (line  26)
+* ffi_type_uint64:                       Primitive Types.     (line  32)
+* ffi_type_uint8:                        Primitive Types.     (line  14)
+* ffi_type_ulong:                        Primitive Types.     (line  65)
+* ffi_type_ushort:                       Primitive Types.     (line  53)
+* ffi_type_void:                         Primitive Types.     (line  10)
+* Foreign Function Interface:            Introduction.        (line  31)
+* size_t:                                The Basics.          (line 118)
+* unsigned int:                          The Basics.          (line 115)
+* unsigned long:                         The Basics.          (line 110)
+* void:                                  The Basics.          (line  72)
+* void <1>:                              The Closure API.     (line  19)
+* void <2>:                              The Closure API.     (line  26)
 
 
 Tag Table:
@@ -1035,22 +1056,22 @@ Node: Top1387
 Node: Introduction2909
 Node: Using libffi4569
 Node: The Basics5098
-Node: Simple Example10210
-Node: Types11245
-Node: Primitive Types11756
-Node: Structures14073
-Node: Size and Alignment15184
-Node: Arrays Unions Enums17455
-Node: Type Example20432
-Node: Complex21738
-Node: Complex Type Example23252
-Node: Multiple ABIs26304
-Node: The Closure API26687
-Node: Closure Example30601
-Node: Thread Safety32245
-Node: Memory Usage33078
-Node: Missing Features34353
-Node: Index34730
+Node: Simple Example10868
+Node: Types11925
+Node: Primitive Types12436
+Node: Structures14753
+Node: Size and Alignment15864
+Node: Arrays Unions Enums18135
+Node: Type Example21112
+Node: Complex22418
+Node: Complex Type Example23932
+Node: Multiple ABIs26984
+Node: The Closure API27367
+Node: Closure Example31281
+Node: Thread Safety32924
+Node: Memory Usage33757
+Node: Missing Features35032
+Node: Index35409
 
 End Tag Table
 
