@@ -66,7 +66,10 @@ fn main() {
 }
 ```
 
+More examples are available in the [examples folder](https://github.com/libffi-rs/libffi-rs/tree/master/libffi-rs/examples).
+
 [the `libffi-sys` crate]: https://crates.io/crates/libffi-sys/
 [the `libffi-sys` documentation]: https://docs.rs/libffi-sys/#usage
+
 
 
