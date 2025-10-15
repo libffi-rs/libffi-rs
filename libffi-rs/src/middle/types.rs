@@ -117,10 +117,14 @@ where
 {
     let size = elements.len();
     let new = ffi_type_array_create_empty(size);
-    for (i, element) in elements.enumerate() {
+    let mut i = 0;
+    for element in elements {
+        assert!(i < size, "ExactSizeIterator didn't give correct size");
         *new.add(i) = *element.0;
         mem::forget(element);
+        i += 1;
     }
+    assert!(i == size, "ExactSizeIterator didn't give correct size");
 
     new
 }
