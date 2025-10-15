@@ -8,6 +8,18 @@ The format is based on [Keep a Changelog] and this project adheres to
 [Keep a Changelog]: http://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: http://semver.org/spec/v2.0.0.html
 
+## [Unreleased]
+### Breaking Changes
+- Added lifetime to `middle::Arg`
+  - Any broken code is unsound
+- `set_abi` functions are now replaced with `new_with_abi` and `new_variadic_with_abi`
+- `ArgType` has been added to `low::Error` and the entire enum has been marked as non-exhaustive
+### Other Changes
+- Bump libffi to v3.5.2
+  - Fixes builds that use `mkdir` from uutils
+- `no_std` is now supported with a `std` feature flag, enabled by default.
+- `ffi_type_complex_longdouble` is now available on all platforms that support `long double`
+
 ## [4.1.2] - 2025-08-31
 
 - Add `check-only` feature to reduce build times when running cargo check (#166)

@@ -8,6 +8,17 @@ The format is based on [Keep a Changelog] and this project adheres to
 [Keep a Changelog]: http://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: http://semver.org/spec/v2.0.0.html
 
+## [Unreleased]
+### Breaking Changes
+- `FFI_TYPE_*` constants are now `u16` instead of `u32`s, this should not affect most users
+### Other Changes
+- Bump libffi to v3.5.2
+  - Fixes builds that use `mkdir` from uutils 
+- `nostd` is now tested and officially supported with an `std` feature flag.
+- `ffi_closure` layout has been changed for macOS aarch64 to match libffi
+- Fix build on illumos
+- Fix cross-compile for riscv64a23 target
+
 ## [3.3.3] - 2025-08-31
 
 - Add `check-only` feature to reduce build times when running cargo check (#166)
