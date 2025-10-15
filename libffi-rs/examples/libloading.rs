@@ -1,6 +1,11 @@
 //! This example demonstrates how to use libffi-rs with libloading to call a function
 //! from a shared library at runtime. It loads the C standard library and calls the
 //! `isdigit` function of libc to check if a character is a digit.
+//!
+//! This example uses the `middle` level API because the high-level API does not
+//! currently support this use case.
+//!
+//! Note: This example is platform-dependent and works on macOS, Linux, and Windows.
 
 use libffi::high::CodePtr;
 use libffi::middle::{arg, Cif, Type};
