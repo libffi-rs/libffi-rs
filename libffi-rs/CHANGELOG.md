@@ -12,7 +12,7 @@ The format is based on [Keep a Changelog] and this project adheres to
 ### Breaking Changes
 - Added lifetime to `middle::Arg`
   - Any broken code is unsound
-- `set_abi` functions are now replaced with `new_with_abi` and `new_variadic_with_abi`
+- `set_abi` functions are now replaced with `new_with_abi` and `new_variadic_with_abi` for safety
 - `ArgType` has been added to `low::Error` and the entire enum has been marked as non-exhaustive
 ### Other Changes
 - Bump libffi to v3.5.2
