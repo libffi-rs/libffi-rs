@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog] and this project adheres to
 [Keep a Changelog]: http://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: http://semver.org/spec/v2.0.0.html
 
-## [Unreleased]
+## [5.0.0] - 2025-10-15
 ### Breaking Changes
 - Added lifetime to `middle::Arg`
   - Any broken code is unsound
