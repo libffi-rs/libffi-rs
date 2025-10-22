@@ -55,7 +55,7 @@ let x = 5u64;
 let f = |y: u64, z: u64| x + y + z;
 
 let closure = Closure2::new(&f);
-let fun     = closure.code_ptr();
+let fun = closure.code_ptr();
 
 assert_eq!(18, fun(6, 7));
 ```
