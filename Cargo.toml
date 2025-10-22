@@ -11,6 +11,7 @@ license = "MIT/Apache-2.0"
 keywords = ["ffi", "libffi", "closure", "c"]
 edition = "2021"
 rust-version = "1.78"
+authors = ["Jesse A. Tov <jesse.tov@gmail.com>"]
 
 [workspace.lints.clippy]
 complexity = "warn"

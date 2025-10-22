@@ -1,7 +1,7 @@
 [package]
 name = "libffi"
 version = "5.0.0"
-authors = ["Jesse A. Tov <jesse.tov@gmail.com>"]
+authors.workspace = true
 description = "Rust bindings for libffi"
 repository.workspace = true
 readme = "README.md"
