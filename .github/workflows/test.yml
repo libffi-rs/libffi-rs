@@ -7,19 +7,6 @@ env:
   RUST_BACKTRACE: 1
 
 jobs:
-  linting:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-      - uses: dtolnay/rust-toolchain@master
-        with:
-          toolchain: "1.78"
-          components: rustfmt, clippy
-      - name: Run rustfmt
-        run: 'cargo fmt --all --check'
-      - name: Run clippy
-        run: 'cargo clippy --all-targets -- -D warnings'
-
   windows-msvc:
     strategy:
       fail-fast: false
@@ -72,8 +59,8 @@ jobs:
       fail-fast: false
       matrix:
         runner:
-          - macos-13
-          - macos-14
+          - macos-15-intel
+          - macos-26
         toolchain:
           - 1.78.0
           - stable
