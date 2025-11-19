@@ -15,7 +15,7 @@ impl<T> Deref for Unique<T> {
 
 impl<T> Unique<T> {
     pub unsafe fn new(ptr: *mut T) -> Self {
-        Unique {
+        Self {
             contents: ptr,
             _marker: PhantomData,
         }

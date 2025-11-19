@@ -216,13 +216,13 @@ impl Drop for TypeArray {
 
 impl Clone for Type {
     fn clone(&self) -> Self {
-        Type(unsafe { Unique::new(ffi_type_clone(*self.0)) })
+        Self(unsafe { Unique::new(ffi_type_clone(*self.0)) })
     }
 }
 
 impl Clone for TypeArray {
     fn clone(&self) -> Self {
-        TypeArray(unsafe { Unique::new(ffi_type_array_clone(*self.0)) })
+        Self(unsafe { Unique::new(ffi_type_array_clone(*self.0)) })
     }
 }
 
@@ -256,47 +256,47 @@ impl Type {
     /// This is used only for the return type of a [CIF](super::Cif),
     /// not for an argument or struct member.
     pub fn void() -> Self {
-        Type(unsafe { Unique::new(addr_of_mut!(void)) })
+        Self(unsafe { Unique::new(addr_of_mut!(void)) })
     }
 
     /// Returns the unsigned 8-bit numeric type.
     pub fn u8() -> Self {
-        Type(unsafe { Unique::new(addr_of_mut!(uint8)) })
+        Self(unsafe { Unique::new(addr_of_mut!(uint8)) })
     }
 
     /// Returns the signed 8-bit numeric type.
     pub fn i8() -> Self {
-        Type(unsafe { Unique::new(addr_of_mut!(sint8)) })
+        Self(unsafe { Unique::new(addr_of_mut!(sint8)) })
     }
 
     /// Returns the unsigned 16-bit numeric type.
     pub fn u16() -> Self {
-        Type(unsafe { Unique::new(addr_of_mut!(uint16)) })
+        Self(unsafe { Unique::new(addr_of_mut!(uint16)) })
     }
 
     /// Returns the signed 16-bit numeric type.
     pub fn i16() -> Self {
-        Type(unsafe { Unique::new(addr_of_mut!(sint16)) })
+        Self(unsafe { Unique::new(addr_of_mut!(sint16)) })
     }
 
     /// Returns the unsigned 32-bit numeric type.
     pub fn u32() -> Self {
-        Type(unsafe { Unique::new(addr_of_mut!(uint32)) })
+        Self(unsafe { Unique::new(addr_of_mut!(uint32)) })
     }
 
     /// Returns the signed 32-bit numeric type.
     pub fn i32() -> Self {
-        Type(unsafe { Unique::new(addr_of_mut!(sint32)) })
+        Self(unsafe { Unique::new(addr_of_mut!(sint32)) })
     }
 
     /// Returns the unsigned 64-bit numeric type.
     pub fn u64() -> Self {
-        Type(unsafe { Unique::new(addr_of_mut!(uint64)) })
+        Self(unsafe { Unique::new(addr_of_mut!(uint64)) })
     }
 
     /// Returns the signed 64-bit numeric type.
     pub fn i64() -> Self {
-        Type(unsafe { Unique::new(addr_of_mut!(sint64)) })
+        Self(unsafe { Unique::new(addr_of_mut!(sint64)) })
     }
 
     #[cfg(target_pointer_width = "16")]
@@ -387,22 +387,22 @@ impl Type {
 
     /// Returns the C `float` (32-bit floating point) type.
     pub fn f32() -> Self {
-        Type(unsafe { Unique::new(addr_of_mut!(float)) })
+        Self(unsafe { Unique::new(addr_of_mut!(float)) })
     }
 
     /// Returns the C `double` (64-bit floating point) type.
     pub fn f64() -> Self {
-        Type(unsafe { Unique::new(addr_of_mut!(double)) })
+        Self(unsafe { Unique::new(addr_of_mut!(double)) })
     }
 
     /// Returns the C `void*` type, for passing any kind of pointer.
     pub fn pointer() -> Self {
-        Type(unsafe { Unique::new(addr_of_mut!(pointer)) })
+        Self(unsafe { Unique::new(addr_of_mut!(pointer)) })
     }
 
     /// Returns the C `long double` (extended-precision floating point) type.
     pub fn longdouble() -> Self {
-        Type(unsafe { Unique::new(addr_of_mut!(longdouble)) })
+        Self(unsafe { Unique::new(addr_of_mut!(longdouble)) })
     }
 
     /// Returns the C `_Complex float` type.
@@ -432,10 +432,10 @@ impl Type {
     /// Constructs a structure type whose fields have the given types.
     pub fn structure<I>(fields: I) -> Self
     where
-        I: IntoIterator<Item = Type>,
-        I::IntoIter: ExactSizeIterator<Item = Type>,
+        I: IntoIterator<Item = Self>,
+        I::IntoIter: ExactSizeIterator<Item = Self>,
     {
-        Type(unsafe { Unique::new(ffi_type_struct_create(fields.into_iter())) })
+        Self(unsafe { Unique::new(ffi_type_struct_create(fields.into_iter())) })
     }
 
     /// Gets a raw pointer to the underlying [`low::ffi_type`].
@@ -454,7 +454,7 @@ impl TypeArray {
         I: IntoIterator<Item = Type>,
         I::IntoIter: ExactSizeIterator<Item = Type>,
     {
-        TypeArray(unsafe { Unique::new(ffi_type_array_create(elements.into_iter())) })
+        Self(unsafe { Unique::new(ffi_type_array_create(elements.into_iter())) })
     }
 
     /// Gets a raw pointer to the underlying C array of
