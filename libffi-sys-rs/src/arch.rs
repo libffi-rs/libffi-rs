@@ -249,29 +249,15 @@ mod powerpc {
             pub const FFI_TRAMPOLINE_SIZE: usize = 32;
         }
 
-        // I think this should be something like `target_abi = "elf_v2"`, but that's not yet
-        // supported.
-        // Discussion: https://github.com/rust-lang/rust/issues/60617
-        // RFC: https://github.com/rust-lang/rfcs/pull/2992
-        //
-        // Instead, this is based on the current defaults at the time of this writing:
-        // https://github.com/rust-lang/rust/blob/50d2c3abd59af8cbed7e001b5b4e2f6a9a011112/src/librustc_target/abi/call/powerpc64.rs#L122
-
         #[cfg(any(
-            // ELFv1 is the used for powerpc64 when not targeting musl
-            all(target_arch = "powerpc64", target_endian="big", not(target_env = "musl")),
-            // Use empty flags when targeting a non-PowerPC target, too, just so code compiles.
+            all(target_arch = "powerpc64", target_abi = "elfv1"),
             not(target_arch = "powerpc64")
         ))]
         mod elf {
             pub use super::elfv1::*;
         }
 
-        // ELFv2 is used for Little-Endian powerpc64 and with musl
-        #[cfg(any(
-            all(target_arch = "powerpc64", target_endian = "big", target_env = "musl"),
-            all(target_arch = "powerpc64", target_endian = "little")
-        ))]
+        #[cfg(all(target_arch = "powerpc64", target_abi = "elfv2"))]
         mod elf {
             pub use super::elfv2::*;
         }
