@@ -65,14 +65,14 @@ pub struct Builder {
 
 impl Default for Builder {
     fn default() -> Self {
-        Builder::new()
+        Self::new()
     }
 }
 
 impl Builder {
     /// Constructs a `Builder`.
     pub fn new() -> Self {
-        Builder {
+        Self {
             args: alloc::vec![],
             res: Type::void(),
             abi: super::ffi_abi_FFI_DEFAULT_ABI,
