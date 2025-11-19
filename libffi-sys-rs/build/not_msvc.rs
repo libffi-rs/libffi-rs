@@ -17,8 +17,7 @@ pub fn build_and_link() {
         assert_eq!(
             e.kind(),
             std::io::ErrorKind::NotFound,
-            "can't remove the build directory: {}",
-            e
+            "can't remove the build directory: {e}",
         );
     }
 
@@ -32,7 +31,7 @@ pub fn build_and_link() {
     };
     if has_no_preserve_flag {
         command.arg("--no-preserve=mode,ownership");
-    };
+    }
     run_command(
         "Copying libffi into the build directory",
         command.arg("-R").arg("libffi").arg(&build_dir),
@@ -79,9 +78,10 @@ pub fn configure_libffi(prefix: PathBuf, build_dir: &Path) {
     if target != host {
         let cross_host = match target.as_str() {
             // Autoconf uses riscv64 while Rust uses riscv64gc for the architecture
-            "riscv64gc-unknown-linux-gnu" => "riscv64-unknown-linux-gnu",
+            "riscv64gc-unknown-linux-gnu" | "riscv64a23-unknown-linux-gnu" => {
+                "riscv64-unknown-linux-gnu"
+            }
             "riscv64gc-unknown-linux-musl" => "riscv64-unknown-linux-musl",
-            "riscv64a23-unknown-linux-gnu" => "riscv64-unknown-linux-gnu",
             // Autoconf does not yet recognize illumos, but Solaris should be fine
             "x86_64-unknown-illumos" => "x86_64-unknown-solaris",
             // configure.host does not extract `ios-sim` as OS.
@@ -97,7 +97,7 @@ pub fn configure_libffi(prefix: PathBuf, build_dir: &Path) {
             // Everything else should be fine to pass straight through
             other => other,
         };
-        command.arg(format!("--host={}", cross_host));
+        command.arg(format!("--host={cross_host}"));
     }
 
     let mut c_cfg = cc::Build::new();
@@ -120,7 +120,7 @@ pub fn configure_libffi(prefix: PathBuf, build_dir: &Path) {
     }
     command.env("CFLAGS", cflags);
 
-    for (k, v) in c_compiler.env().iter() {
+    for (k, v) in c_compiler.env() {
         command.env(k, v);
     }
 

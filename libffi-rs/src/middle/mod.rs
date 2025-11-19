@@ -101,7 +101,7 @@ pub struct Cif {
 // ffi_cif refers to the clones of the types.
 impl Clone for Cif {
     fn clone(&self) -> Self {
-        let mut copy = Cif {
+        let mut copy = Self {
             cif: self.cif,
             args: self.args.clone(),
             result: self.result.clone(),
@@ -150,7 +150,7 @@ impl Cif {
 
         // Note that cif retains references to args and result,
         // which is why we hold onto them here.
-        Cif { cif, args, result }
+        Self { cif, args, result }
     }
 
     /// Creates a new variadic [CIF](Cif) for the given argument and result
@@ -197,7 +197,7 @@ impl Cif {
 
         // Note that cif retains references to args and result,
         // which is why we hold onto them here.
-        Cif { cif, args, result }
+        Self { cif, args, result }
     }
 
     /// Calls a function with the given arguments.
@@ -442,7 +442,7 @@ impl ClosureOnce {
             }
         }
 
-        ClosureOnce {
+        Self {
             _alloc: alloc,
             code,
             _cif,

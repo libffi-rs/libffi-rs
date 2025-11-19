@@ -27,7 +27,7 @@ pub fn build_and_link() {
 
     // we should collect all include dirs together with platform specific ones
     // to pass them over to the asm pre-processing step
-    let mut all_includes: Vec<&str> = Vec::from_iter(INCLUDE_DIRS.iter().copied());
+    let mut all_includes: Vec<&str> = INCLUDE_DIRS.to_vec();
 
     all_includes.extend(match target_arch.as_str() {
         "x86" => INCLUDE_DIRS_X86,
