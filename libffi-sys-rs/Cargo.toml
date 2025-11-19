@@ -9,6 +9,7 @@ repository.workspace = true
 readme = "README.md"
 license.workspace = true
 keywords.workspace = true
+categories = ["development-tools::ffi"]
 edition.workspace = true
 rust-version.workspace = true
 
