@@ -453,12 +453,12 @@ unsafe fn call_return_small_big_endian_result<R>(type_tag: u16, result: *const u
 ///
 /// extern "C" fn c_function(a: u64, b: u64) -> u64 { a + b }
 ///
-/// let mut args: Vec<*mut ffi_type> = vec![ addr_of_mut!(types::uint64),
-///                                          addr_of_mut!(types::uint64) ];
-/// let mut cif: ffi_cif = Default::default();
-/// let mut return_buf = MaybeUninit::<u64>::uninit();
-///
 /// unsafe {
+///     let mut args: Vec<*mut ffi_type> = vec![ addr_of_mut!(types::uint64),
+///                                              addr_of_mut!(types::uint64) ];
+///     let mut cif: ffi_cif = Default::default();
+///     let mut return_buf = MaybeUninit::<u64>::uninit();
+///
 ///     prep_cif(addr_of_mut!(cif), ffi_abi_FFI_DEFAULT_ABI, 2,
 ///              addr_of_mut!(types::uint64), args.as_mut_ptr()).unwrap();
 ///
