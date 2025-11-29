@@ -448,21 +448,22 @@ unsafe fn call_return_small_big_endian_result<R>(type_tag: u16, result: *const u
 /// ```
 /// use std::mem::MaybeUninit;
 /// use std::os::raw::c_void;
+/// use std::ptr::addr_of_mut;
 /// use libffi::low::*;
 ///
 /// extern "C" fn c_function(a: u64, b: u64) -> u64 { a + b }
 ///
-/// let mut args: Vec<*mut ffi_type> = vec![ &raw mut types::uint64,
-///                                          &raw mut types::uint64 ];
+/// let mut args: Vec<*mut ffi_type> = vec![ addr_of_mut!(types::uint64),
+///                                          addr_of_mut!(types::uint64) ];
 /// let mut cif: ffi_cif = Default::default();
 /// let mut return_buf = MaybeUninit::<u64>::uninit();
 ///
 /// unsafe {
-///     prep_cif(&raw mut cif, ffi_abi_FFI_DEFAULT_ABI, 2,
-///              &raw mut types::uint64, args.as_mut_ptr()).unwrap();
+///     prep_cif(addr_of_mut!(cif), ffi_abi_FFI_DEFAULT_ABI, 2,
+///              addr_of_mut!(types::uint64), args.as_mut_ptr()).unwrap();
 ///
 ///     call_return_into(
-///         &raw mut cif,
+///         addr_of_mut!(cif),
 ///         CodePtr(c_function as *mut _),
 ///         vec![
 ///             &mut 4u64 as *mut _ as *mut c_void,
