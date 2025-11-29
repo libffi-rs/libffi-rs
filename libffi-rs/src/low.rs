@@ -1141,24 +1141,34 @@ mod test {
             }
         }
 
-        let mut small_struct_elements = [
-            addr_of_mut!(types::uint8),
-            addr_of_mut!(types::uint16),
-            null_mut(),
-        ];
+        // Unsafe is required to get address of static mut until MSRV supports
+        // `&raw mut`?
+        #[allow(unused_unsafe)]
+        let mut small_struct_elements = unsafe {
+            [
+                addr_of_mut!(types::uint8),
+                addr_of_mut!(types::uint16),
+                null_mut(),
+            ]
+        };
         let mut small_struct_type = ffi_type {
             type_: type_tag::STRUCT,
             elements: small_struct_elements.as_mut_ptr(),
             ..Default::default()
         };
 
-        let mut large_struct_elements = [
-            addr_of_mut!(types::uint64),
-            addr_of_mut!(types::uint64),
-            addr_of_mut!(types::uint64),
-            addr_of_mut!(types::uint64),
-            null_mut(),
-        ];
+        // unsafe required to get address of static mut until MSRV supports
+        // `&raw mut`?
+        #[allow(unused_unsafe)]
+        let mut large_struct_elements = unsafe {
+            [
+                addr_of_mut!(types::uint64),
+                addr_of_mut!(types::uint64),
+                addr_of_mut!(types::uint64),
+                addr_of_mut!(types::uint64),
+                null_mut(),
+            ]
+        };
         let mut large_struct_type = ffi_type {
             type_: type_tag::STRUCT,
             elements: large_struct_elements.as_mut_ptr(),
