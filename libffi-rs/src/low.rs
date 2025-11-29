@@ -8,6 +8,7 @@
 //! See [`middle`](crate::middle) for an easier-to-use approach.
 
 use core::ffi::{c_uint, c_void};
+use core::ptr::addr_of;
 use core::{mem, ptr};
 
 use crate::raw;
@@ -527,11 +528,11 @@ pub unsafe fn call_return_into(
         let src_ptr = if cfg!(target_endian = "big") {
             // On big endian architectures we need to write from the last
             // `return_type.size` bytes instead of the first bytes.
-            (&raw const result)
+            addr_of!(result)
                 .cast::<u8>()
                 .byte_add(mem::size_of::<usize>() - return_type_size)
         } else {
-            (&raw const result).cast::<u8>()
+            addr_of!(result).cast::<u8>()
         };
 
         // SAFETY: It is up to the caller to make sure that it is valid to write
@@ -1127,6 +1128,18 @@ mod test {
 
     #[test]
     fn test_return_into_no_oob_write() {
+        // Workaround for Rust < 1.88, which don't have a Default impl for
+        // pointers..
+        #[derive(Debug)]
+        #[repr(transparent)]
+        struct PointerWithDefault(*const c_void);
+
+        impl Default for PointerWithDefault {
+            fn default() -> Self {
+                Self(null_mut())
+            }
+        }
+
         let mut small_struct_elements = [
             addr_of_mut!(types::uint8),
             addr_of_mut!(types::uint16),
@@ -1162,7 +1175,7 @@ mod test {
             test_return_into_no_oob_write!(u64, types::uint64, return_u64);
             test_return_into_no_oob_write!(f32, types::float, return_f32);
             test_return_into_no_oob_write!(f64, types::double, return_f64);
-            test_return_into_no_oob_write!(*const c_void, types::pointer, return_pointer);
+            test_return_into_no_oob_write!(PointerWithDefault, types::pointer, return_pointer);
             test_return_into_no_oob_write!(SmallStruct, small_struct_type, return_small_struct);
             test_return_into_no_oob_write!(LargeStruct, large_struct_type, return_large_struct);
         }
