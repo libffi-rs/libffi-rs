@@ -69,6 +69,7 @@ pub fn arg<T: ?Sized>(r: &T) -> Arg<'_> {
 /// Similar to `Arg`, `Ret` coerces a reference to a C `void *` pointer, only
 /// using a mutable reference as libffi will write to the memory location.
 #[derive(Clone, Debug)]
+#[repr(C)]
 pub struct Ret<'ret>(*mut c_void, PhantomData<&'ret mut c_void>);
 
 impl<'ret> Ret<'ret> {
