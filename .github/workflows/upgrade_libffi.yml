@@ -48,7 +48,7 @@ jobs:
     runs-on: windows-latest
     needs: download_unpack
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@v6
         with:
           ref: ${{ env.PR_BRANCH }}
       - name: Setup git author
@@ -92,7 +92,7 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@v6
         with:
           ref: ${{ env.PR_BRANCH }}
       - name: 'Create pull request'
