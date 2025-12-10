@@ -41,7 +41,7 @@ jobs:
     runs-on: windows-latest
     name: windows-gnu ${{ matrix.toolchain }} ${{ matrix.features }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Setup MSYS2
         uses: msys2/setup-msys2@61f9e5e925871ba6c9e3e8da24ede83ea27fa91f
         with:
