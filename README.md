@@ -71,5 +71,9 @@ More examples are available in the [examples folder](https://github.com/libffi-r
 [the `libffi-sys` crate]: https://crates.io/crates/libffi-sys/
 [the `libffi-sys` documentation]: https://docs.rs/libffi-sys/#usage
 
+## MSRV
 
+The minimum supported Rust version (MSRV) for this crate is Rust 1.78.0.
+Bumping the MSRV is not considered a breaking change, but will not happen in patch releases.
 
+PowerPC has had a higher MSRV of 1.90 starting with https://github.com/libffi-rs/libffi-rs/pull/190.

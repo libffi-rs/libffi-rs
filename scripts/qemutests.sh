@@ -113,6 +113,15 @@ for target in ${TARGETS[@]}; do
     export "CARGO_TARGET_${TARGET_TRIPLE}_RUNNER=qemu-$QEMU_ARCH -L /usr/$GCC_ARCH-linux-$ABI/"
 
     for toolchain in ${TOOLCHAINS[@]}; do
+        # Skip testing powerpc targets on toolchain 1.78.0
+        if [[ "${toolchain}" == "1.78.0" && ( "${target}" == "powerpc64-unknown-linux-gnu" || "${target}" == "powerpc64le-unknown-linux-gnu" ) ]]; then
+            if [ -z ${CI+x} ]; then
+                echo "Skipping ${target} on toolchain ${toolchain}"
+            else
+                echo "::notice::Skipping ${target} on toolchain ${toolchain}"
+            fi
+            continue
+        fi
         N=3
         n=0
         passed=0
