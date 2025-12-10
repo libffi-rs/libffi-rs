@@ -157,7 +157,7 @@ impl Cif {
     /// Takes ownership of the argument and result [`Type`]s, because
     /// the resulting [`Cif`] retains references to them. Defaults to
     /// the platform’s default calling convention; this can be changed by
-    /// creating the [`Cif´] using [`Cif::new_with_abi`].
+    /// creating the [`Cif`] using [`Cif::new_with_abi`].
     pub fn new<I>(args: I, result: Type) -> Self
     where
         I: IntoIterator<Item = Type>,

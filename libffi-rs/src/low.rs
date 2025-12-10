@@ -28,7 +28,7 @@ pub enum Error {
 /// The [`std::result::Result`] type specialized for libffi [`Error`]s.
 pub type Result<T> = ::core::result::Result<T, Error>;
 
-// Converts the raw status type to a `Result`.
+/// Converts the raw status type to a `Result`.
 fn status_to_result<R>(status: raw::ffi_status, good: R) -> Result<R> {
     if status == raw::ffi_status_FFI_OK {
         Ok(good)
@@ -68,7 +68,7 @@ impl CodePtr {
     /// This is the other common type used in APIs (or at least in
     /// libffi) for untyped callback arguments.
     pub fn from_ptr(fun: *const c_void) -> Self {
-        CodePtr(fun as *mut c_void)
+        CodePtr(fun.cast_mut())
     }
 
     /// Gets the code pointer typed as a C function pointer.
@@ -520,7 +520,7 @@ pub unsafe fn call_return_into(
                 Some(*fun.as_safe_fun()),
                 buffer.as_mut_ptr().cast(),
                 args,
-            )
+            );
         }
 
         // SAFETY: `ffi_call` has written the result to `buffer`.
