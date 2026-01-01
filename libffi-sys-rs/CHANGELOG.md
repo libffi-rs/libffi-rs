@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog] and this project adheres to
 [Keep a Changelog]: http://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: http://semver.org/spec/v2.0.0.html
 
-## [Unreleased]
+## [4.1.0] - 2026-01-01
 - In order to fix target_abi detection on powerpc, the MSRV for powerpc targets has been raised to Rust 1.90.
 
 ## [4.0.0] - 2025-10-15
