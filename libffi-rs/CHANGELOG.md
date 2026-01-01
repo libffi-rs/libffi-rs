@@ -8,6 +8,11 @@ The format is based on [Keep a Changelog] and this project adheres to
 [Keep a Changelog]: http://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: http://semver.org/spec/v2.0.0.html
 
+## [Unreleased]
+- Adds support for dynamically choosing the return type of cifs at runtime with `middle::Cif::call_return_into` and `low::call_return_into`.
+  - `middle::Ret` is `#[repr(C)]` to keep it similar to `Arg`.
+  - This allows for easier use when the return type is not known at compile time, as when implementing `ctypes`-esque modules.
+
 ## [5.0.0] - 2025-10-15
 ### Breaking Changes
 - Added lifetime to `middle::Arg`
