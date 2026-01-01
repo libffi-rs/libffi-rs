@@ -7,7 +7,7 @@ members = [
 
 [workspace.package]
 repository = "https://github.com/libffi-rs/libffi-rs"
-license = "MIT/Apache-2.0"
+license = "MIT OR Apache-2.0"
 keywords = ["ffi", "libffi", "closure", "c"]
 edition = "2021"
 rust-version = "1.78"
