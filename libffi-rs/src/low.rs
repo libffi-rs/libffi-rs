@@ -46,11 +46,11 @@ fn status_to_result<R>(status: raw::ffi_status, good: R) -> Result<R> {
 /// Wraps a function pointer of unknown type.
 ///
 /// This is used to make the API a bit easier to understand, and as a
-/// simple type lint. As a `repr(C)` struct of one element, it should
+/// simple type lint. As a `repr(transparent)` struct of one element, it should
 /// be safe to transmute between `CodePtr` and `*mut c_void`, or between
 /// collections thereof.
 #[derive(Clone, Copy, Debug, Hash)]
-#[repr(C)]
+#[repr(transparent)]
 pub struct CodePtr(pub *mut c_void);
 
 // How useful is this type? Does it need all the methods?
