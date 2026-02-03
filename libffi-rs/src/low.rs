@@ -311,7 +311,7 @@ pub unsafe fn prep_cif_var(
 /// * `cif` — describes the argument and result types and the calling
 ///   convention
 /// * `fun` — the function to call
-/// * `args` — the arguments to pass to `fun`
+/// * `args` — the arguments to pass to `fun` (args might be modified by libffi when a large struct is passed)
 ///
 /// # Result
 ///
@@ -350,6 +350,10 @@ pub unsafe fn prep_cif_var(
 /// It is also important that the return type `R` matches the type of the value
 /// returned from `fun` as a mismatch may lead to out-of-bounds reads, write,
 /// and misaligned memory accesses.
+///
+/// Additionally, libffi modifies some of the pointers in args if the struct is large enough.
+/// It copies large structures to a new location and rewrites the pointer.
+/// this leads to an issue if args is being reused across multiple calls.
 pub unsafe fn call<R>(cif: *mut ffi_cif, fun: CodePtr, args: *mut *mut c_void) -> R {
     // libffi always writes *at least* a full register to the result pointer.
     // Therefore, if the return value is smaller, we need to handle the return
