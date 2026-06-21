@@ -1,3 +1,1166 @@
+commit f6303b8b0dd6353c6a5bb4de2e855a13b86f22cf
+Author: Anthony Green <green@moxielogic.com>
+Date:   Sat Jun 20 09:54:12 2026 -0400
+
+    ci: publish a release (source tarball + MSVC binaries) on version tags
+    
+    Add release.yml: on a v* tag it verifies the tag matches configure.ac, builds
+    the source distribution via 'make dist', extracts the matching section of
+    README.md as the release notes, and publishes a GitHub release with the tarball.
+    
+    Also add a 'tags: v[0-9]*' trigger to build.yml so the full matrix runs at the
+    tagged commit and the existing MSVC 'Upload to GitHub Release' step (gated on
+    github.ref_type == 'tag') attaches the 32-bit and 64-bit Windows MSVC binaries
+    to the same release.
+    
+    No signing yet; mingw/cygwin binaries are not published.
+    
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+commit 4e537ca4a37d1401598834b40aa1406dcf4997b4
+Merge: ce9904d6 78417bf2
+Author: Anthony Green <green@moxielogic.com>
+Date:   Sat Jun 20 09:45:29 2026 -0400
+
+    Merge pull request #981 from libffi/dlmalloc-builtin-clz-all-arches
+    
+    dlmalloc: use __builtin_clz/ctz bit-index on all GNU compilers (#754)
+
+commit ce9904d6aec8dc6bb536a901a71c1e445eae7ec6
+Merge: b32ddaf7 2f61bf22
+Author: Anthony Green <green@moxielogic.com>
+Date:   Sat Jun 20 09:44:59 2026 -0400
+
+    Merge pull request #982 from emiltayl/msvc-atomics
+    
+    Add atomic intrinsics for MSVC to dlmalloc.c
+
+commit b32ddaf73a16f0ddb8055908b829682eb5c73eeb
+Merge: 0bff58c1 ad506b70
+Author: Anthony Green <green@moxielogic.com>
+Date:   Sat Jun 20 09:43:53 2026 -0400
+
+    Merge pull request #983 from libffi/ci-drop-mingw-ansi-stdio
+    
+    ci: drop ineffective __USE_MINGW_ANSI_STDIO from Win64 mingw test run
+
+commit ad506b7055ce76f7254c821a68149e4e38807da0
+Author: Anthony Green <green@moxielogic.com>
+Date:   Sat Jun 20 08:36:41 2026 -0400
+
+    ci: drop ineffective __USE_MINGW_ANSI_STDIO from the Win64 mingw test run
+    
+    The RUNTESTFLAGS="TOOL_OPTIONS=-D__USE_MINGW_ANSI_STDIO=1" added to silence the
+    long double %Lf/%Lg -Wformat warnings on x86_64-w64-mingw32 does not actually
+    work: the flag reaches the compile line but gcc's -Wformat still uses the MS
+    printf archetype with the mingw headers on the runner, so the ~10 long double
+    '(test for excess errors)' failures persist regardless.  The rlgl policy already
+    XFAILs those as the environmental printf-format issue they are, so the
+    ineffective flag is just noise -- remove it and let the baseline handle them.
+    
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+commit 78417bf2e6ca007fe4c9ff9cb74b31a55a2f3cae
+Author: Anthony Green <green@moxielogic.com>
+Date:   Sat Jun 20 08:16:29 2026 -0400
+
+    dlmalloc: use __builtin_clz/ctz bit-index on all GNU compilers (#754)
+    
+    Upstream 2.8.6 already replaced the old x86 'bsrl' inline asm in
+    compute_tree_index/compute_bit2idx with __builtin_clz/__builtin_ctz, but gated
+    the intrinsic path to __i386__/__x86_64__; every other GNU-compatible target
+    fell back to the generic C bit-twiddling (or ffs()).  __builtin_clz/__builtin_ctz
+    are target-independent, so enable the intrinsic path for any __GNUC__ compiler.
+    This lowers to a hardware bit-count instruction on aarch64 (clz / rbit+clz),
+    riscv, power, s390x, etc. instead of the open-coded idiom.
+    
+    Also drop the now-unused USE_BUILTIN_FFS define in closures.c (and thus the
+    <strings.h> include for ffs), since the intrinsic path no longer needs it.
+    
+    Implements the optimization from #754 (whose diff predated the 2.8.6 update).
+    Verified: x86_64 closures suite 588/0 (unchanged); the macros compile and emit
+    clz/ctz instructions for aarch64/riscv64/ppc64le/s390x/arm/mips64/sparc64.
+    
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+commit 2f61bf2213bbda7b348f13c1d58947c5fa33f858
+Author: Emil Taylor Bye <phptph@gmail.com>
+Date:   Sat Jun 20 14:05:16 2026 +0200
+
+    Add atomic intrinsics for MSVC to dlmalloc.c
+
+commit 0bff58c1043064d7cb0e825107ba79946c2bae51
+Merge: 2388f6dc ad447103
+Author: Anthony Green <green@moxielogic.com>
+Date:   Sat Jun 20 08:06:46 2026 -0400
+
+    Merge pull request #978 from libffi/prep-3.6.0-release
+    
+    Prepare libffi 3.6.0 release
+
+commit 2388f6dcfac3c434472668d32c805ec34a08ce2d
+Merge: 68be2150 72ce9313
+Author: Anthony Green <green@moxielogic.com>
+Date:   Sat Jun 20 08:02:26 2026 -0400
+
+    Merge pull request #980 from libffi/doc-closure-free-safety
+    
+    doc: note that freeing an in-use closure is unsafe (#835)
+
+commit 68be21507f1008e069e572b585dee75d48249528
+Merge: bc0ebb2e f554e4ce
+Author: Anthony Green <green@moxielogic.com>
+Date:   Sat Jun 20 08:01:59 2026 -0400
+
+    Merge pull request #979 from libffi/portability-c99-clang-asm
+    
+    Portability: strict-C99 and clang-assembler fixes (#795, #851, #947)
+
+commit 72ce931309653640ddd4e687a30a8293b95f909c
+Author: Anthony Green <green@moxielogic.com>
+Date:   Sat Jun 20 04:35:17 2026 -0400
+
+    doc: note that freeing a closure in use is unsafe (#835)
+    
+    Clarify in the ffi_closure_free documentation that a closure must not be freed
+    while it may still be invoked -- including from within its own callback -- since
+    that frees the executable trampoline still in use.  (It may appear to work by
+    luck on some targets, but is not safe in general.)
+    
+    Fixes #835
+    
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+commit f554e4ce0cb10ace600819e08beefd6593cdedc0
+Author: Anthony Green <green@moxielogic.com>
+Date:   Sat Jun 20 04:33:36 2026 -0400
+
+    x86: use pc-relative label difference for clang's assembler (#947)
+    
+    When HAVE_AS_X86_PCREL is not defined (e.g. builds that don't run libffi's
+    autoconf checks, such as the meson port), the unwind tables fall back to the
+    'X@rel' relocation variant, which clang's integrated assembler rejects with
+    "invalid variant 'rel'".  The pc-relative label difference 'X - .' assembles
+    on clang and GNU as alike, so prefer it for clang.  The gcc/other path (which
+    may target Sun as on Solaris) is left on @rel.  Verified end-to-end with clang.
+    
+    Fixes #947
+    
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+commit 2760a1e2c828a9d7ab2169ff31c0c495a0c5f2d4
+Author: Anthony Green <green@moxielogic.com>
+Date:   Sat Jun 20 04:33:36 2026 -0400
+
+    use __asm__ instead of the asm keyword for strict C99 (#851)
+    
+    Clang (e.g. the Android NDK) only provides the 'asm' keyword in GNU modes; under
+    a strict -std=c99 it errors with "use of undeclared identifier 'asm'".  Replace
+    the bare 'asm' keyword with the always-available __asm__ spelling across the
+    affected backends (aarch64, alpha, frv, ia64, moxie, or1k, pa, riscv, sh64,
+    sparc).  This is a pure spelling change with identical semantics on GNU
+    compilers; verified the __asm__/__asm__ volatile/register-__asm__ forms compile
+    under gcc and clang -std=c99 -pedantic.
+    
+    Fixes #851
+    
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+commit 08487a6214d4419430b0e8e7dcb3ec967caf8f6f
+Author: Anthony Green <green@moxielogic.com>
+Date:   Sat Jun 20 04:33:36 2026 -0400
+
+    ffi.h: avoid -Wpedantic warning on the anonymous union under C99 (#795)
+    
+    The ffi_closure struct uses an anonymous union, which is C11 (a GNU extension
+    in C99).  Including <ffi.h> with -std=c99 -pedantic warned (and broke -Werror
+    users).  Prefix the union with __extension__ on GNU compilers so the field
+    names are kept without the pedantic diagnostic; MSVC accepts anonymous unions
+    natively.  Verified with gcc and clang under -std=c99 -pedantic -Werror.
+    
+    Fixes #795
+    
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+commit ad4471039fa55c7e001aef031da297df30c952ae
+Author: Anthony Green <green@moxielogic.com>
+Date:   Sat Jun 20 03:47:51 2026 -0400
+
+    Prepare libffi 3.6.0 release
+    
+    Bump version to 3.6.0, libtool version-info to 11:1:3 (revision++; no public
+    interface change since 3.5.2), set the release date, and record the dlmalloc
+    2.8.6 update and the #873 ThreadSanitizer fix in the history.
+    
+    NOTE: the release date (June 20, 2026) is a placeholder -- adjust to the actual
+    tag date before merging.
+    
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+commit bc0ebb2e04c39fa750c3c6ebd93755f9b4762d77
+Merge: d3f96bee fc67b31a
+Author: Anthony Green <green@moxielogic.com>
+Date:   Sat Jun 20 03:36:07 2026 -0400
+
+    Merge pull request #977 from libffi/dlmalloc-tsan-clean
+    
+    dlmalloc: make mparams init and spin-lock peek TSAN-clean (fix #873)
+
+commit fc67b31ab8c0871dd94385f018fc55413bc034b5
+Author: Anthony Green <green@moxielogic.com>
+Date:   Sat Jun 20 03:30:59 2026 -0400
+
+    dlmalloc: make mparams init and spin-lock peek TSAN-clean
+    
+    dlmalloc reads two lock-free locations on every allocation that race with
+    writes elsewhere; ThreadSanitizer flags both (libffi issue #873).  The 2.8.6
+    update did not fix #873 -- confirmed with a -fsanitize=thread build of the
+    libffi.threads/tsan.c 20-thread test, which reported two data races on global
+    'mparams', plus (newly, since 2.8.6 uses spin locks instead of 2.8.3's pthread
+    mutexes) a race on the spin-lock word.
+    
+    1. mparams init (#873): ensure_initialization() reads mparams.magic without a
+       lock to decide if one-time init already ran, racing the write in
+       init_mparams().  Upstream writes magic through a `volatile` cast, which is
+       not a synchronizing operation.  Use an acquire load for the read and a
+       release store for the write, so a thread that observes magic != 0 is
+       guaranteed to see the other init writes (page_size, mflags, ...) too.
+    
+    2. spin-lock peek: spin_acquire_lock()'s `*(volatile int *)sl != 0` lock-free
+       peek races CLEAR_LOCK's atomic release.  Read it with a relaxed atomic load
+       instead -- still just a hint (CAS_LOCK provides the acquire on success).
+    
+    Both use __atomic_* builtins (work in any -std, no _Atomic field churn) with the
+    original volatile access as a fallback when they are unavailable (e.g. MSVC),
+    and are marked as libffi-local patches so they survive the next dlmalloc sync.
+    
+    After the fix the tsan.c test reports zero data races across 20 runs; the normal
+    testsuite is unaffected (the atomic accesses read/write the same values).
+    
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+commit d3f96bee061158b0934a08ca2355e4e92fcc4b98
+Merge: 5e3eeaff 97006e1a
+Author: Anthony Green <green@moxielogic.com>
+Date:   Sat Jun 20 03:03:43 2026 -0400
+
+    Merge pull request #975 from libffi/update-dlmalloc-2.8.6
+    
+    dlmalloc: update bundled allocator 2.8.3 → 2.8.6
+
+commit 97006e1a2d7f846b02e19411672c09a0f4aae56b
+Merge: 26a1c8cd 5e3eeaff
+Author: Anthony Green <green@moxielogic.com>
+Date:   Fri Jun 19 21:55:11 2026 -0400
+
+    Merge remote-tracking branch 'origin/master' into update-dlmalloc-2.8.6
+
+commit 5e3eeaffbf7cf98e6991fe3995ab0826a461545e
+Merge: 17bce72a 2aabe7eb
+Author: Anthony Green <green@moxielogic.com>
+Date:   Fri Jun 19 20:08:41 2026 -0400
+
+    Merge pull request #976 from libffi/x86_64-android-binary128-longdouble
+    
+    x86: support IEEE binary128 long double on x86_64 (Android)
+
+commit 2aabe7eb739a16197ed0fcaacb45eeba76149c19
+Author: Anthony Green <green@moxielogic.com>
+Date:   Fri Jun 19 20:04:09 2026 -0400
+
+    x86: support IEEE binary128 long double on x86_64 (e.g. Android)
+    
+    On most x86_64 targets `long double` is the 80-bit x87 type, which the SysV
+    psABI classifies X87/X87UP, passes in memory, and returns in st(0).  But some
+    x86_64 targets -- notably Android (bionic), and anything built with
+    -mlong-double-128 -- make `long double` the IEEE binary128 quad type, which the
+    psABI passes and returns in SSE registers exactly like __float128 (class
+    SSE/SSEUP, i.e. one %xmm register; _Complex binary128 is 32 bytes -> memory).
+    
+    libffi's x86_64 backend hardcoded the x87 path, so every long double call/return
+    on x86_64 Android produced garbage (sizeof(long double)==16 for both formats, so
+    the configure check could not tell them apart).  This was misdiagnosed as a QEMU
+    or bionic-on-host issue; it is a real ABI bug -- the binaries run natively, the
+    ABI is simply different.  Confirmed via the compiler: x86_64-linux-android sets
+    __LDBL_MANT_DIG__=113 (binary128) and emits __addtf3/%xmm, vs 64/fldt on glibc.
+    
+    Detect binary128 long double at compile time (__LDBL_MANT_DIG__ == 113) and:
+      - classify scalar long double as SSE/SSEUP, returned in %xmm0 (new
+        UNIX64_RET_XMM128 store/load path: movups %xmm0);
+      - classify _Complex long double as memory (passed/returned via hidden pointer);
+      - copy the SSEUP eightbyte (the high half of the same %xmm register) in both
+        the call and closure argument marshalling, which previously dropped it.
+    
+    Everything is gated on the compile-time check, so x87 targets (glibc, *BSD,
+    macOS) are byte-for-byte unchanged.
+    
+    Validated by building with `-mlong-double-128` on x86_64 glibc (which reproduces
+    the Android ABI: __addtf3/%xmm) and round-tripping a full-precision binary128
+    value through both ffi_call and a closure -- both preserve all 113 mantissa bits.
+    x87 long double regression is clean (full testsuite, 0 unexpected failures).
+    
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+commit 26a1c8cddcbdbbd1b5bae43e89c9deb20477d99e
+Author: Anthony Green <green@moxielogic.com>
+Date:   Fri Jun 19 19:16:38 2026 -0400
+
+    dlmalloc: drop FORCEINLINE on win32 mmap helpers (fix mingw build)
+    
+    The Win64 mingw build failed:
+    
+      dlmalloc.c: error: multiple storage classes in declaration specifiers
+      (at static FORCEINLINE win32mmap / win32direct_mmap / win32munmap)
+    
+    mingw-w64's <windows.h> (included in dlmalloc's WIN32 block) defines
+    FORCEINLINE with an 'extern' storage class, so the upstream-2.8.6
+    'static FORCEINLINE' on these helpers expands to 'static extern' -- rejected by
+    gcc. MSVC's FORCEINLINE is __forceinline (no storage class), so MSVC was fine.
+    
+    libffi's previous 2.8.3 dlmalloc used plain 'static' for these win32 helpers;
+    restore that (keeping the PAGE_EXECUTE_READWRITE change). They are trivial
+    wrappers, so dropping the forced-inline hint has no practical effect.
+    
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+commit 17bce72aa5e2c396983b3c4ffa83a15e1cf453fa
+Merge: a00d2dd3 7e93373f
+Author: Anthony Green <green@moxielogic.com>
+Date:   Fri Jun 19 18:36:28 2026 -0400
+
+    Merge pull request #973 from libffi/ci-win64-mingw-real-tests
+    
+    ci: make Win64 mingw job actually run the testsuite
+
+commit a00d2dd3b650e4d7d1b19008e1879179fa7dd315
+Merge: 22c1a3e6 9db3ee0b
+Author: Anthony Green <green@moxielogic.com>
+Date:   Fri Jun 19 18:35:56 2026 -0400
+
+    Merge pull request #974 from libffi/ci-fix-dist-hook-readme
+    
+    build: fix make dist failure from missing README "was released on" line
+
+commit 326fff39c41a3c076c63f18b216fb0a44104edf4
+Author: Anthony Green <green@moxielogic.com>
+Date:   Fri Jun 19 18:33:50 2026 -0400
+
+    dlmalloc: always define malloc_getpagesize (fix MSVC Win64 build)
+    
+    The MSVC Win64 build failed compiling the ported dlmalloc:
+    
+      dlmalloc.c: error C2065: 'malloc_getpagesize': undeclared identifier
+    
+    Upstream 2.8.6 defines malloc_getpagesize only under #ifndef WIN32 (WIN32
+    builds use GetSystemInfo in init_mparams), and the init_mparams reference is
+    likewise guarded by #if !defined(WIN32) -- so on a normal cl.exe build with
+    _WIN32 defined the reference is preprocessed out. MSVC nonetheless reports the
+    symbol undeclared, so add an unconditional fallback definition (the same
+    ((size_t)4096U) the upstream block already uses as its deepest fallback).
+    
+    This is a no-op on every platform that already defines the symbol; on WIN32 the
+    value is never used (GetSystemInfo supplies the page size), so behavior is
+    unchanged. It just guarantees the translation unit compiles.
+    
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+commit 7e93373fb08960df21ded627b5380a27b7ccc091
+Author: Anthony Green <green@moxielogic.com>
+Date:   Fri Jun 19 17:36:22 2026 -0400
+
+    ci: fix Win64 mingw long double tests via __USE_MINGW_ANSI_STDIO
+    
+    With the testsuite now actually running on x86_64-w64-mingw32, 5 long double
+    tests (float2, cls_longdouble, cls_align_longdouble_split{,2}, huge_struct)
+    failed "(test for excess errors)" -- not real bugs, just -Wformat warnings:
+    
+      warning: format '%Lf' expects argument of type 'double',
+               but argument has type 'long double'
+    
+    mingw-w64 gcc/clang default to the MS C runtime printf, where the %L length
+    modifier means double rather than long double. Pass __USE_MINGW_ANSI_STDIO=1 so
+    the tests use mingw's ISO-C99 printf, where %Lf/%Lg handle long double
+    correctly -- clearing the warnings and producing correct output (e.g.
+    huge_struct's output-pattern check). No-op on the Cygwin targets.
+    
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+commit 2a0b4b52cad6715cb1fe6ab5a8189ebdeaea7c74
+Author: Anthony Green <green@moxielogic.com>
+Date:   Fri Jun 19 17:31:36 2026 -0400
+
+    dlmalloc: update bundled allocator from 2.8.3 to 2.8.6
+    
+    Re-bases libffi's bundled dlmalloc on Doug Lea's pristine 2.8.6 (the last
+    upstream release) instead of the heavily-diverged 2.8.3 fork we carried.
+    
+    Method: rather than line-merging 2.8.3->2.8.6 onto our fork (which silently
+    duplicated/stranded code where upstream's restructuring didn't align), this
+    re-applies libffi's small, well-understood patch set on top of clean 2.8.6.
+    The bundled file is now pristine 2.8.6 + ~100 lines of clearly-isolated libffi
+    changes, so future syncs are a tractable rebase rather than archaeology.
+    
+    libffi-local changes carried forward (adapted to 2.8.6):
+      * FFI_MMAP_EXEC_WRIT machinery: per-segment exec_offset, get/set_segment_flags
+        and check_segment_merge abstractions, add/sub_segment_exec_offset.  The
+        2.8.3 IS_MMAPPED_BIT is spelled USE_MMAP_BIT in 2.8.6.
+      * Windows: win32mmap/win32direct_mmap allocate PAGE_EXECUTE_READWRITE so
+        closures are executable (closures.c calls these directly, not via dlmmap).
+      * OS/2 support: DosAllocMem mmap shims wired into 2.8.6's *_DEFAULT scheme,
+        page size/granularity in init_mparams.  OS/2 locking now rides 2.8.6's
+        spin locks (the old HMTX mutex block is unnecessary in the new framework).
+      * _GNU_SOURCE for Linux mremap, conflicting-malloc.h undefs, dlmalloc_stats
+        prototype, an extra corruption check, and assorted warning/typo cleanups.
+    
+    What 2.8.6 buys us: CAS spin locks instead of pthread mutexes for closure
+    alloc/free (lower overhead, no implicit pthread dep), stronger FOOTERS/RTCHECK
+    heap-corruption detection, __builtin_ctz bit indexing instead of fragile x86
+    asm/ffs, cleaner _MSC_VER/x86_64/WIN32_LEAN_AND_MEAN handling, and ~7 years of
+    upstream bug fixes.
+    
+    Validated natively on x86_64-pc-linux-gnu: closures 588/0, full suite 2468/0.
+    Draft pending the full CI matrix to exercise the W^X paths cross-platform.
+    
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+commit 9db3ee0b8041127ec1c97e424b6845ed2d41096e
+Author: Anthony Green <green@moxielogic.com>
+Date:   Fri Jun 19 16:52:51 2026 -0400
+
+    build: don't let dist-hook fail when README has no "was released on" line
+    
+    The dist-hook trims README.md by locating the "<version> was released on ..."
+    line and tail'ing from just above it. Commit 35f3a8f replaced that line with a
+    "This is WIP repo ..." banner in preparation for 3.6.0, so the awk now returns
+    empty, $((s-1)) becomes -1, and `tail -n +-1` aborts `make dist`:
+    
+      tail: invalid number of lines: '+-1'
+      make[4]: *** [Makefile:2107: dist-hook] Error 1
+    
+    This broke the snapshot-dist-tarball workflow on every master push. Fall back to
+    copying README.md verbatim when the marker is absent; tagged releases that
+    restore a "was released on" line still get the original trimming behavior.
+    
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+commit 9aeda2a51a55a2a64ec4b74f23c9ab8fc0519ffe
+Author: Anthony Green <green@moxielogic.com>
+Date:   Fri Jun 19 16:46:53 2026 -0400
+
+    ci: give Win64 mingw job a Cygwin-hosted toolchain so tests actually run
+    
+    The x86_64-w64-mingw32 job has been green since 3.5.0-pre0 but exercised
+    nothing: every one of its ~310 testsuite compiles failed with
+    
+      ffitest.h:8:10: fatal error: ffi.h: No such file or directory
+    
+    even though configure generates ffi.h at x86_64-w64-mingw32/include/ffi.h and
+    the test compile's -I points right at it. The cause is path translation:
+    DejaGnu runs under Cygwin and emits Cygwin POSIX include paths
+    (-I/cygdrive/d/.../include), but the x86_64-w64-mingw32-gcc being resolved is a
+    native (non-Cygwin) mingw driver that can't read /cygdrive/... paths, so no -I
+    directory resolves and the first #include <ffi.h> dies. Result: 0 real passes,
+    310 compile failures -- all masked GREEN by the rlgl baseline. The 32-bit jobs
+    work because they use genuine *-pc-cygwin compilers that translate the paths.
+    
+    Install Cygwin's own mingw64-x86_64 cross toolchain. Its driver lives in
+    /usr/bin (ahead of the native Windows toolchain in the login-shell PATH) and is
+    a Cygwin process, so it translates the POSIX paths and the test programs compile
+    and run for the first time.
+    
+    This is expected to surface real Win64 mingw test results that were previously
+    invisible; the rlgl-policy baseline will need refreshing for whatever shows up.
+    
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+commit 22c1a3e67a06c498c94dd5fca85692f9ae80dd8f
+Author: Anthony Green <green@moxielogic.com>
+Date:   Fri Jun 19 16:29:12 2026 -0400
+
+    ci: don't route native x86 Android tests through qemu-x86_64
+    
+    The Android job's "Set up QEMU (binfmt)" step used docker/setup-qemu-action's
+    default, which runs `tonistiigi/binfmt --install all` and registers binfmt
+    handlers for every arch -- including x86_64/i686, with the F (fix-binary) flag.
+    That forced the statically-linked x86_64 Android test binaries (native to the
+    host) through qemu-x86_64 instead of running them directly as intended.
+    
+    qemu-user's x87 80-bit extended-precision long double emulation is inaccurate,
+    so all 26 long double tests on x86_64-linux-android failed (float/float2/float3,
+    return_ldl, every *longdouble* complex/closure test, and huge_struct's output
+    pattern from its long double fields). i686 was unaffected because its long
+    double is 64-bit (== double, HAVE_LONG_DOUBLE=0), and aarch64/armv7 pass under
+    their own qemu.
+    
+    Pin platforms: arm64,arm so only the genuinely foreign binaries run under
+    emulation; the x86 Android binaries run natively on real x87 hardware.
+    
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+commit e815b3683e53f4af8b04b635617c72ec3112ff55
+Author: Anthony Green <green@moxielogic.com>
+Date:   Fri Jun 19 16:24:56 2026 -0400
+
+    ci: cave workflow note — privileged is opt-in (privileged: true)
+
+commit 69378c94a7d4bfc08f2f158544148e7268ac4999
+Author: Anthony Green <green@moxielogic.com>
+Date:   Fri Jun 19 16:17:20 2026 -0400
+
+    ci: cave workflow note — job containers are privileged (nested containers ok)
+
+commit 1af78f88eb3b923d89817a33fd30ed4f8fa030d9
+Author: Anthony Green <green@moxielogic.com>
+Date:   Fri Jun 19 16:15:04 2026 -0400
+
+    ci: add cave workflow for the cave.moxielogic.com mirror
+    
+    Clean native x86_64 build + dejagnu test gated by rlgl, in cave's workflow
+    format (.cave/workflows), so the libffi mirror's CI runs on cave's
+    self-hosted runners. GitHub Actions ignores .cave/; cave's pull-mirror sync
+    picks it up and runs it on the cave runner.
+
+commit d6cea487cd19841eb083e2d2a8e0b7d7e6aee14d
+Author: Anthony Green <green@moxielogic.com>
+Date:   Fri Jun 19 15:59:14 2026 -0400
+
+    ci: actually execute Android tests (static + qemu-user)
+    
+    Android tests were cross-compiled but never run (dejagnu exec'd them on the
+    ubuntu host), so all ~722 execution tests failed and were baselined. Link the
+    test binaries statically (--target_board=unix/-static) so they need no bionic
+    loader/sysroot, register qemu-user binfmt, and let them execute: x86_64/i686
+    run on the host (Android is a Linux kernel), aarch64/armv7 under qemu-user.
+
+commit c8cf0cda7d66c4bc8a72078be914eb2cf0a2152a
+Author: Anthony Green <green@moxielogic.com>
+Date:   Fri Jun 19 15:36:36 2026 -0400
+
+    testsuite: skip complex_i128 on clang (no _Complex __int128)
+    
+    clang defines __SIZEOF_INT128__ but rejects _Complex __int128, so the test
+    failed to compile (excess-errors FAIL + UNRESOLVED execution) on clang
+    targets. Exclude __clang__ from the guard so clang falls through to the
+    trivial main(), the same no-op path already used on platforms without
+    int128/complex support; gcc still runs the full test.
+
+commit 88243588b3e6f5318ad3fcf49a626b96c1ea6820
+Author: Anthony Green <green@moxielogic.com>
+Date:   Fri Jun 19 15:26:48 2026 -0400
+
+    ci: publish rlgl's original-report log so report links resolve
+    
+    The rlgl HTML report links to a sibling rlgl-report-original.<ext> file that
+    rlgl writes next to it, but we only uploaded/published rlgl-report.html, so
+    the link 404'd on Pages. Upload both via the rlgl-report* glob and copy the
+    original log next to index.html when publishing.
+
+commit 7b159e655916249e827fbd30a17748309d278d2d
+Author: Anthony Green <green@moxielogic.com>
+Date:   Fri Jun 19 15:20:39 2026 -0400
+
+    ci: add x86_64 macOS coverage via Rosetta on Apple Silicon
+    
+    GitHub's free Intel macOS runners are gone, so test the x86_64 ABI by building
+    x86_64 on a macos-14 (arm64) runner with clang -arch x86_64 and running the
+    dejagnu testsuite under Rosetta 2. New MACOS_X86 env flag routes build.sh to
+    build_linux (dejagnu + rlgl) with --host=x86_64-apple-darwin, bypassing the
+    legacy xcodebuild build_macosx path.
+
+commit 9d942dae34df4135958044ff67e051a7c43829f1
+Author: Anthony Green <green@moxielogic.com>
+Date:   Fri Jun 19 15:16:28 2026 -0400
+
+    ci: drop macOS-13 (Intel) job
+    
+    GitHub's free Intel macOS runners are effectively unavailable (jobs sit queued
+    for hours, then time out). Test only the Apple-Silicon runners (macos-14/15).
+
+commit 35a3dd28132fc93508ddb8a4a6e5f8d6181732b1
+Author: Anthony Green <green@moxielogic.com>
+Date:   Fri Jun 19 08:59:27 2026 -0400
+
+    ci: use correct Debian cross triple for mips64el (gnuabi64)
+    
+    The N64 mips64el cross package is gcc-mips64el-linux-gnuabi64, not
+    gcc-mips64el-linux-gnu (which doesn't exist -> 'Unable to locate package').
+    Use HOST=mips64el-linux-gnuabi64.
+
+commit 57f7790aec8a08bea0f12077d9f336f1ddf28320
+Author: Anthony Green <green@moxielogic.com>
+Date:   Fri Jun 19 08:30:49 2026 -0400
+
+    ci: expand QEMU coverage (riscv64, armv7, sparc64, mips64el) + fixes
+    
+    - Env-driven QEMU dispatch in build.sh (FOREIGN_IMAGE -> foreign container;
+      CROSS_QEMU -> cross+qemu-user) instead of fragile HOST-triple globs, which
+      failed to match the cross triples (powerpc-linux-gnu fell through to
+      build_linux, so QEMU_LD_PREFIX was never set and every execution test
+      failed with "Could not open /lib/ld.so.1").
+    - build_cross_qemu now exports QEMU_LD_PREFIX so qemu-user finds the target
+      loader; install.sh installs gcc-$HOST + qemu-user-static when CROSS_QEMU set.
+    - Add foreign-container targets riscv64 and armv7 (official multi-arch debian
+      image, since fedora lacks them); add cross+qemu targets sparc64 and mips64el.
+
+commit 7ed781614757ed3f6b7f15c8bbd25f4d6019f2a0
+Author: Anthony Green <green@moxielogic.com>
+Date:   Fri Jun 19 08:17:14 2026 -0400
+
+    ci: add more QEMU non-native targets (s390x, big-endian PowerPC)
+    
+    Extend QEMU coverage beyond ppc64le:
+    
+    - s390x: another build-qemu matrix entry using the official multi-arch fedora
+      image (Containerfile.s390x, --platform linux/s390x), same foreign-container
+      path as ppc64le.
+    
+    - powerpc64 (big-endian) and 32-bit powerpc: no ready foreign-arch container
+      image exists, so add a build-cross-qemu job that cross-compiles with the
+      Debian gcc-<HOST> toolchain and runs the testsuite under qemu-user (binfmt).
+      build.sh gains build_cross_qemu + dispatch; install.sh installs the cross
+      toolchain + qemu-user-static for these hosts.
+    
+    Both new jobs feed the rlgl report publisher.
+
+commit 5b1c6fa30b55f153d135ddd77b3ac784908a61eb
+Author: Anthony Green <green@moxielogic.com>
+Date:   Fri Jun 19 07:41:58 2026 -0400
+
+    ci: fix dejagnu site.exp for modern Tcl; tolerate make dist failure
+    
+    The QEMU ppc64le container ships a newer Tcl that removed the `case` command,
+    so `make check` died with 'invalid command name "case"' and produced no
+    libffi.log. Convert site.exp's case to `switch -glob` (equivalent, works on
+    all Tcl versions). Also make `make dist` non-fatal in the emulated container
+    build, since it builds the PDF manual (needs TeX) which isn't installed and is
+    irrelevant to testing.
+
+commit 223a1a01256f6c1a9d8d8e5c9a964d51d9d32315
+Author: Anthony Green <green@moxielogic.com>
+Date:   Fri Jun 19 07:25:59 2026 -0400
+
+    ci: build the ppc64le QEMU image with --platform linux/ppc64le
+    
+    docker build defaulted to linux/amd64 and ppc64le/fedora has no amd64
+    variant (no match for platform in manifest). Use the official multi-arch
+    fedora base and pass --platform linux/ppc64le so buildx builds the ppc64le
+    image under QEMU.
+
+commit 4bf3406cfd146e90a7a3ab3482057736c63919b4
+Author: Anthony Green <green@moxielogic.com>
+Date:   Fri Jun 19 07:24:22 2026 -0400
+
+    ci: reintroduce QEMU-emulated non-native testing (PowerPC)
+    
+    GitHub offers no ppc64le/s390x/etc. runners, so test these under QEMU: a new
+    build-qemu job registers binfmt (docker/setup-qemu-action), builds the
+    foreign-arch container from .ci/Containerfile.<arch>, and runs the libffi
+    testsuite natively inside it via build_foreign_linux; rlgl evaluates the
+    results on the host. Starts with powerpc64le; add a matrix entry + a
+    Containerfile to cover more architectures. build.sh gains a ppc64le dispatch
+    case driven by FOREIGN_IMAGE.
+
+commit 260e301c811fe0bc912aa1c219c0c79bdfc1a26b
+Author: Anthony Green <green@moxielogic.com>
+Date:   Fri Jun 19 07:16:45 2026 -0400
+
+    ci: fetch rlgl via direct release URL, not the GitHub API
+    
+    download_rlgl resolved the asset through api.github.com/releases/latest, which
+    is unauthenticated and rate-limited (60 req/hr/IP). Under the CI matrix (~20+
+    jobs each calling it) it returns 403, leaving rlgl undownloaded and the build
+    step dying with "./rlgl: No such file" (exit 127). Release-asset downloads are
+    not rate-limited, so fetch a direct, version-pinned URL
+    (v2.0.4, which includes the Intel macOS binary) instead. Also drop the
+    best-effort "|| true" on macOS, which now evaluates results with rlgl.
+
+commit 56bff074d23555fc856c7fc24e3aa9c635491210
+Author: Anthony Green <green@moxielogic.com>
+Date:   Thu Jun 18 19:37:13 2026 -0400
+
+    ci: make rlgl.exe executable after unzip on Windows
+    
+    unzip does not set the execute bit, so cygwin refused to run ./rlgl.exe
+    ("Permission denied", exit 126). chmod +x it after extraction, matching the
+    tar-based Linux/macOS path.
+    
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+commit 5532b1ee260ddc3ad8249c448bbf6fb609abed80
+Author: Anthony Green <green@moxielogic.com>
+Date:   Thu Jun 18 13:17:18 2026 -0400
+
+    ci: deploy rlgl reports via GitHub Actions Pages flow
+    
+    The gh-pages branch is configured as a "workflow" Pages source, and pushes
+    made with GITHUB_TOKEN don't trigger the legacy branch build, so committing
+    reports to gh-pages alone never updated the live site. Have the publish job
+    deploy the assembled site with actions/upload-pages-artifact + deploy-pages
+    (keeping the gh-pages branch as the persistent store). Adds pages/id-token
+    permissions and the github-pages environment, and guards deploy on whether
+    any reports were published.
+    
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+commit 062af85f0d8cf908dae022e12a7d4d5812733e07
+Author: Anthony Green <green@moxielogic.com>
+Date:   Thu Jun 18 12:55:34 2026 -0400
+
+    ci: publish rlgl HTML reports to GitHub Pages
+    
+    Each report-producing job now uploads its rlgl-report.html as a uniquely
+    named artifact and emits a ::notice:: with the report's Pages URL. A
+    publish-reports job in each workflow (serialized across workflows via the
+    gh-pages-publish concurrency group) collects the artifacts and commits them
+    to the gh-pages branch under reports/<run-id>/<job>/, regenerating an index
+    page that lists every run. Reports are thus viewable at
+    https://libffi.github.io/libffi/ and persist across runs.
+    
+    Publishing is gated to pushes on the canonical repo (fork PRs lack the write
+    token); the reports are still produced and uploaded as artifacts otherwise.
+    
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+commit 07e977a4aadd8d327b035cbfa601d4effe088306
+Author: Anthony Green <green@moxielogic.com>
+Date:   Thu Jun 18 08:55:03 2026 -0400
+
+    ci: use the new client-side rlgl from GitHub releases
+    
+    rlgl is now a self-contained client-side tool rather than a thin client for
+    the hosted rl.gl server, so update CI accordingly:
+    
+    - Download the rlgl binary from its GitHub releases, selecting the asset by
+      the runner's own OS/arch (rlgl runs on the runner, not the build target).
+    - Drop the "rlgl l --key=... https://rl.gl" login step and the policy-bound
+      API key; evaluation now happens entirely locally against the git-hosted
+      policy.
+    - Windows jobs fetch the release zip and run ./rlgl.exe (was ./rlgl/rlgl.exe).
+    
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+commit 9cb5c4c139be925672cd2e035708b896b416c67a
+Merge: e5cefe94 4355ecc4
+Author: Anthony Green <green@moxielogic.com>
+Date:   Thu Jun 18 06:52:19 2026 -0400
+
+    Merge pull request #972 from kxxt/rv64d
+    
+    riscv64: fix float marshal for ABI_FLEN >= 64
+
+commit 4355ecc40541f07b2cd8bafa3102f0947b7da1fd
+Author: Levi Zim <rsworktech@outlook.com>
+Date:   Tue Jun 16 22:04:31 2026 +0800
+
+    riscv64: fix float marshal for ABI_FLEN >= 64
+    
+    The original code tries to use asm to reinterpret floats as doubles.
+    However, that does not work since the float is converted to double
+    instead.
+    
+    This patch fixes it by manually copying the 32-bit float bits and
+    perform the required NaN-boxing when storing a narrower float type
+    inside a wider float type.
+
+commit e5cefe9499b801647b3b198923b5d86795e3826e
+Author: Anthony Green <green@moxielogic.com>
+Date:   Sat Jun 6 05:46:08 2026 -0400
+
+    Add security policy
+
+commit 30c03c63aca3d1f5d7e9ce43de5b2edce930b0e5
+Author: Anthony Green <green@moxielogic.com>
+Date:   Fri Jun 5 08:03:23 2026 -0400
+
+    README: note recent 3.6.0 changes
+    
+    Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
+
+commit f0ca1577b0145854c486931b11aded99f610d5b3
+Author: Anthony Green <green@moxielogic.com>
+Date:   Fri Jun 5 07:54:04 2026 -0400
+
+    powerpc64: support FFI_TYPE_COMPLEX under ELFv2 (#970)
+    
+    The reporter of #962 hits a 1-slot drift on ppc64le when passing a
+    float _Complex argument followed by an int: the C callee, compiled by
+    GCC, treats the complex per ELFv2 §2.2.3.2.2 (split_complex_arg) and
+    reserves *two* GPR shadow slots for the two halves, while libffi has
+    no complex support for PowerPC and sees only the user's surrogate
+    struct{float;float;} (one GPR shadow slot under HFA packing). All
+    subsequent integer args land in the wrong register.
+    
+    Add FFI_TYPE_COMPLEX support for the LINUX64 / ELFv2 path:
+    
+      * ffitarget.h: define FFI_TARGET_HAS_COMPLEX_TYPE for POWERPC64 +
+        _CALL_ELF == 2 so prep_cif accepts the type and types.c emits the
+        ffi_type_complex_{float,double,longdouble} symbols.
+    
+      * ffi_linux64.c, arg path (prep_cif + prep_args64 + closure helper):
+        each half of a _Complex argument is now passed independently —
+        float/double halves go to consecutive FPRs and consume one GPR
+        shadow slot each; integer halves go to consecutive GPR slots
+        sign-/zero-extended to doublewords. This matches what GCC's
+        split_complex_arg emits and fixes the 1-slot drift.
+    
+      * ffi_linux64.c, return path: float/double complex are returned via
+        the existing 2-element FP-HFA assembly path (PPC64_LD_FLOAT_HOMOG /
+        PPC64_LD_DOUBLE_HOMOG, FLAG_RETURNS_SMST + FLAG_RETURNS_FP).
+        Integer complex are returned via .Lsmall_struct with FLAG_RETURNS_SMST
+        only; ffi.c repacks the bounce buffer (real in slot 0, imag in
+        slot 8) into the caller's natural packed layout, and the closure
+        helper repacks the user-written packed value into two doublewords
+        before returning PPC_LD_R3R4.
+    
+      * discover_homogeneous_aggregate now recurses through FFI_TYPE_COMPLEX
+        of float/double, so a struct containing _Complex float/double members
+        is recognised as an FP HFA (matches GCC's HFA rule for aggregates
+        containing complex). The top-level complex arg/return paths bypass
+        this and use their own switch cases.
+    
+    64-bit long double complex is treated as _Complex double. IBM-128 and
+    IEEE-binary128 _Complex are explicitly rejected (FFI_BAD_TYPEDEF) and
+    left as follow-up work; the same applies to PPC32 SysV and ELFv1.
+    
+    Fixes #962.
+    
+    Co-authored-by: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
+
+commit 547449d705258ea490aa8787dc084c5b38dbe722
+Author: Muhammad Kamran <muhammad.kamran@arm.com>
+Date:   Fri Jun 5 12:48:36 2026 +0100
+
+    aarch64: add feature build attributes (#969)
+    
+    Emit AArch64 feature build attributes when assembler support is
+    available, and keep using GNU property notes as the fallback.
+    
+    Rename the feature bit macros so they can be shared by both metadata
+    formats.
+    
+            * src/aarch64/internal.h (AARCH64_POINTER_AUTH): Rename from
+            GNU_PROPERTY_AARCH64_POINTER_AUTH.
+            * src/aarch64/sysv.S (AARCH64_BTI): Rename from
+            GNU_PROPERTY_AARCH64_BTI.
+            (AARCH64_GCS): Rename from GNU_PROPERTY_AARCH64_GCS.
+            (GNU_PROPERTY): New macro.
+            (FEATURE_1_AND_MARK): New macro.
+            Emit feature build attributes when __ARM_BUILDATTR64_FV is defined.
+
+commit 11ef568167fb84bfcfefbb79bfb3ae4429fcb0e2
+Author: Stewart X Addison <6487691+sxa@users.noreply.github.com>
+Date:   Fri Jun 5 11:11:23 2026 +0100
+
+    Fix erroneous semi colon in FFI_EXTRA_CIF_FIELDS on some platforms (#968)
+    
+    Signed-off-by: Stewart X Addison <sxa@ibm.com>
+
+commit 4639c933db028a883cc8e7e36f8b97fb6df804e7
+Author: hudsonzuo <zuohsh@163.com>
+Date:   Fri Jun 5 18:10:53 2026 +0800
+
+    add NULL check in sys_trim (#966)
+    
+    * add NULL check in sys_trim
+    
+    * space
+    
+    * Update dlmalloc.c
+
+commit c937c979f70596ba502b142c420286dd3da00e40
+Author: pietro <pietro@users.noreply.github.com>
+Date:   Fri Jun 5 06:09:17 2026 -0400
+
+    Use absolute paths for tests include paths (#965)
+    
+    Co-authored-by: Pietro Monteiro <pietro@sociotechnical.xyz>
+
+commit c5abbdad2f930f806791942776ccd45beeff1613
+Author: Jakub Jelínek <jakub@redhat.com>
+Date:   Fri May 22 17:58:01 2026 +0200
+
+    Fix two comment typos. (#961)
+
+commit 9760868682cc9a33008761f158d86481d56738aa
+Author: Anthony Green <green@moxielogic.com>
+Date:   Tue Apr 21 05:33:31 2026 -0400
+
+    Remove nios ii credit (port was removed in 3.4.7)
+    
+    Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+
+commit 0b1690778700480bbf94ce7288defb3d831cacf1
+Author: Anthony Green <green@moxielogic.com>
+Date:   Tue Apr 21 05:32:39 2026 -0400
+
+    Add Meng Qinggang to LoongArch credits for LoongArch32 port
+    
+    Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+
+commit 35f3a8f4a0f38f788f47bbc34e72abb9f2894a0a
+Author: Anthony Green <green@moxielogic.com>
+Date:   Tue Apr 21 05:29:59 2026 -0400
+
+    Update README.md in preparation for libffi 3.6.0
+    
+    Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+
+commit 70e6c2615d7deb0529568b013b1c274fc5e24375
+Author: cloud <mengqinggang@loongson.cn>
+Date:   Tue Apr 21 17:24:49 2026 +0800
+
+    Add support for LoongArch32 (#957)
+    
+    * Add support for LoongArch32
+    
+    Change src/loongarch64 to src/loongarch.
+    
+    Change __loongarch64 to __loongarch_grlen.
+    __loongarch64 is uesd for compatibility with legacy code,
+    new programs should not assume existence of this macro.[1]
+    And there is no __loongarch32 macro for LoongArch32.
+    
+    Add ilp32s, ilp32f, ilp32d abi.
+    Add ADDI macro.
+    
+    [1] https://github.com/loongson/la-toolchain-conventions?tab=readme-ov-file#cc-preprocessor-built-in-macro-definitions
+    
+    * LoongArch: Fix libffi.closures/cls_longdouble.c
+    
+    CHECK(a8 == 8) fail on LoongArch32.
+    
+    long double passed by reference on LoongArch32 ilp32 ABI.
+    If a argument register is available, the address is passed
+    in the argument register; otherwise, it is passed on the stack[1].
+    
+    The address of return value and a1-a7 arguments of cls_ldouble_fn
+    passed by a0-a7 argument registers. The address of a8 argument need
+    to be passed by stack.
+    
+    But ffi_call_int only allocates cif->bytes(sizeof(long double)*8)
+    bytes space for stack. Both the address of a8 argument and a8 argument
+    are saved at sp+0 address. The lowest 4-byte of a8 argument are overwritten
+    by the address of a8 argument.
+    
+    Allocates extra conservative estimate space like RISC-V.
+    
+    [1] https://github.com/loongson/la-abi-specs/blob/release/lapcs.adoc#passing-arguments
+
+commit 10056e7e6a0d40d2a21af63484b99f08898dde9e
+Author: Ryan VanderMeulen <rvandermeulen@mozilla.com>
+Date:   Fri Apr 10 17:59:07 2026 -0400
+
+    x86: add FFI_ASAN_NO_SANITIZE to ffi_call_int in ffiw64.c (#959)
+    
+    ffi_call_int in ffiw64.c uses the same alloca-as-stack trick as
+    ffi_call_int in ffi64.c and ffi.c: it alloca's a block and passes it
+    to ffi_call_win64() which uses it as its own stack frame. This
+    confuses ASan's shadow memory tracking.
+    
+    ffi64.c and ffi.c already have FFI_ASAN_NO_SANITIZE on their
+    ffi_call_int (added alongside the macro definition in ffi_common.h),
+    but ffiw64.c was missed. Add it for consistency.
+
+commit 70cb813f2bb2a8eb30c619666d289f59aacbecba
+Author: Anthony Green <green@moxielogic.com>
+Date:   Thu Mar 26 12:27:46 2026 -0400
+
+    README: merge autogen.sh note into configure paragraph (#955)
+    
+    Folds the git-build note directly into the configure paragraph so
+    readers who skip ahead see the autogen.sh requirement without having
+    to notice a separate paragraph. Suggested by @gitonthescene in #954.
+    
+    Co-authored-by: Claude Sonnet 4.6 <noreply@anthropic.com>
+
+commit 11141fba1dcc69bdb98a8d63e7eb2c8109507c34
+Author: bobo215 <bobo@atgreen.org>
+Date:   Sun Mar 8 08:58:40 2026 -0400
+
+    sh: Fix linker errors by applying __USER_LABEL_PREFIX__ in CNAME (#953)
+    
+    The CNAME macro in src/sh/sysv.S was defined as a no-op (#define CNAME(x) x),
+    which ignores __USER_LABEL_PREFIX__. On targets where this prefix is set (e.g.
+    an underscore on some platforms), the assembler emits symbols without the
+    expected prefix, causing linker errors when C code references them.
+    
+    Fix this by using the C1/C2 two-level macro concatenation pattern (as used in
+    x86/sysv.S) to properly prepend __USER_LABEL_PREFIX__ to symbol names.
+    
+    This replaces the approach proposed in #809.
+    
+    Co-authored-by: bobo215 <266481280+bobo215@users.noreply.github.com>
+    Co-authored-by: Claude Opus 4.6 <noreply@anthropic.com>
+
+commit 21519b700380f9f4206c57ae44ca3c7e3e4ac18c
+Author: pietro <pietro@users.noreply.github.com>
+Date:   Sun Mar 8 07:57:22 2026 -0400
+
+    Define `WIN32_LEAN_AND_MEAN` before including windows.h (#937)
+    
+    From GCC commit 902c7559 "Always define `WIN32_LEAN_AND_MEAN` before <windows.h>"
+    
+    This is already done in src/arm/ffi.c and src/dlmalloc.c, so do it in
+    src/aarch64/ffi.c too.
+    
+    Co-authored-by: Pietro Monteiro <pietro@sociotechnical.xyz>
+
+commit 840add3b6a1cd405d9ba59da7c507f75f71c808f
+Author: Richard Henderson <richard.henderson@linaro.org>
+Date:   Sun Mar 8 22:50:54 2026 +1100
+
+    Add conditional target support for __int128 (#951)
+    
+    * powerpc: Move ffi_aix_trampoline_struct to ffi_darwin.c
+    
+    This is not required for the user of the library, and by
+    placing it in the file in which it is used, we can also
+    remove some ifdefs.
+    
+    * powerpc: Disconnect closure assembly from FFI_TYPE constants
+    
+    Define a set of PPC_LD_* constants private to the implementation.
+    This allows some duplicate cases to be removed, as well as
+    handling the more complex structure cases in C instead of asm.
+    
+    Hoist the 'mtlr r0' before the jump table, allowing two useful
+    insns per case instead of one.
+    
+    * Detect __int128_t and add ffi_type_[us]int128
+    
+    * testsuite: Add trivial smoke test for int128
+    
+    * testsuite: Add trivial smoke test for complex int128
+    
+    * x86: Fix irregularly sized structure passing for win64
+    
+    Sizes 1, 2, 4, 8 are passed in integer registers;
+    sizes 3, 5, 6, 7 are passed by reference.
+    C.f. the switch just below in which we install the arguments.
+    
+    * x86: Support FFI_TARGET_HAS_INT128
+    
+    * aarch64: Support FFI_TARGET_HAS_INT128
+    
+    * alpha: Support FFI_TARGET_HAS_INT128
+    
+    * loongarch64: Support FFI_TARGET_HAS_INT128
+    
+    The marshal and unmarshal routines already correctly
+    handle __int128 based on size.
+    
+    * riscv64: Support FFI_TARGET_HAS_INT128
+    
+    The marshal and unmarshal routines already correctly
+    handle __int128 based on size.
+    
+    * s390x: Support FFI_TARGET_HAS_INT128
+
+commit e17e7806123d336fa1dfc134fd1e97c82c74a032
+Author: Julian Ospald <hasufell@posteo.de>
+Date:   Sun Mar 8 19:45:26 2026 +0800
+
+    Fix comments that trip up some toolchains (#950)
+    
+    This caused "error: invalid preprocessing directive #Load"
+    on my ubuntu loongarch cross toolchain.
+
+commit 2263d6037f8ef6b8d5bef14117ad1a17c32a20b9
+Author: Emil Taylor Bye <phptph@gmail.com>
+Date:   Fri Dec 26 16:04:51 2025 +0100
+
+    Fix closures using FFI_REGISTER ABI (#949)
+    
+    * Fix closures using FFI_REGISTER ABI
+    
+    ffi_closure_REGISTER had the positions of the closure and return address
+    switched, resulting in a segfault when calling a closure created with
+    the FFI_REGISTER ABI.
+    
+    * Fix comment and remove redundant assembly
+    
+    * After fixing closures using FFI_REGISTER ABI, the comments were
+      incorrect, not reflecting the value that was actually loaded into eax
+      and ecx.
+    * Additionally, ecx was loaded with the data at esp + closure_FS only
+      to write it back to esp + closure_FS. Both commands were removed as
+      they end up not having any effect as ecx is overwritten during
+      FFI_CLOSURE_COPY_TRAMP_DATA.
+
+commit f067aef6493c827f0bbbee44cc1b6e62b756afa4
+Author: Jianfeng Liu <liujianfeng1994@gmail.com>
+Date:   Fri Dec 19 04:38:42 2025 +0800
+
+    add CFLAGS -mcmodel=medium for loongarch64 (#945)
+    
+    The default code model of gcc for loongarch64 platform provides
+    256MiB PC-relative addressing space[1], which is not enough for
+    linking large binaries like chromium. Setting it to medium can
+    let libffi_pic.a get linked to large binaries successfully.
+    
+    [1] https://github.com/loongson/la-abi-specs/blob/release/laelf.adoc#code_models
+
+commit 3276df05a758f8081adb6a910abf8de627ebda46
+Author: jonhermansen <github.com@jh86.org>
+Date:   Wed Nov 5 23:28:02 2025 +0000
+
+    fix tsan tests on FreeBSD by linking to pthread (#944)
+
+commit d6005499c262604596e93330f962ad0587b1eca2
+Author: pietro <pietro@users.noreply.github.com>
+Date:   Sat Oct 25 07:25:08 2025 -0400
+
+    Remove debugging output (#940)
+    
+    Co-authored-by: Pietro Monteiro <pietro@sociotechnical.xyz>
+
+commit 205fc530b049a3ac58e3470873d04f0fda3c7e82
+Author: ggardet <guillaume.gardet@opensuse.org>
+Date:   Sat Oct 25 13:24:40 2025 +0200
+
+    aarch64: support GCS in assembly (#943)
+    
+    Signed-off-by: Guillaume Gardet <guillaume.gardet@arm.com>
+
+commit 2835f72cc7ee57edfc987da4b88b1f4c7c0386c3
+Author: Martin Storsjö <martin@martin.st>
+Date:   Fri Aug 22 11:24:57 2025 +0300
+
+    arm: Fix compilation for Windows ARM targets (#936)
+    
+    The .arch directive is only relevant for ELF targets, it is
+    unsupported for COFF and MachO targets.
+    
+    Before 170bab47c90626a33cd08f2169034600cfd9589c, this was
+    not an issue as the directive was filtered out by the
+    ifndef __clang__.
+
+commit 170bab47c90626a33cd08f2169034600cfd9589c
+Author: Vyacheslav Chigrin <vyacheslav.chigrin@yandex.ru>
+Date:   Thu Aug 21 11:36:06 2025 +0300
+
+    Fix compilation for Cortex-A53 (#934)
+    
+    When cross-compiling with clang and flags "--target=armv7-linux-gnueabihf -mcpu=cortex-a53"
+    compilation failed on instructions, used coprocessor.
+
+commit c3a2b65748c83ed7b17310eab0b2b374a01622b3
+Author: Vyacheslav Chigrin <vyacheslav.chigrin@yandex.ru>
+Date:   Thu Aug 21 11:34:22 2025 +0300
+
+    Fix test compilation for some Android platforms (#935)
+
+commit c9b2a8a4ceb2fa1f46c0200592562677214084fd
+Author: Peter Bergner <bergner@tenstorrent.com>
+Date:   Thu Aug 7 06:40:35 2025 -0500
+
+    riscv: Add static trampoline support (#931) (#933)
+    
+    Add static trampoline support to riscv32 and riscv64 Linux ABIs.
+    The implementation follows the s390x and powerpc implementations
+    which does not introduce a ffi_closure_*_alt function, but rather
+    jumps directly to the ffi_closure_asm function itself.
+
 commit e2eda0cf72a0598b44278cc91860ea402273fa29
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Aug 2 08:56:01 2025 +0200
@@ -928,7 +2091,7 @@ Date:   Fri Sep 20 10:58:06 2024 +0100
     testsuite: fix dejagnu directive typo (#859)
 
 commit 084f36903f56b280283f3f4473a80b8e77727a29
-Merge: 92d384d 348e70e
+Merge: 92d384df 348e70ef
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Sep 15 12:32:58 2024 -0400
 
@@ -1586,7 +2749,7 @@ Date:   Tue Jun 20 21:17:04 2023 -0700
     This rasies errors on newer versions of the emscripten compiler.
 
 commit ac598b7f5272d536b75f4b3833a4610cf4cd9404
-Merge: 2d63cee 8bdd471
+Merge: 2d63cee0 8bdd4716
 Author: Anthony Green <green@moxielogic.com>
 Date:   Mon Apr 3 08:20:32 2023 -0400
 
@@ -5139,7 +6302,7 @@ Date:   Wed Aug 5 17:59:59 2020 -0400
     Add support for eabisim back.  This was removed upstream.
 
 commit 4661ba7928b49588aec9e6976673208c8cbf0295
-Merge: 45875da 1a4b786
+Merge: 45875da4 1a4b786d
 Author: Tom Tromey <tom@tromey.com>
 Date:   Tue Aug 4 11:08:19 2020 -0600
 
@@ -5157,7 +6320,7 @@ Date:   Tue Aug 4 12:17:04 2020 -0400
     is now properly supported upstream.
 
 commit 45875da4bc71578f6f45471141c14e1743239b7e
-Merge: fbd1de8 8e58f88
+Merge: fbd1de85 8e58f88d
 Author: Tom Tromey <tom@tromey.com>
 Date:   Wed Jul 1 09:32:37 2020 -0600
 
@@ -5415,7 +6578,7 @@ Date:   Sat Feb 22 06:32:22 2020 -0800
     jump displacement by 4 bytes.
 
 commit 624c7a35f7e1d12f917453d6c657cd5947ac57f7
-Merge: 4c775d7 7855656
+Merge: 4c775d7c 78556561
 Author: Moxie Bot <bot@moxielogic.com>
 Date:   Fri Feb 21 22:13:14 2020 -0500
 
@@ -5585,7 +6748,7 @@ Date:   Sun Nov 24 16:26:14 2019 -0500
     Force the use of docker
 
 commit 803db14c5a0aeb52ee521fe4fe4a7919926373de
-Merge: 86be66c fb914c3
+Merge: 86be66c8 fb914c36
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Nov 24 16:10:22 2019 -0500
 
@@ -5658,7 +6821,7 @@ Date:   Fri Nov 22 19:27:34 2019 -0500
     More more closure tests to the closure test directory
 
 commit a37cc1755cc276b2b9e601b9b112919f8c882a2e
-Merge: 332a539 247a5e7
+Merge: 332a539e 247a5e78
 Author: Anthony Green <green@moxielogic.com>
 Date:   Fri Nov 22 18:55:36 2019 -0500
 
@@ -5823,7 +6986,7 @@ Date:   Mon Nov 18 12:25:51 2019 -0500
     Fix typo for m32r and bfin builds
 
 commit 93c203b347ea7d110355e12f832725f755e10eff
-Merge: d087b59 73dd43a
+Merge: d087b595 73dd43af
 Author: Anthony Green <green@moxielogic.com>
 Date:   Mon Nov 18 06:35:19 2019 -0500
 
@@ -6437,7 +7600,7 @@ Date:   Fri Apr 26 04:58:58 2019 -0700
     * update README.md
 
 commit d1e9b4b96cc8d237c3532cf83da0d4b99d19abb5
-Merge: 05a1796 a7d6396
+Merge: 05a17964 a7d6396f
 Author: Tom Tromey <tom@tromey.com>
 Date:   Tue Apr 9 14:00:10 2019 -0600
 
@@ -6535,7 +7698,7 @@ Date:   Tue Feb 12 08:50:30 2019 -0500
     Remove -Os testing. No ABI impact, and helps trim log lengths.
 
 commit 8fa88373a1d433c675b11200ccd58418e91f81e4
-Merge: 737d4fa 2c5b164
+Merge: 737d4faa 2c5b1642
 Author: Tom Tromey <tom@tromey.com>
 Date:   Wed Dec 19 14:18:40 2018 -0700
 
@@ -6550,7 +7713,7 @@ Date:   Wed Dec 19 18:33:08 2018 +0200
     fix(configure): Correctly detect visibility("hidden") support on Darwin
 
 commit 737d4faa00d681b4c758057f67e1a02d813d01c2
-Merge: a5ea752 4a84df4
+Merge: a5ea7527 4a84df4a
 Author: Tom Tromey <tom@tromey.com>
 Date:   Fri Nov 30 08:16:00 2018 -0700
 
@@ -6567,7 +7730,7 @@ Date:   Wed Oct 31 15:53:54 2018 +0200
     The second two quads are located at offset 32 not 16
 
 commit a5ea7527cda8d9b7d011eb4004dfcbad54583bd2
-Merge: b11b08c ba73a67
+Merge: b11b08ca ba73a671
 Author: Tom Tromey <tom@tromey.com>
 Date:   Wed Sep 19 07:29:36 2018 -0600
 
@@ -6576,7 +7739,7 @@ Date:   Wed Sep 19 07:29:36 2018 -0600
     Update FFI_HIDDEN() to use .private_extern on Apple platforms and use the macro where appropriate
 
 commit b11b08ca8daacb08943ae5ea8c124771a8b82dde
-Merge: 980908b e6eac78
+Merge: 980908b4 e6eac786
 Author: Tom Tromey <tom@tromey.com>
 Date:   Tue Sep 18 08:26:31 2018 -0600
 
@@ -6591,7 +7754,7 @@ Date:   Tue Sep 18 15:19:53 2018 +0200
     Prefix ALIGN_DOWN macro with FFI_
 
 commit 980908b47bbde09fab88ee4b2b61d8bc5d4378a7
-Merge: 65da63a 4cb776b
+Merge: 65da63ab 4cb776bc
 Author: Tom Tromey <tom@tromey.com>
 Date:   Sat Aug 11 09:53:15 2018 -0600
 
@@ -6789,7 +7952,7 @@ Date:   Sat Apr 28 04:46:10 2018 -0600
     suspect a "return" is missing here, so this patch adds it as well.
 
 commit ed3ed4d801a4d417ea304715d4d8ae581a6c6903
-Merge: 8e250c3 b69f95d
+Merge: 8e250c39 b69f95d6
 Author: Tom Tromey <tom@tromey.com>
 Date:   Fri Apr 27 10:48:51 2018 -0600
 
@@ -6880,7 +8043,7 @@ Date:   Thu Apr 19 01:28:23 2018 +0100
     Fixes mips64el part of #404
 
 commit f2afda08e85b02888350449dcf39a6c37cfb7bc4
-Merge: e27f70b 801c1bd
+Merge: e27f70b8 801c1bd7
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Apr 8 18:25:43 2018 -0400
 
@@ -7206,7 +8369,7 @@ Date:   Sun Mar 18 12:53:42 2018 -0400
     Add missing FFI_GNUW64 enum
 
 commit 56655e58c7f966685c0d5635ee7215733121ae41
-Merge: 43980dd 9bc40d8
+Merge: 43980dd1 9bc40d87
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Mar 18 12:34:18 2018 -0400
 
@@ -7556,7 +8719,7 @@ Date:   Sun Mar 11 05:55:15 2018 -0700
     * RISC-V: fix configure.host
 
 commit dca52b55bc2ac0213c20849d7e9e19fbc9202023
-Merge: 83d9aba 11de69d
+Merge: 83d9aba3 11de69dd
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Mar 11 08:50:01 2018 -0400
 
@@ -7565,7 +8728,7 @@ Date:   Sun Mar 11 08:50:01 2018 -0400
     ia64: fix variadic function closures with FP arguments
 
 commit 83d9aba3a44dff8426052312a9445a7ef52f1db1
-Merge: ab15405 b58caef
+Merge: ab154056 b58caef7
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Mar 11 08:48:42 2018 -0400
 
@@ -7574,7 +8737,7 @@ Date:   Sun Mar 11 08:48:42 2018 -0400
     ia64: fix small struct return
 
 commit ab154056937782c1c7f7005c8b46c5179bc719cb
-Merge: 9429968 e66fd67
+Merge: 9429968b e66fd678
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Mar 11 08:46:58 2018 -0400
 
@@ -7741,7 +8904,7 @@ Date:   Sun Feb 11 11:29:39 2018 +0000
     Signed-off-by: Sergei Trofimovich <slyfox@gentoo.org>
 
 commit 9429968b828de8775cfd7f139374888943f2186a
-Merge: f08b2be 28d3b61
+Merge: f08b2be6 28d3b61b
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Feb 10 23:23:33 2018 -0500
 
@@ -7750,7 +8913,7 @@ Date:   Sat Feb 10 23:23:33 2018 -0500
     Fix x86 SysV closure in PIC mode
 
 commit f08b2be6273f471863f1ea1afb0078a96fe73d74
-Merge: c194448 482b37f
+Merge: c194448e 482b37f0
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Feb 10 23:21:49 2018 -0500
 
@@ -7790,7 +8953,7 @@ Date:   Wed Jan 10 07:22:51 2018 -0500
     test static lib
 
 commit bec6135dff061a35065efc106f920940a82c28ee
-Merge: f6ecf10 d15581c
+Merge: f6ecf10c d15581c6
 Author: Anthony Green <green@moxielogic.com>
 Date:   Wed Jan 10 07:20:04 2018 -0500
 
@@ -7799,7 +8962,7 @@ Date:   Wed Jan 10 07:20:04 2018 -0500
     Linker error "recompile with -fPIC" for x86_64
 
 commit f6ecf10ca021e94d496c75cc43c417161edf28b3
-Merge: c50ba18 746dbe3
+Merge: c50ba182 746dbe3a
 Author: Anthony Green <green@moxielogic.com>
 Date:   Fri Jan 5 16:51:44 2018 -0500
 
@@ -7816,7 +8979,7 @@ Date:   Wed Jan 3 10:07:41 2018 +0800
     mips/ffi.c: instruction jr has a different encoding for r6
 
 commit c50ba182f43537e29dd92cfd9b2fa7a30549a06e
-Merge: 54cb3e2 af6949b
+Merge: 54cb3e23 af6949b7
 Author: Anthony Green <green@moxielogic.com>
 Date:   Mon Jan 1 15:18:46 2018 -0500
 
@@ -7825,7 +8988,7 @@ Date:   Mon Jan 1 15:18:46 2018 -0500
     Enable symbol versioning when ld is LLVM's lld
 
 commit 54cb3e2345ee8e2483d4705a9fb2967b6e5a9bd1
-Merge: 716bfd8 94c102a
+Merge: 716bfd83 94c102aa
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Dec 31 07:46:05 2017 -0500
 
@@ -7858,7 +9021,7 @@ Date:   Fri Dec 1 00:34:30 2017 -0800
     Updating calls to ffi_closure_unix64_inner and ffi_closure_win64_inner to use PLT.  Without this fix, statically linking libffi causes the linker error i.e. 'requires dynamic R_X86_64_PC32 reloc against ffi_closure_unix64_inner which may overflow at runtime; recompile with -fPIC)'
 
 commit 716bfd83177689e2244c4707bd513003cff92c68
-Merge: 4fdbb05 cd5e9f8
+Merge: 4fdbb057 cd5e9f8b
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Nov 5 09:02:37 2017 -0500
 
@@ -7890,7 +9053,7 @@ Date:   Sun Nov 5 13:56:42 2017 +0000
     Signed-off-by: Sergei Trofimovich <slyfox@gentoo.org>
 
 commit 4fdbb0578e921a9da146c2b040061a3a39fe4fda
-Merge: b302bc3 2bfcd29
+Merge: b302bc3d 2bfcd299
 Author: Anthony Green <green@moxielogic.com>
 Date:   Fri Nov 3 07:05:31 2017 -0400
 
@@ -7899,7 +9062,7 @@ Date:   Fri Nov 3 07:05:31 2017 -0400
     Support NetBSD with mprotect.
 
 commit b302bc3dfe47e3ea57de11610fced3170c06df28
-Merge: 14eac93 1fb788a
+Merge: 14eac938 1fb788ac
 Author: Anthony Green <green@moxielogic.com>
 Date:   Fri Nov 3 07:03:55 2017 -0400
 
@@ -7908,7 +9071,7 @@ Date:   Fri Nov 3 07:03:55 2017 -0400
     aarch64: fix index base register for AArch64
 
 commit 14eac93869eb109bea1daeb4f00609169d5488ff
-Merge: ad15ae7 9fc9dc5
+Merge: ad15ae76 9fc9dc53
 Author: Anthony Green <green@moxielogic.com>
 Date:   Fri Nov 3 06:49:03 2017 -0400
 
@@ -7932,7 +9095,7 @@ Date:   Tue Oct 10 11:37:00 2017 -0700
     so that the right value is used.
 
 commit ad15ae762c8b3999e626ebccb9cf454455119555
-Merge: dc2ff5b 5e4fcdc
+Merge: dc2ff5ba 5e4fcdcc
 Author: Anthony Green <green@moxielogic.com>
 Date:   Wed Oct 25 13:16:49 2017 -0400
 
@@ -7941,7 +9104,7 @@ Date:   Wed Oct 25 13:16:49 2017 -0400
     Simplify iOS trampoline table allocation
 
 commit dc2ff5baabf89d473d61ae4b468638f8ea98bb04
-Merge: 927da71 79d1509
+Merge: 927da716 79d1509c
 Author: Anthony Green <green@moxielogic.com>
 Date:   Wed Oct 25 13:11:40 2017 -0400
 
@@ -7950,7 +9113,7 @@ Date:   Wed Oct 25 13:11:40 2017 -0400
     x86: align alloca to 16-byte boundary
 
 commit 927da71662f349f656fc1c5d0aaa533005e24f47
-Merge: a0455c0 181fc4c
+Merge: a0455c03 181fc4cc
 Author: Anthony Green <green@moxielogic.com>
 Date:   Wed Oct 25 13:05:53 2017 -0400
 
@@ -7959,7 +9122,7 @@ Date:   Wed Oct 25 13:05:53 2017 -0400
     Xcode build improvements
 
 commit a0455c031824c6ab3f1a7a6ef9912edad6ebd742
-Merge: 0faf614 9d9d92b
+Merge: 0faf6145 9d9d92b4
 Author: Anthony Green <green@moxielogic.com>
 Date:   Wed Oct 25 13:04:23 2017 -0400
 
@@ -7968,7 +9131,7 @@ Date:   Wed Oct 25 13:04:23 2017 -0400
     Hjl/master
 
 commit 0faf614529ae7ac8bc929415a6e1b076ba1b8cc5
-Merge: 8d26e8c 3c372c3
+Merge: 8d26e8c6 3c372c38
 Author: Anthony Green <green@moxielogic.com>
 Date:   Wed Oct 25 13:03:55 2017 -0400
 
@@ -8009,7 +9172,7 @@ Date:   Tue Oct 24 13:53:56 2017 -0700
     failures without the original zexting behaviour.
 
 commit 181fc4cc9ca211f3bc8209cecf3b2348b0674e21
-Merge: 8d26e8c 54529ba
+Merge: 8d26e8c6 54529ba1
 Author: Jean-Luc Jumpertz <jean-luc@celedev.eu>
 Date:   Mon Oct 23 15:02:29 2017 +0200
 
@@ -8039,7 +9202,7 @@ Date:   Tue Oct 10 11:39:45 2017 -0700
     instructions.
 
 commit 8d26e8c6da23b10331181a4bbf837f479ce5d7d2
-Merge: 1c9171e ed7488c
+Merge: 1c9171ec ed7488c0
 Author: Tom Tromey <tom@tromey.com>
 Date:   Tue Oct 17 10:46:49 2017 -0600
 
@@ -8078,7 +9241,7 @@ Date:   Tue Oct 17 13:00:51 2017 +0100
     Signed-off-by: Sergei Trofimovich <slyfox@gentoo.org>
 
 commit 1c9171ec89943d9b4b10a54091c8b5c104eb258d
-Merge: 9f1f874 7ad0ae7
+Merge: 9f1f8741 7ad0ae7f
 Author: Anthony Green <green@moxielogic.com>
 Date:   Tue Oct 10 23:19:57 2017 -0400
 
@@ -8110,7 +9273,7 @@ Date:   Mon Oct 2 15:34:03 2017 +0200
     Signed-off-by: Thomas Klausner <wiz@NetBSD.org>
 
 commit 9f1f8741b2ec0c8898ecff7b93005627b915dd02
-Merge: dca078f 6cf0dea
+Merge: dca078f4 6cf0dea7
 Author: Tom Tromey <tom@tromey.com>
 Date:   Sun Oct 1 20:25:50 2017 -0600
 
@@ -8125,7 +9288,7 @@ Date:   Mon Oct 2 10:20:16 2017 +0800
     Change CLEANFILES to DISTCLEANFILES
 
 commit dca078f468ff696134195e85fed3f48260115651
-Merge: 540258d bccba9a
+Merge: 540258d1 bccba9a3
 Author: Tom Tromey <tom@tromey.com>
 Date:   Sun Oct 1 20:19:53 2017 -0600
 
@@ -8134,7 +9297,7 @@ Date:   Sun Oct 1 20:19:53 2017 -0600
     Add `configure.host` and `libtool-version` to the `EXTRA_DIST` files
 
 commit 540258d13e1d427254cbeddacdd2bb1ab2c307d1
-Merge: 93d8e7d 4c6aa78
+Merge: 93d8e7dd 4c6aa78d
 Author: Tom Tromey <tom@tromey.com>
 Date:   Sun Oct 1 20:17:02 2017 -0600
 
@@ -8143,7 +9306,7 @@ Date:   Sun Oct 1 20:17:02 2017 -0600
     Add src/x86/asmnames.h to noinst_HEADERS
 
 commit bccba9a34e8ba0fe671c4b94671fea2efe181b01
-Merge: a1e6ccb 59d65d7
+Merge: a1e6ccb6 59d65d74
 Author: Moritz Angermann <moritz.angermann@gmail.com>
 Date:   Sun Oct 1 12:48:17 2017 +0800
 
@@ -8190,7 +9353,7 @@ Date:   Wed Sep 27 21:51:34 2017 -0400
     Fix #265
 
 commit 02a5145abbae2e311d5aeeee606c5b5745a99b55
-Merge: 10099d6 7d504f7
+Merge: 10099d6c 7d504f7a
 Author: Anthony Green <green@moxielogic.com>
 Date:   Wed Sep 27 21:43:03 2017 -0400
 
@@ -8199,7 +9362,7 @@ Date:   Wed Sep 27 21:43:03 2017 -0400
     fix ios builds
 
 commit 10099d6cad8418a10c1508235d1f458993ac51fe
-Merge: c8f1aa3 ed84883
+Merge: c8f1aa3d ed848834
 Author: Anthony Green <green@moxielogic.com>
 Date:   Wed Sep 27 20:54:09 2017 -0400
 
@@ -8208,7 +9371,7 @@ Date:   Wed Sep 27 20:54:09 2017 -0400
     arm: Fix cache flushing on QNX
 
 commit c8f1aa3d0459c6f1be6884b324b4d2d785ecfd78
-Merge: db4dad9 50e408c
+Merge: db4dad97 50e408ce
 Author: Anthony Green <green@moxielogic.com>
 Date:   Wed Sep 27 20:53:50 2017 -0400
 
@@ -8217,7 +9380,7 @@ Date:   Wed Sep 27 20:53:50 2017 -0400
     Support -ios triple
 
 commit db4dad97e2589ca700d1b5b54eeb332137a152ad
-Merge: 8a16f2f 9c12209
+Merge: 8a16f2f4 9c12209d
 Author: Anthony Green <green@moxielogic.com>
 Date:   Wed Sep 27 20:47:08 2017 -0400
 
@@ -8226,7 +9389,7 @@ Date:   Wed Sep 27 20:47:08 2017 -0400
     Fix misaligned memory access in ffi_call_int
 
 commit 8a16f2f47fdb6a985d201baa02a1d226562af4d8
-Merge: b230910 0ff9419
+Merge: b2309106 0ff9419f
 Author: Anthony Green <green@moxielogic.com>
 Date:   Wed Sep 27 20:45:15 2017 -0400
 
@@ -8251,7 +9414,7 @@ Date:   Thu Aug 3 10:46:28 2017 -0700
     Fix misaligned memory access in ffi_call_int
 
 commit b23091069adce469dc38fbcc9fd8ac9085d3c9d7
-Merge: c0cc9f1 9c6cb58
+Merge: c0cc9f1d 9c6cb588
 Author: Tom Tromey <tom@tromey.com>
 Date:   Wed Jul 12 12:43:06 2017 -0600
 
@@ -8307,7 +9470,7 @@ Date:   Tue May 16 08:32:06 2017 +0800
     [1]: http://lists.gnu.org/archive/html/autoconf/2016-07/msg00017.html
 
 commit c0cc9f1df9fd4c5e758470f05d0e48123f0638ae
-Merge: b841ae7 bd72848
+Merge: b841ae70 bd72848c
 Author: Tom Tromey <tom@tromey.com>
 Date:   Mon May 8 15:20:39 2017 -0600
 
@@ -8391,7 +9554,7 @@ Date:   Sun Mar 19 07:25:24 2017 -0400
     Enable appveyor ci support
 
 commit a0b14eea2baf9f18c0d29bc5ce4495422381f917
-Merge: fa5a0fe 1e0d107
+Merge: fa5a0fe2 1e0d107b
 Author: Anthony Green <green@moxielogic.com>
 Date:   Fri Mar 17 09:20:40 2017 -0400
 
@@ -8400,7 +9563,7 @@ Date:   Fri Mar 17 09:20:40 2017 -0400
     Build with Visual C++ (64 bits)
 
 commit fa5a0fe2c6da906cc7c114c8002e5c7092c4dbee
-Merge: 5b91bbd bfab429
+Merge: 5b91bbd3 bfab429e
 Author: Anthony Green <green@moxielogic.com>
 Date:   Thu Mar 16 07:50:07 2017 -0400
 
@@ -8409,7 +9572,7 @@ Date:   Thu Mar 16 07:50:07 2017 -0400
     Update README with a new port
 
 commit 5b91bbd388213ec19044a392c291505e2c0674b9
-Merge: d754c51 982b89c
+Merge: d754c510 982b89c0
 Author: Anthony Green <green@moxielogic.com>
 Date:   Thu Mar 16 00:40:58 2017 -0400
 
@@ -8418,7 +9581,7 @@ Date:   Thu Mar 16 00:40:58 2017 -0400
     Install public headers in the standard path
 
 commit d754c510f1dd03dc8c2cd7b50bb2a1668715c5cd
-Merge: ebe7f44 41185b5
+Merge: ebe7f447 41185b56
 Author: Anthony Green <green@moxielogic.com>
 Date:   Thu Mar 16 00:39:07 2017 -0400
 
@@ -8466,7 +9629,7 @@ Date:   Wed Mar 15 12:50:41 2017 +0100
     while at it, add x86_64-x32-pc-linux-{gnu,musl} as well
 
 commit 6e2e041b6df6a3c3a5ca8a750dedbbd465e5ca97
-Merge: dabbd14 d42ce7b
+Merge: dabbd145 d42ce7b9
 Author: Richard Henderson <rth@twiddle.net>
 Date:   Tue Mar 14 19:37:45 2017 -0700
 
@@ -8493,7 +9656,7 @@ Date:   Wed Mar 15 01:23:40 2017 +0100
     In the unusual case where ffi_trampoline_table_alloc() fails.
 
 commit dabbd145665ffca6fa676eba551f12107cd81131
-Merge: 60e4250 6caabd1
+Merge: 60e4250a 6caabd19
 Author: Tom Tromey <tom@tromey.com>
 Date:   Mon Feb 27 21:10:00 2017 -0700
 
@@ -8540,7 +9703,7 @@ Date:   Sun Sep 4 09:17:46 2016 -0400
     xfail the unwindtest for osx as per issue #279
 
 commit 256ce51c408766d23b2707cc79b97f673750b3b9
-Merge: 2ded2a4 52a11f6
+Merge: 2ded2a4f 52a11f6d
 Author: Richard Henderson <rth@twiddle.net>
 Date:   Thu Sep 1 13:54:51 2016 -0700
 
@@ -8549,7 +9712,7 @@ Date:   Thu Sep 1 13:54:51 2016 -0700
     m68k: support ISA-A Coldfire CPUs
 
 commit 2ded2a4f494165c93293afc14ab0be1243cf8c49
-Merge: 408c9c7 e247b56
+Merge: 408c9c7d e247b562
 Author: Richard Henderson <rth@twiddle.net>
 Date:   Thu Sep 1 13:30:45 2016 -0700
 
@@ -8558,7 +9721,7 @@ Date:   Thu Sep 1 13:30:45 2016 -0700
     Mips64 soft float
 
 commit 408c9c7d5a4cb323c77499b1643858f4bfaf4ca7
-Merge: 06d7c51 b545ff8
+Merge: 06d7c519 b545ff81
 Author: Tom Tromey <tom@tromey.com>
 Date:   Tue Aug 23 11:32:17 2016 -0600
 
@@ -8608,7 +9771,7 @@ Date:   Mon Aug 15 15:00:13 2016 +0800
     Signed-off-by: Yousong Zhou <yszhou4tech@gmail.com>
 
 commit 06d7c5190e910356d4212d2a79056df8b70fd27e
-Merge: aa7ed78 301166b
+Merge: aa7ed78c 301166b1
 Author: Tom Tromey <tom@tromey.com>
 Date:   Wed Aug 10 15:06:16 2016 -0600
 
@@ -8617,7 +9780,7 @@ Date:   Wed Aug 10 15:06:16 2016 -0600
     aarch64: Fix handling of variadic closures on iOS
 
 commit aa7ed78c0e0d3fc4daa6a86c35ecbb7c43b5d067
-Merge: 1daa787 4da814b
+Merge: 1daa7879 4da814b1
 Author: Tom Tromey <tom@tromey.com>
 Date:   Wed Aug 10 15:03:37 2016 -0600
 
@@ -8635,7 +9798,7 @@ Date:   Wed Aug 10 22:48:09 2016 +0200
     space for the actual aggregate size.
 
 commit 1daa78799942c83c905f8d7c5439952e9ffec3bc
-Merge: f03ba20 5e9ac7e
+Merge: f03ba203 5e9ac7e2
 Author: Tom Tromey <tom@tromey.com>
 Date:   Wed Aug 10 14:31:09 2016 -0600
 
@@ -8671,7 +9834,7 @@ Date:   Wed Aug 10 15:59:56 2016 +0200
     aarch64: Fix handling of variadic closures on iOS
 
 commit f03ba2032850545dc6869bb495170a8c6cbf849d
-Merge: 40e4063 ef8be84
+Merge: 40e4063a ef8be84d
 Author: Tom Tromey <tom@tromey.com>
 Date:   Tue Aug 2 10:23:25 2016 -0600
 
@@ -8722,7 +9885,7 @@ Date:   Thu Jul 28 18:48:23 2016 +0300
     Signed-off-by: Yuriy Kolerov <yuriy.kolerov@synopsys.com>
 
 commit 40e4063ab4449c644bc106298805fa8c6cfadbd4
-Merge: c0829e6 cf4b2a5
+Merge: c0829e62 cf4b2a50
 Author: Richard Henderson <rth@twiddle.net>
 Date:   Thu Jul 7 23:11:38 2016 -0700
 
@@ -8739,7 +9902,7 @@ Date:   Fri Jun 17 10:09:44 2016 +0100
     Fixes #260
 
 commit c0829e62841100c308cc37ddd6537ca69e856de7
-Merge: 96d9bf4 794a54d
+Merge: 96d9bf4b 794a54d4
 Author: Richard Henderson <rth@twiddle.net>
 Date:   Sun Jun 5 15:05:21 2016 -0700
 
@@ -8754,7 +9917,7 @@ Date:   Sun Jun 5 14:57:00 2016 -0700
     Mark win64.S with GNU-stack note
 
 commit 96d9bf4b5517bc49c0129e8cfdee43098d3771a2
-Merge: 02089a1 52fbd12
+Merge: 02089a1b 52fbd12d
 Author: Richard Henderson <rth@twiddle.net>
 Date:   Fri Jun 3 23:04:56 2016 -0700
 
@@ -8791,7 +9954,7 @@ Date:   Thu May 26 08:55:04 2016 +0100
     The exec configury is appropriate for all current targets (including using older tools on them).
 
 commit 02089a1b5cf3aa1535172c62add454a2e9375066
-Merge: 5d0365c c884551
+Merge: 5d0365c6 c8845517
 Author: Tom Tromey <tom@tromey.com>
 Date:   Mon May 23 09:58:51 2016 -0600
 
@@ -8800,7 +9963,7 @@ Date:   Mon May 23 09:58:51 2016 -0600
     Simplify/fix libffi_feature_test
 
 commit 5d0365c605c472f40d1195cf7ba04ae08e360cb7
-Merge: 584a140 74b3f52
+Merge: 584a140e 74b3f520
 Author: Richard Henderson <rth@twiddle.net>
 Date:   Thu May 19 09:35:38 2016 -0700
 
@@ -8819,7 +9982,7 @@ Date:   Thu May 19 18:05:36 2016 +0300
     manually during development.
 
 commit 584a140e7558dff6e4ed4009f39d11dd5e3db0ae
-Merge: c617754 b3496de
+Merge: c6177549 b3496ded
 Author: Tom Tromey <tom@tromey.com>
 Date:   Thu May 19 06:36:38 2016 -0600
 
@@ -8834,7 +9997,7 @@ Date:   Thu May 19 10:53:07 2016 +0300
     Delete empty env in .travis.yml
 
 commit c61775497e7bdfc892d865c2eb15415d2da7493b
-Merge: 9edaa69 33d9a31
+Merge: 9edaa695 33d9a31d
 Author: Richard Henderson <rth@twiddle.net>
 Date:   Wed May 18 11:10:33 2016 -0700
 
@@ -8849,7 +10012,7 @@ Date:   Wed May 18 11:01:55 2016 -0700
     Add parent to symbol version LIBFFI_BASE_7.1
 
 commit 9edaa695c54daaf58d62e84032d30d33b7484fa8
-Merge: 0969a1c 8a0a4e2
+Merge: 0969a1c1 8a0a4e25
 Author: Richard Henderson <rth@twiddle.net>
 Date:   Wed May 18 10:56:19 2016 -0700
 
@@ -8858,7 +10021,7 @@ Date:   Wed May 18 10:56:19 2016 -0700
     Use ELF symbol versioning
 
 commit 0969a1c1b339f845202fa7507b70d193220ceb01
-Merge: 571b1ca 4a677a4
+Merge: 571b1ca6 4a677a42
 Author: Tom Tromey <tom@tromey.com>
 Date:   Wed May 18 10:09:28 2016 -0600
 
@@ -8867,7 +10030,7 @@ Date:   Wed May 18 10:09:28 2016 -0600
     Fix -Wsign-compare warnings in x86/ffi64.c
 
 commit 571b1ca6277dbafc1f340a59ea1c5ee4ddb11c94
-Merge: 069d2e4 1e82e1c
+Merge: 069d2e4e 1e82e1cd
 Author: Tom Tromey <tom@tromey.com>
 Date:   Wed May 18 10:08:59 2016 -0600
 
@@ -8876,7 +10039,7 @@ Date:   Wed May 18 10:08:59 2016 -0600
     Define _GNU_SOURCE on Linux for mremap()
 
 commit 069d2e4e16c5570adec9249d642f2a2ae0ffaa1c
-Merge: a44a5b8 1b4f5ee
+Merge: a44a5b86 1b4f5ee6
 Author: Tom Tromey <tom@tromey.com>
 Date:   Wed May 18 10:07:31 2016 -0600
 
@@ -8922,7 +10085,7 @@ Date:   Sat Mar 5 09:58:38 2016 +0200
     I've updated it to current master of libffi.
 
 commit a44a5b863aaae98041e11aa3256907bf912ee4d6
-Merge: 9443eae 2627fc9
+Merge: 9443eaed 2627fc98
 Author: Tom Tromey <tom@tromey.com>
 Date:   Tue May 17 17:07:27 2016 -0600
 
@@ -8931,7 +10094,7 @@ Date:   Tue May 17 17:07:27 2016 -0600
     Add a note about the --disable-docs switch
 
 commit 9443eaeda867cfdeae92b10bee3cc0506892a4c5
-Merge: 14be9a1 e169ba2
+Merge: 14be9a1d e169ba2b
 Author: Tom Tromey <tom@tromey.com>
 Date:   Tue May 17 17:04:50 2016 -0600
 
@@ -8960,7 +10123,7 @@ Date:   Thu Mar 3 13:51:44 2016 -0800
     corresponding GCC PR70024).
 
 commit 14be9a1d0713deb97edb91fe9800afe971a001d5
-Merge: 1cea273 b50eabf
+Merge: 1cea2737 b50eabf4
 Author: Richard Henderson <rth@twiddle.net>
 Date:   Wed May 4 06:45:05 2016 -1000
 
@@ -8995,7 +10158,7 @@ Date:   Thu Nov 19 16:38:35 2015 -0700
     move ffi_prep_cif_core to ffi_common.h
 
 commit 1cea273758ad862bdc2862af864e4ef5b42f31ae
-Merge: 48bfae1 6aafb56
+Merge: 48bfae1f 6aafb565
 Author: Tom Tromey <tom@tromey.com>
 Date:   Tue May 3 08:23:51 2016 -0600
 
@@ -9004,7 +10167,7 @@ Date:   Tue May 3 08:23:51 2016 -0600
     Simplify error handling in mkdir_p()
 
 commit 48bfae1f37551b7fc894e6a0ea3b98968d2b5c9f
-Merge: 6d87110 d76975d
+Merge: 6d871105 d76975db
 Author: Richard Henderson <rth@twiddle.net>
 Date:   Mon May 2 20:58:57 2016 -1000
 
@@ -9013,7 +10176,7 @@ Date:   Mon May 2 20:58:57 2016 -1000
     Define FFI_SIZEOF_JAVA_RAW for aarch64 ILP32
 
 commit 6d8711057bc3a3befa37eed6765231ea5d244078
-Merge: 9de24a3 e5843a3
+Merge: 9de24a3f e5843a3a
 Author: Richard Henderson <rth@twiddle.net>
 Date:   Sun May 1 11:02:40 2016 -1000
 
@@ -9080,7 +10243,7 @@ Date:   Wed Mar 16 12:23:07 2016 +0100
     the java interpreter.
 
 commit 9de24a3ff31c7446de29c1adcd9276fd7ba93897
-Merge: ee71806 38a4d72
+Merge: ee718066 38a4d72c
 Author: Anthony Green <green@moxielogic.com>
 Date:   Mon Mar 14 13:54:53 2016 -0400
 
@@ -9103,7 +10266,7 @@ Date:   Sat Mar 5 08:30:31 2016 +0200
     Simplify error handling in mkdir_p()
 
 commit ee718066f763b65d1888f9cc7155d3a1880f80e9
-Merge: f2f234a e59fb55
+Merge: f2f234ae e59fb55e
 Author: Anthony Green <green@moxielogic.com>
 Date:   Mon Feb 22 20:15:40 2016 -0500
 
@@ -9142,7 +10305,7 @@ Date:   Mon Feb 22 15:34:39 2016 -0700
     existence of doc/libffi.info.
 
 commit f2f234aef203a5e836b83cb772f9473f7ea0d5ce
-Merge: 49b95ed fa7a257
+Merge: 49b95eda fa7a2571
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Feb 20 06:50:29 2016 -0500
 
@@ -9151,7 +10314,7 @@ Date:   Sat Feb 20 06:50:29 2016 -0500
     Add configure-option to disable building docs
 
 commit 49b95edafd712ce27e08b1bb4be2987f14c54ca3
-Merge: 415723b 43fc5bc
+Merge: 415723b4 43fc5bca
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Feb 20 06:49:40 2016 -0500
 
@@ -9160,7 +10323,7 @@ Date:   Sat Feb 20 06:49:40 2016 -0500
     Correct powerpc sysv stack argument accounting
 
 commit 415723b40ba76f4a9df9b709db1cde0c65162072
-Merge: 7c27fcb 1f6b5a9
+Merge: 7c27fcbe 1f6b5a91
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Feb 20 06:49:19 2016 -0500
 
@@ -9169,7 +10332,7 @@ Date:   Sat Feb 20 06:49:19 2016 -0500
     Support the Windows/EFI calling convention on all x86-64 targets
 
 commit 7c27fcbe09534d261b4098467a3ce258daec2807
-Merge: 69143d0 e061243
+Merge: 69143d06 e0612439
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Feb 20 06:45:00 2016 -0500
 
@@ -9178,7 +10341,7 @@ Date:   Sat Feb 20 06:45:00 2016 -0500
     Fix configuring msvc compiler
 
 commit 69143d06c6276d09790a4e34f2eb6d37528c08c6
-Merge: 755f1e6 505346e
+Merge: 755f1e64 505346e1
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Feb 20 06:44:28 2016 -0500
 
@@ -9187,7 +10350,7 @@ Date:   Sat Feb 20 06:44:28 2016 -0500
     Mips go closure support
 
 commit 755f1e642d97892cb54358d65e06b60d1d6b72a4
-Merge: 183ee6a 4cdedc2
+Merge: 183ee6a6 4cdedc27
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Feb 20 06:43:48 2016 -0500
 
@@ -9196,7 +10359,7 @@ Date:   Sat Feb 20 06:43:48 2016 -0500
     Test case from issue #70
 
 commit 183ee6a6729db8f3ee0b1532d7bd54a6ef305443
-Merge: 0bb71b5 877ea9b
+Merge: 0bb71b52 877ea9bf
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Feb 20 06:43:28 2016 -0500
 
@@ -9205,7 +10368,7 @@ Date:   Sat Feb 20 06:43:28 2016 -0500
     Add configure flag to disable multi-os-directory support
 
 commit 0bb71b52f5a60643ad55f801f1c652855b0e5cc5
-Merge: 296a283 8bec5ca
+Merge: 296a283a 8bec5ca2
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Feb 20 06:41:10 2016 -0500
 
@@ -9214,7 +10377,7 @@ Date:   Sat Feb 20 06:41:10 2016 -0500
     ffi_prep_types is internal-only
 
 commit 296a283a46057a6a643f1f64534324af34b7ed19
-Merge: e7c713a 4805bf9
+Merge: e7c713a0 4805bf9c
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Feb 20 06:40:21 2016 -0500
 
@@ -9223,7 +10386,7 @@ Date:   Sat Feb 20 06:40:21 2016 -0500
     remove FFI_TYPE typedef
 
 commit e7c713a0b64c425b51f3d9437a8db7ca497e6c31
-Merge: 79666ab f45e9e3
+Merge: 79666abc f45e9e35
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Feb 20 06:40:03 2016 -0500
 
@@ -9232,7 +10395,7 @@ Date:   Sat Feb 20 06:40:03 2016 -0500
     document (lack of) enum handling in libffi
 
 commit 79666abca87ac67d2d05b477a3ba71ec18b8af0c
-Merge: 20c7c31 89b7605
+Merge: 20c7c31c 89b76050
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Feb 20 06:38:40 2016 -0500
 
@@ -9241,7 +10404,7 @@ Date:   Sat Feb 20 06:38:40 2016 -0500
     Fix dejagnu test support for --tool_opts
 
 commit 20c7c31ca04350670012b28756d4ebc9e7b67a68
-Merge: 6ba2a49 9c14cbf
+Merge: 6ba2a49e 9c14cbfc
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Feb 20 06:38:01 2016 -0500
 
@@ -9279,7 +10442,7 @@ Date:   Thu Jan 28 16:57:18 2016 -0500
     I discovered this when building Firefox x86 with clang-cl.
 
 commit 6ba2a49e226b859ddde9a37c34973cf85380c525
-Merge: 8005600 6a3a6ac
+Merge: 8005600a 6a3a6acd
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Jan 2 20:03:41 2016 -0500
 
@@ -9288,7 +10451,7 @@ Date:   Sat Jan 2 20:03:41 2016 -0500
     Fixed #181 -- Corrected problems with ARMv7 build under iOS.
 
 commit 8005600a920f43d89ace7ef3598057392da726e1
-Merge: 70594f7 5e2b18a
+Merge: 70594f7f 5e2b18a6
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Jan 2 16:44:29 2016 -0500
 
@@ -9303,7 +10466,7 @@ Date:   Sat Jan 2 07:56:05 2016 -0500
     update apt-get in travis
 
 commit 6a3a6acd9fdbdac6f9f9294732b9627895b77715
-Merge: bc4fc07 70594f7
+Merge: bc4fc07a 70594f7f
 Author: Russell Keith-Magee <russell@keith-magee.com>
 Date:   Mon Dec 21 00:37:37 2015 +0800
 
@@ -9319,7 +10482,7 @@ Date:   Mon Dec 21 00:37:06 2015 +0800
     and testing from @superdump.
 
 commit 70594f7f8d7410be47ba9a80a566175d937ab626
-Merge: 88deacd 6affad7
+Merge: 88deacdd 6affad79
 Author: Anthony Green <green@moxielogic.com>
 Date:   Fri Dec 18 10:24:38 2015 -0500
 
@@ -9364,7 +10527,7 @@ Date:   Sun Nov 15 08:39:17 2015 -0500
     speling fix
 
 commit 5973dca595f8595a40709f645e74b06990975db3
-Merge: 2a988c4 473bcbc
+Merge: 2a988c44 473bcbca
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Nov 15 08:36:48 2015 -0500
 
@@ -9373,7 +10536,7 @@ Date:   Sun Nov 15 08:36:48 2015 -0500
     documentation fixes
 
 commit 2a988c4455d3926c59997b68f7510be63e10c841
-Merge: e9de7e3 ff33ddd
+Merge: e9de7e35 ff33ddd1
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Nov 15 08:33:46 2015 -0500
 
@@ -9429,7 +10592,7 @@ Date:   Sat Jul 25 12:42:04 2015 -0700
     Test case from Issue #70
 
 commit e9de7e35f2339598b16cbb375f9992643ed81209
-Merge: d19b6cc 0ebde2d
+Merge: d19b6cc7 0ebde2d2
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Oct 11 10:54:50 2015 -0400
 
@@ -9438,7 +10601,7 @@ Date:   Sun Oct 11 10:54:50 2015 -0400
     document that there must be ntotalargs types
 
 commit d19b6cc78e956e7ffd48b39fd7c441c22e633ce2
-Merge: 17ffc36 36f3fb9
+Merge: 17ffc365 36f3fb91
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Oct 11 10:54:22 2015 -0400
 
@@ -9580,7 +10743,7 @@ Date:   Sat Apr 25 19:03:03 2015 +0800
     Modified arm/sysv.S to remove directives not allowed by clang.
 
 commit 17ffc3655a531c116e9eb9cc933e50bb1e5c47f8
-Merge: 173757c a5b3eaa
+Merge: 173757ce a5b3eaa2
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Mar 29 21:38:26 2015 -0400
 
@@ -9589,7 +10752,7 @@ Date:   Sun Mar 29 21:38:26 2015 -0400
     Fixed #184 -- Corrected source file references in Darwin source generator tool.
 
 commit 173757ce973a2f12ad36ac6cda593581b225f9e3
-Merge: f5ec627 dd9e4c8
+Merge: f5ec6279 dd9e4c8d
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Mar 29 21:38:12 2015 -0400
 
@@ -9610,7 +10773,7 @@ Date:   Fri Mar 13 07:59:11 2015 +0800
     Fixed #184 -- Corrected file references in Darwin source generator tool.
 
 commit f5ec6279a4698a8752093247a500cf76096ff157
-Merge: 06747d3 95df379
+Merge: 06747d31 95df3791
 Author: Anthony Green <green@moxielogic.com>
 Date:   Wed Mar 4 13:58:04 2015 -0500
 
@@ -9625,7 +10788,7 @@ Date:   Wed Feb 11 08:31:48 2015 -0800
     aarch64: Handle ILP32 ABI
 
 commit 06747d318761884e70dfa433a9548219fd779d7d
-Merge: db1b34b 6c53577
+Merge: db1b34b7 6c535775
 Author: Anthony Green <green@moxielogic.com>
 Date:   Thu Jan 29 07:22:23 2015 -0500
 
@@ -9648,7 +10811,7 @@ Date:   Wed Jan 28 18:08:06 2015 -0500
     Remove incomplete sentence
 
 commit 56036a6b58acb9e854719e315a0738f16e354c35
-Merge: 035715b 2104b2a
+Merge: 035715b3 2104b2a4
 Author: Anthony Green <green@moxielogic.com>
 Date:   Wed Jan 28 18:03:57 2015 -0500
 
@@ -9657,7 +10820,7 @@ Date:   Wed Jan 28 18:03:57 2015 -0500
     sparc: Re-introduce hand-written unwind info
 
 commit 035715b3330421806df36ec4ac7ccecc86458540
-Merge: 31a6185 b0e9796
+Merge: 31a61853 b0e97963
 Author: Anthony Green <green@moxielogic.com>
 Date:   Wed Jan 28 18:03:06 2015 -0500
 
@@ -9680,7 +10843,7 @@ Date:   Tue Jan 27 22:10:12 2015 -0800
     configure: Run HAVE_AS_X86_PCREL for all X86 targets
 
 commit 31a618530737cc8f1666845f8e65a3c097f6d408
-Merge: d6675c1 5363663
+Merge: d6675c16 53636634
 Author: Anthony Green <green@moxielogic.com>
 Date:   Wed Jan 21 05:55:47 2015 -0500
 
@@ -9689,7 +10852,7 @@ Date:   Wed Jan 21 05:55:47 2015 -0500
     Support closures on ARM64 iOS
 
 commit d6675c16cc2b5a0e32c4538e5a4f555c91e6bb56
-Merge: a25a46a 3ac1610
+Merge: a25a46a7 3ac1610a
 Author: Anthony Green <green@moxielogic.com>
 Date:   Wed Jan 21 05:53:21 2015 -0500
 
@@ -9706,7 +10869,7 @@ Date:   Mon Jan 19 20:48:40 2015 +0100
     The section syntax is just that little bit different.
 
 commit a25a46a7fe4f7ae27fbd6e08a2540678899914e9
-Merge: 5cd411a 1ad0b17
+Merge: 5cd411ad 1ad0b171
 Author: Anthony Green <green@moxielogic.com>
 Date:   Fri Jan 16 17:32:07 2015 -0500
 
@@ -9793,7 +10956,7 @@ Date:   Tue Jan 13 07:22:07 2015 -0800
     Apparently there are no tests for this outside gcc.
 
 commit c82cc159426d8d4402375fa1ae3f045b9cf82e16
-Merge: 1c61e73 e1a5ddb
+Merge: 1c61e73a e1a5ddb3
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Jan 10 09:25:26 2015 -0500
 
@@ -9802,7 +10965,7 @@ Date:   Sat Jan 10 09:25:26 2015 -0500
     Fix expr error in Solaris 10 when using gcc.
 
 commit 1c61e73ad8e920d6bff337fac02de71f3a66bc38
-Merge: dd0b59a 3fa5d70
+Merge: dd0b59a5 3fa5d70c
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Jan 10 09:23:30 2015 -0500
 
@@ -9811,7 +10974,7 @@ Date:   Sat Jan 10 09:23:30 2015 -0500
     Support PCC as producer and consumer
 
 commit dd0b59a5cf63e0f9602c76fc89a4cb62593ff6f1
-Merge: 9131039 b7f6d7a
+Merge: 9131039c b7f6d7aa
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Jan 10 09:22:55 2015 -0500
 
@@ -9820,7 +10983,7 @@ Date:   Sat Jan 10 09:22:55 2015 -0500
     Fix build on darwin
 
 commit 9131039c93b6ecd1c3946905a3b6dafb5dc4ee40
-Merge: 4ca2262 7282d32
+Merge: 4ca2262a 7282d328
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Jan 10 09:22:42 2015 -0500
 
@@ -9829,7 +10992,7 @@ Date:   Sat Jan 10 09:22:42 2015 -0500
     x86: MSVC does not support Complex type
 
 commit 4ca2262ad61189276b2d95aab652a23c8db2a5b9
-Merge: 58bf7d6 5f8881a
+Merge: 58bf7d65 5f8881a5
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Jan 10 09:21:37 2015 -0500
 
@@ -9963,7 +11126,7 @@ Date:   Mon Dec 22 17:08:08 2014 +0900
     x86: Fix void pointer arithmetic
 
 commit 58bf7d65d8896f198624c591cc31e6e01a09cc31
-Merge: 75b2199 7ba30b1
+Merge: 75b2199f 7ba30b19
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Dec 20 10:20:40 2014 -0500
 
@@ -10020,7 +11183,7 @@ Date:   Wed Dec 17 13:20:51 2014 -0500
     s390: Go closure support
 
 commit 75b2199f264f42de814528ccf4bfd2ef427665b5
-Merge: 8a3a272 2f65246
+Merge: 8a3a2723 2f652469
 Author: Anthony Green <green@moxielogic.com>
 Date:   Fri Dec 12 10:13:56 2014 -0500
 
@@ -10029,7 +11192,7 @@ Date:   Fri Dec 12 10:13:56 2014 -0500
     Two fixes for x86
 
 commit 8a3a2723aaa615cb95ee1c798469d7a3b2d95d31
-Merge: 9ae3bc8 542e004
+Merge: 9ae3bc87 542e0047
 Author: Anthony Green <green@moxielogic.com>
 Date:   Fri Dec 12 10:13:27 2014 -0500
 
@@ -10060,7 +11223,7 @@ Date:   Sat Dec 6 23:58:41 2014 -0500
     Fix for https://github.com/atgreen/libffi/issues/141
 
 commit a5a40960bb6ccb029d2d9d4e18d37f6e0dacb913
-Merge: 9ca4370 590663b
+Merge: 9ca43706 590663b3
 Author: Anthony Green <green@moxielogic.com>
 Date:   Wed Nov 19 21:13:50 2014 -0500
 
@@ -10148,7 +11311,7 @@ Date:   Mon Nov 10 13:50:05 2014 +1030
             (FFI_V2_TYPE_DOUBLE_HOMOG, FFI_V2_TYPE_SMALL_STRUCT): Likewise.
 
 commit 9ca43706f9e59ee3a0b288884c90fd51d8926a9b
-Merge: 5211c72 a9ed0c3
+Merge: 5211c720 a9ed0c3a
 Author: Anthony Green <green@moxielogic.com>
 Date:   Wed Nov 19 11:32:08 2014 -0500
 
@@ -10180,7 +11343,7 @@ Date:   Tue Nov 18 09:37:07 2014 +0100
     When compiling with --std==c99, GCC and clang don't define i386 but __i386__
 
 commit 5211c7207ec81dfdfa9acdcd86b49b9ff66b9d91
-Merge: 3316b66 ccdd7bb
+Merge: 3316b666 ccdd7bb8
 Author: Anthony Green <green@moxielogic.com>
 Date:   Mon Nov 17 09:07:07 2014 -0500
 
@@ -10195,7 +11358,7 @@ Date:   Sun Nov 16 12:12:23 2014 +0100
     testsuite: Fix alpha static chain register name
 
 commit 3316b666e3074fe0eebff4fe0458979961b26651
-Merge: b698638 dea49e2
+Merge: b698638d dea49e20
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Nov 15 07:31:41 2014 -0500
 
@@ -10204,7 +11367,7 @@ Date:   Sat Nov 15 07:31:41 2014 -0500
     Configure and testsuite cleanups, v2
 
 commit b698638d7601de994410c5c1b2f5c2c648015b7b
-Merge: a353d5b 771fabc
+Merge: a353d5b1 771fabc6
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Nov 15 07:29:58 2014 -0500
 
@@ -10213,7 +11376,7 @@ Date:   Sat Nov 15 07:29:58 2014 -0500
     Floating point number comparison fix for testsuite
 
 commit a353d5b16cfbb60f1a42bdec74b0f272701f3ecb
-Merge: 4aa702a e029c70
+Merge: 4aa702a0 e029c70f
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Nov 15 07:27:21 2014 -0500
 
@@ -10316,7 +11479,7 @@ Date:   Thu Nov 13 12:32:35 2014 +0100
     Clearly added by mistake.
 
 commit 4aa702a0e0ffc9b8a672af380103f607d339a822
-Merge: 20562ac 8d5debc
+Merge: 20562ac0 8d5debc7
 Author: Anthony Green <green@moxielogic.com>
 Date:   Wed Nov 12 08:08:57 2014 -0500
 
@@ -10329,7 +11492,7 @@ Date:   Wed Nov 12 08:04:51 2014 -0500
     Update in preparation for next release
 
 commit 56735e05fed77a3920a8cac262666c9eb0e75b66
-Merge: 20562ac 0e303c0
+Merge: 20562ac0 0e303c06
 Author: Richard Henderson <rth@twiddle.net>
 Date:   Wed Nov 12 07:11:53 2014 -0500
 
@@ -10860,7 +12023,7 @@ Date:   Tue Nov 4 13:29:58 2014 -0500
     Mention OpenRISC
 
 commit 6a17ad540d7ddb7a812687f4380bd0ef2d2865bb
-Merge: 990eb9d 0f316ab
+Merge: 990eb9d4 0f316ab7
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Sep 28 00:54:00 2014 -0400
 
@@ -11038,7 +12201,7 @@ Date:   Sat Sep 20 06:21:19 2014 -0400
             (ffi_closure_helper_SYSV): Ditto.
 
 commit 4c5c4088aa3e4d8103ff9ca441937da64fdd849a
-Merge: 862f53d 5d6340e
+Merge: 862f53de 5d6340ef
 Author: Anthony Green <green@moxielogic.com>
 Date:   Thu Sep 18 19:10:54 2014 -0400
 
@@ -11047,7 +12210,7 @@ Date:   Thu Sep 18 19:10:54 2014 -0400
     Pascal and Register calling convention support on x86
 
 commit 862f53de04ff898a128be7eec592bae60930d6df
-Merge: 5df3840 aebf2c3
+Merge: 5df38407 aebf2c30
 Author: Anthony Green <green@moxielogic.com>
 Date:   Thu Sep 18 19:06:08 2014 -0400
 
@@ -11056,7 +12219,7 @@ Date:   Thu Sep 18 19:06:08 2014 -0400
     Fix alignment of FFI_TYPE_FLOAT for Apple's ARM64 ABI
 
 commit 5df384077f3633ec8cf2e08f9199e5a44994dbad
-Merge: 7b7a528 0f4e09d
+Merge: 7b7a5284 0f4e09d2
 Author: Anthony Green <green@moxielogic.com>
 Date:   Thu Sep 18 19:05:35 2014 -0400
 
@@ -11065,7 +12228,7 @@ Date:   Thu Sep 18 19:05:35 2014 -0400
     Fix non-variadic CIF initialization for Apple/ARM64
 
 commit 7b7a5284de7a99edfcee5ac362dbf76251698e1e
-Merge: 4cd5e84 6172a99
+Merge: 4cd5e840 6172a995
 Author: Anthony Green <green@moxielogic.com>
 Date:   Thu Sep 18 18:28:05 2014 -0400
 
@@ -11074,7 +12237,7 @@ Date:   Thu Sep 18 18:28:05 2014 -0400
     Fix issue with builddir when calling configure with absolute path
 
 commit 4cd5e840122e22636b5838943372c4ed74618e35
-Merge: 1cee07b 08853e3
+Merge: 1cee07be 08853e32
 Author: Anthony Green <green@moxielogic.com>
 Date:   Thu Sep 18 18:27:15 2014 -0400
 
@@ -11149,7 +12312,7 @@ Date:   Thu Jun 12 06:30:21 2014 -0400
     Fix paths in libffi.pc.in
 
 commit df31a85103b0cc232bbc340d7e782a3853c7fad5
-Merge: 69289c1 360aa8c
+Merge: 69289c10 360aa8ca
 Author: Anthony Green <green@moxielogic.com>
 Date:   Fri Jun 6 08:24:35 2014 -0400
 
@@ -11194,7 +12357,7 @@ Date:   Mon May 19 18:05:33 2014 -0400
     Increment libtool version number
 
 commit 629f1029c47e522e4331988f02f32c203a070e28
-Merge: 0403f33 c1166d4
+Merge: 0403f332 c1166d4f
 Author: Anthony Green <green@moxielogic.com>
 Date:   Mon May 19 18:04:28 2014 -0400
 
@@ -11272,7 +12435,7 @@ Date:   Sun May 11 09:52:47 2014 -0400
     Use to get correct dir
 
 commit 31e0d4ecff6dc2a6c75a066ee099b52a43f6ba27
-Merge: 1c0e9a7 99909eb
+Merge: 1c0e9a72 99909eb6
 Author: Anthony Green <green@moxielogic.com>
 Date:   Wed Apr 23 19:24:47 2014 -0400
 
@@ -11287,7 +12450,7 @@ Date:   Tue Apr 22 21:17:52 2014 -0700
     src/x86/win32.S: Define ffi_closure_FASTCALL in the MASM section, too
 
 commit 1c0e9a7297ced15413c2d2d5d35f6c650c4b46c9
-Merge: 93a24f2 d369522
+Merge: 93a24f21 d3695227
 Author: Anthony Green <green@moxielogic.com>
 Date:   Mon Apr 21 12:41:56 2014 -0400
 
@@ -11306,7 +12469,7 @@ Date:   Sun Apr 20 12:03:25 2014 -0700
     and closure_thiscall) to use the generic ABI_NUM/ABI_ATTR mechanism.
 
 commit 93a24f216bcdd1018b976d697179c6d49004015a
-Merge: dd11a04 2349fec
+Merge: dd11a040 2349fec9
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Apr 12 19:38:07 2014 -0400
 
@@ -11315,7 +12478,7 @@ Date:   Sat Apr 12 19:38:07 2014 -0400
     Fix typo in doc
 
 commit dd11a04061cb49ce1d702545693c24eb1267d648
-Merge: 8fa2812 03ca880
+Merge: 8fa28123 03ca8800
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Apr 12 19:37:21 2014 -0400
 
@@ -11324,7 +12487,7 @@ Date:   Sat Apr 12 19:37:21 2014 -0400
     testsuite ignores CC parameter supplied to configure or make
 
 commit 8fa2812355e685a42abf9a62fbc674d616b2edee
-Merge: 8a58e6b 419503f
+Merge: 8a58e6b7 419503f4
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Apr 12 19:32:08 2014 -0400
 
@@ -11333,7 +12496,7 @@ Date:   Sat Apr 12 19:32:08 2014 -0400
     Fix handling of variadic calls on Darwin/AArch64
 
 commit 8a58e6b7805b736def197b8baf8e465a2a3f6913
-Merge: 30b77c5 a539f7f
+Merge: 30b77c56 a539f7ff
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Apr 12 19:30:18 2014 -0400
 
@@ -11342,7 +12505,7 @@ Date:   Sat Apr 12 19:30:18 2014 -0400
     Fix alignment of AArch64 assembler functions
 
 commit 30b77c56f95c63ecd83399aafdbad7b07330f2fd
-Merge: dc33cb3 3e2b84d
+Merge: dc33cb3c 3e2b84d2
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Apr 12 19:29:13 2014 -0400
 
@@ -11371,7 +12534,7 @@ Date:   Sun Apr 6 20:53:02 2014 +0200
     Fix alignment of AArch64 assembler functions
 
 commit dc33cb3c998da521a960385c1269c3aef552f69f
-Merge: c860a99 b5fed60
+Merge: c860a992 b5fed601
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Apr 5 23:41:22 2014 -0400
 
@@ -11458,7 +12621,7 @@ Date:   Tue Mar 25 16:24:14 2014 -0400
     Update copyright date and clean up README notes.
 
 commit 18d3baa9f597b026675baa1b4e5a5eeef7577a08
-Merge: afee537 f0c8a31
+Merge: afee5373 f0c8a315
 Author: Anthony Green <green@moxielogic.com>
 Date:   Tue Mar 25 16:12:53 2014 -0400
 
@@ -11467,7 +12630,7 @@ Date:   Tue Mar 25 16:12:53 2014 -0400
     [3.1 blocker] Fix FreeBSD support
 
 commit afee53738a995e23bd2f89fd0f7b30b380566106
-Merge: 7d24785 b2d610e
+Merge: 7d247856 b2d610e0
 Author: Anthony Green <green@moxielogic.com>
 Date:   Tue Mar 25 16:12:35 2014 -0400
 
@@ -11476,7 +12639,7 @@ Date:   Tue Mar 25 16:12:35 2014 -0400
     [3.1 blocker] Update OS X build system to include win32.S on 32-bit
 
 commit 7d2478568ed9f03cbf57627f449a2d2cf4d1571c
-Merge: beab5f3 56be47f
+Merge: beab5f33 56be47f8
 Author: Anthony Green <green@moxielogic.com>
 Date:   Tue Mar 25 16:12:17 2014 -0400
 
@@ -11485,7 +12648,7 @@ Date:   Tue Mar 25 16:12:17 2014 -0400
     Fix 64-bit Windows support
 
 commit beab5f334d9ec5b8b91d1cc727d1029b40358e7e
-Merge: 28fb197 ef5890e
+Merge: 28fb1970 ef5890eb
 Author: Anthony Green <green@moxielogic.com>
 Date:   Tue Mar 25 16:07:47 2014 -0400
 
@@ -11574,7 +12737,7 @@ Date:   Fri Mar 21 10:57:06 2014 -0700
     failures on target platforms that do not allow text relocations.
 
 commit 28fb197079cf1d11da4eef7c8c243ab05590c528
-Merge: c697472 c3dd0a1
+Merge: c697472f c3dd0a1a
 Author: Anthony Green <green@moxielogic.com>
 Date:   Tue Mar 18 12:19:36 2014 -0400
 
@@ -11595,7 +12758,7 @@ Date:   Tue Mar 18 12:09:45 2014 -0400
     * Add more comments.
 
 commit c697472fccfbb5b87b007c053cda9ef014b346b9
-Merge: 83fd2bc e48918e
+Merge: 83fd2bce e48918ec
 Author: Anthony Green <green@moxielogic.com>
 Date:   Mon Mar 17 00:32:42 2014 -0400
 
@@ -11658,7 +12821,7 @@ Date:   Sun Mar 16 15:26:26 2014 -0700
     testsuite: Introduce a __THISCALL__ compiler-specific macro
 
 commit 83fd2bce0456224483435d4b764063f4513fd464
-Merge: 3658a07 06ff924
+Merge: 3658a070 06ff9242
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Mar 16 22:03:29 2014 -0400
 
@@ -11667,7 +12830,7 @@ Date:   Sun Mar 16 22:03:29 2014 -0400
     .gitignore: Ignore more generated files
 
 commit 3658a0700a50d37a2fdba04fd9d79ad2f706d9f5
-Merge: d948d0a 46c5d3c
+Merge: d948d0a7 46c5d3c3
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Mar 16 21:37:42 2014 -0400
 
@@ -11708,7 +12871,7 @@ Date:   Sun Mar 16 15:20:36 2014 -0700
     testsuite: Common up the ifdef blocks for compiler-specific macros
 
 commit d948d0a729c934b0224749338a3ba0a2c8f51c45
-Merge: b61b472 a86bd31
+Merge: b61b472b a86bd318
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Mar 16 10:53:48 2014 -0400
 
@@ -11732,7 +12895,7 @@ Date:   Sun Mar 16 09:45:55 2014 -0400
     Update version to 3.1-rc0.  Clean up README.
 
 commit 7a64e7dbba54e6e9f69954adfb943be1856ff928
-Merge: 11a5c5c eef2e02
+Merge: 11a5c5c3 eef2e02a
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Mar 16 09:39:08 2014 -0400
 
@@ -11741,7 +12904,7 @@ Date:   Sun Mar 16 09:39:08 2014 -0400
     Remove more generated files
 
 commit 11a5c5c39f5861011f6c5ddf795da3a32b5f0082
-Merge: 9a62a21 1c68c07
+Merge: 9a62a21f 1c68c072
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Mar 16 09:38:47 2014 -0400
 
@@ -11782,7 +12945,7 @@ Date:   Sun Mar 16 09:03:57 2014 -0400
     Add missing ChangeLog entry.  Clean up some entries.
 
 commit 9bc704c58cb7a049d867837e3a11e2e31886ec66
-Merge: 694447a e892e58
+Merge: 694447aa e892e581
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Mar 16 08:41:00 2014 -0400
 
@@ -11797,7 +12960,7 @@ Date:   Sun Mar 16 05:38:24 2014 -0700
     README: Update news for 3.0.14
 
 commit 694447aa29deadd571efb4e9a26ee3f68ede1493
-Merge: fdc87f3 45a6c21
+Merge: fdc87f3b 45a6c21e
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Mar 16 08:32:05 2014 -0400
 
@@ -11812,7 +12975,7 @@ Date:   Sun Mar 16 05:29:08 2014 -0700
     .travis.yml: Test "make dist" too.
 
 commit fdc87f3b2ea37b58a4a9ae6c35083f544909fe3c
-Merge: 7412b83 e1911f7
+Merge: 7412b838 e1911f78
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Mar 16 08:05:51 2014 -0400
 
@@ -11834,7 +12997,7 @@ Date:   Sun Mar 16 03:25:53 2014 -0700
     non-Windows x86-32 platforms, as non-default calling conventions.
 
 commit 7412b838d543aae4fa925862bd5702d3dacbc29a
-Merge: c0cc5fd 9531d05
+Merge: c0cc5fda 9531d05f
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Mar 16 07:58:16 2014 -0400
 
@@ -11843,7 +13006,7 @@ Date:   Sun Mar 16 07:58:16 2014 -0400
     prep_cif.c: Remove unnecessary ifdef for X86_WIN32
 
 commit c0cc5fdaa237b67e86f22d2f6e13f3b42d9aae33
-Merge: 98b5296 b3a5da0
+Merge: 98b52960 b3a5da06
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Mar 16 07:57:59 2014 -0400
 
@@ -11870,7 +13033,7 @@ Date:   Sat Mar 15 23:27:56 2014 -0700
     .travis.yml: Test on both 32-bit and 64-bit
 
 commit 98b52960485a261399f081915f36063de3854a5f
-Merge: 134ce4c f6dd184
+Merge: 134ce4c0 f6dd1845
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Mar 16 07:51:33 2014 -0400
 
@@ -11885,7 +13048,7 @@ Date:   Sun Mar 16 04:49:36 2014 -0700
     ChangeLog: Document testsuite changes to remove fragile stack pointer checks
 
 commit 134ce4c0266bf994f07518fc534de53f1d3c8de8
-Merge: 2680e9e 9c27932
+Merge: 2680e9ea 9c279328
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Mar 16 07:47:17 2014 -0400
 
@@ -11908,7 +13071,7 @@ Date:   Sun Mar 16 02:31:19 2014 -0700
     spurious through careful inspection of disassembly.
 
 commit 2680e9ea9b4c87ea8042a61e551bd667493d4bd3
-Merge: 071eab3 82f8cb2
+Merge: 071eab32 82f8cb24
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Mar 16 07:44:08 2014 -0400
 
@@ -11957,7 +13120,7 @@ Date:   Sat Mar 15 22:08:19 2014 -0700
     to avoid a dependency on potential excess precision.
 
 commit 071eab32a7f9fbbef46c0d8f37d9985bc9cceb37
-Merge: 2228c7a 2f44952
+Merge: 2228c7ab 2f44952c
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Mar 16 07:36:52 2014 -0400
 
@@ -11972,7 +13135,7 @@ Date:   Sun Mar 16 04:35:12 2014 -0700
     Re-add libtool-ldflags
 
 commit 2228c7ab190f3c529b9018495467b841fa21cba2
-Merge: 76d19d0 35634db
+Merge: 76d19d00 35634dbc
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Mar 16 07:25:18 2014 -0400
 
@@ -11989,21 +13152,21 @@ Date:   Sat Mar 15 18:11:16 2014 -0700
     Add an autogen.sh to regenerate them.
 
 commit 76d19d004e36e99d261ee78261e2f52cea5e4ab1
-Merge: c86d9b6 a1a6f71
+Merge: c86d9b6c a1a6f71b
 Author: Anthony Green <green@moxielogic.com>
 Date:   Fri Mar 14 16:54:31 2014 -0400
 
     Ensure the linker supports @unwind sections in libffi.
 
 commit c86d9b6cc6e16ee262844a33b40441374400758c
-Merge: 4efb7db f8cdf11
+Merge: 4efb7dbf f8cdf114
 Author: Anthony Green <green@moxielogic.com>
 Date:   Fri Mar 14 16:51:20 2014 -0400
 
     Fix merge
 
 commit 4efb7dbfd9427c478a948cd0d464210123db8de8
-Merge: 634a475 18eb81d
+Merge: 634a475e 18eb81d0
 Author: Anthony Green <green@moxielogic.com>
 Date:   Fri Mar 14 16:47:57 2014 -0400
 
@@ -12066,14 +13229,14 @@ Date:   Fri Feb 28 17:20:59 2014 -0500
     Add missing -DFFI_DEBUG flag
 
 commit 934dc1b5c8d6a9e727bedc72342831eb7d62c35f
-Merge: 11d7aa9 67fbef3
+Merge: 11d7aa9d 67fbef3b
 Author: Anthony Green <green@moxielogic.com>
 Date:   Fri Feb 28 01:10:17 2014 -0500
 
     Merge branch 'master' of github.com:/atgreen/libffi
 
 commit 11d7aa9d7a4bbe642944edc0f07cf96db9b270b6
-Merge: b40aeda 3b44d41
+Merge: b40aeda3 3b44d411
 Author: Anthony Green <green@moxielogic.com>
 Date:   Fri Feb 28 01:06:48 2014 -0500
 
@@ -12082,7 +13245,7 @@ Date:   Fri Feb 28 01:06:48 2014 -0500
     Fix build failure when using clang for Android
 
 commit 67fbef3b56ff0ef88f9b1a7fe48cb77222fa6cec
-Merge: b40aeda 3b44d41
+Merge: b40aeda3 3b44d411
 Author: Anthony Green <green@moxielogic.com>
 Date:   Fri Feb 28 01:06:48 2014 -0500
 
@@ -12091,14 +13254,14 @@ Date:   Fri Feb 28 01:06:48 2014 -0500
     Fix build failure when using clang for Android
 
 commit b40aeda31a74d95a37c723b6243aabac466e67c4
-Merge: 20698ab 53ceaf1
+Merge: 20698abc 53ceaf14
 Author: Anthony Green <green@moxielogic.com>
 Date:   Fri Feb 28 01:01:29 2014 -0500
 
     Merge branch 'master' of github.com:/atgreen/libffi
 
 commit 53ceaf14c5eeb16ba09745f0ca87cca367d41a90
-Merge: 860fe66 cc9b518
+Merge: 860fe664 cc9b5186
 Author: Anthony Green <green@moxielogic.com>
 Date:   Fri Feb 28 01:01:02 2014 -0500
 
@@ -12107,7 +13270,7 @@ Date:   Fri Feb 28 01:01:02 2014 -0500
     Correct the -L flag in libffi.pc.in
 
 commit 20698abc6a00092fd7fd3e434a3a29dc0f048f1e
-Merge: 64bd069 1a0b01e
+Merge: 64bd0699 1a0b01e1
 Author: Anthony Green <green@moxielogic.com>
 Date:   Fri Feb 28 00:56:27 2014 -0500
 
@@ -12116,7 +13279,7 @@ Date:   Fri Feb 28 00:56:27 2014 -0500
     BlackFin fixes - Fatal error when calling a function defined in a shared library from within the function called by FFI
 
 commit 860fe6646f5ae603e99a8d1d722ddddba8b75769
-Merge: 64bd069 1a0b01e
+Merge: 64bd0699 1a0b01e1
 Author: Anthony Green <green@moxielogic.com>
 Date:   Fri Feb 28 00:56:27 2014 -0500
 
@@ -12131,7 +13294,7 @@ Date:   Fri Feb 28 00:52:56 2014 -0500
     Add ChangeLog entry for Josh's change
 
 commit edf29c5169b06fcfc241445e152e325bc3c50e0e
-Merge: 33c9954 3998d26
+Merge: 33c9954f 3998d260
 Author: Anthony Green <green@moxielogic.com>
 Date:   Fri Feb 28 00:50:25 2014 -0500
 
@@ -12146,7 +13309,7 @@ Date:   Fri Feb 28 00:38:41 2014 -0500
     Rebuilt with new libtool
 
 commit 926b6989fbd08488b9105943293353d45ac527e0
-Merge: 5a88c85 cc82051
+Merge: 5a88c85f cc82051c
 Author: Anthony Green <green@moxielogic.com>
 Date:   Fri Feb 28 00:26:57 2014 -0500
 
@@ -12184,7 +13347,7 @@ Date:   Fri Feb 28 00:17:16 2014 -0500
     aarch64 fix
 
 commit 447483d51c6aa9df7116f346a73fc1cf795f4c2b
-Merge: 51377bd b4df9cf
+Merge: 51377bda b4df9cf9
 Author: Anthony Green <green@moxielogic.com>
 Date:   Thu Feb 27 15:42:41 2014 -0500
 
@@ -12205,7 +13368,7 @@ Date:   Mon Feb 17 11:20:33 2014 -0800
          ^
 
 commit 51377bda9aed0b2c1309c818460cab9d9ab3d46e
-Merge: f08da54 40927bd
+Merge: f08da546 40927bd3
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Feb 15 08:06:29 2014 -0500
 
@@ -12214,7 +13377,7 @@ Date:   Sat Feb 15 08:06:29 2014 -0500
     MIPS N32: Fix call floating point va function
 
 commit f08da5465463e60a28f5e921f23ebf2ba984c148
-Merge: 3dc3f32 fa5f25c
+Merge: 3dc3f32c fa5f25c2
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Feb 15 08:06:11 2014 -0500
 
@@ -12391,7 +13554,7 @@ Date:   Thu Dec 5 16:23:25 2013 -0500
     Undo iOS ARM64 changes.
 
 commit 356b2cbc304bfe5bdc28b8d1c68d1ff084e9ec37
-Merge: 484a758 07345a3
+Merge: 484a7584 07345a30
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Nov 30 22:38:13 2013 -0500
 
@@ -12416,7 +13579,7 @@ Date:   Sat Nov 30 20:58:31 2013 -0500
     Remove build-ios from Makefile
 
 commit dfbf236d70fc1ec68e6ff193584a154353508e2f
-Merge: 852ac3b bb9740e
+Merge: 852ac3bd bb9740e5
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Nov 30 20:54:54 2013 -0500
 
@@ -12424,7 +13587,7 @@ Date:   Sat Nov 30 20:54:54 2013 -0500
     Add ChangeLog entry.
 
 commit bb9740e545205f93a525c77aa6d1cbf4ca9371f3
-Merge: ac75368 4d701e0
+Merge: ac753688 4d701e03
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Nov 30 17:54:39 2013 -0800
 
@@ -12569,7 +13732,7 @@ Date:   Wed Apr 11 23:26:04 2012 -0400
     Darwin: Silence Clang warnings.
 
 commit 852ac3bd302d6ed97b1ef65f4cbed69c258a48df
-Merge: ab79d6e ac75368
+Merge: ab79d6e2 ac753688
 Author: Anthony Green <green@moxielogic.com>
 Date:   Thu Nov 21 21:25:44 2013 -0500
 
@@ -12617,7 +13780,7 @@ Date:   Thu Nov 21 06:12:35 2013 -0500
     into 32-bit and 64-bit support.
 
 commit 69df91cfb4fa6bcb644350a80bff970f27478a6a
-Merge: 2f45082 aa1f62c
+Merge: 2f450822 aa1f62c0
 Author: Anthony Green <green@moxielogic.com>
 Date:   Mon Nov 18 06:34:04 2013 -0800
 
@@ -12646,7 +13809,7 @@ Date:   Mon Nov 18 06:36:03 2013 -0500
     but does mess the processor branch prediction.
 
 commit 34f878a5ef28663f6b1d7fd26fb099429ea1579e
-Merge: 83f65b6 1fd0457
+Merge: 83f65b63 1fd04578
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Nov 16 06:57:54 2013 -0500
 
@@ -12750,7 +13913,7 @@ Date:   Sat Nov 16 06:29:25 2013 -0500
     Fix broken test cases
 
 commit de10f5039ed7a53382ddcc95c368d03e535edb98
-Merge: 58c2577 f3657da
+Merge: 58c2577a f3657da2
 Author: Anthony Green <green@moxielogic.com>
 Date:   Thu Nov 14 10:56:29 2013 -0500
 
@@ -12828,14 +13991,14 @@ Date:   Sat Nov 2 17:23:59 2013 -0400
     Fix up docs
 
 commit 02177176854d16fc0f1a5958aa34da2f306630ee
-Merge: c242217 c265b4c
+Merge: c2422174 c265b4ca
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Nov 2 17:11:22 2013 -0400
 
     Merge branch 'master' of github.com:/atgreen/libffi
 
 commit c2422174b3edc0de0b148dfd6b67087bb881c4a6
-Merge: f4b843f d918d47
+Merge: f4b843f8 d918d478
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Nov 2 14:08:23 2013 -0700
 
@@ -12844,7 +14007,7 @@ Date:   Sat Nov 2 14:08:23 2013 -0700
     arc: Fix build error
 
 commit c265b4cacb9130f042699a85de9c7242b3f49cc3
-Merge: f4b843f d918d47
+Merge: f4b843f8 d918d478
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Nov 2 14:08:23 2013 -0700
 
@@ -12859,7 +14022,7 @@ Date:   Sat Nov 2 17:01:15 2013 -0400
     Don't align stack for win32
 
 commit f3cd39345713db8e414cf642b6cb65a4cfe6018c
-Merge: 666f3e7 6aa1590
+Merge: 666f3e71 6aa15900
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Nov 2 13:17:57 2013 -0700
 
@@ -12976,7 +14139,7 @@ Date:   Tue Jul 2 15:51:27 2013 -0400
     changes made to b50a13b9c07ec09af4b9697e482acdad571e6961.
 
 commit 6a4d901dde7b3f87984c563505717cde3113d16e
-Merge: b50a13b 587002c
+Merge: b50a13b9 587002c0
 Author: Anthony Green <green@moxielogic.com>
 Date:   Tue Jul 2 12:12:34 2013 -0700
 
@@ -12985,7 +14148,7 @@ Date:   Tue Jul 2 12:12:34 2013 -0700
     Fixes for building with Emscripten
 
 commit b50a13b9c07ec09af4b9697e482acdad571e6961
-Merge: 767f1f9 b082e15
+Merge: 767f1f96 b082e150
 Author: Anthony Green <green@moxielogic.com>
 Date:   Tue Jul 2 12:10:26 2013 -0700
 
@@ -12994,7 +14157,7 @@ Date:   Tue Jul 2 12:10:26 2013 -0700
     Add ARC support
 
 commit 767f1f96e5282da44d7340e6815e9820a3f78e39
-Merge: c3c40e0 b8a91d8
+Merge: c3c40e02 b8a91d81
 Author: Anthony Green <green@moxielogic.com>
 Date:   Tue Jul 2 12:08:04 2013 -0700
 
@@ -13039,7 +14202,7 @@ Date:   Fri Apr 19 17:12:24 2013 +0200
     Build libraries normally then.
 
 commit c3c40e0290377d7cf948b072eedd8317c4bf215e
-Merge: ede96e4 4750e3c
+Merge: ede96e4e 4750e3c6
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Mar 30 05:24:14 2013 -0700
 
@@ -13116,21 +14279,21 @@ Date:   Mon Mar 25 13:26:02 2013 +0100
     use the absolute value to check the test result against an epsilon
 
 commit ede96e4eb660bbf3e0fe048135efa8106f48af5d
-Merge: f22ab3c 9e34992
+Merge: f22ab3c6 9e34992a
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Mar 17 18:38:21 2013 -0400
 
     Merge branch 'master' of github.com:/atgreen/libffi
 
 commit f22ab3c6877cbdd07f058b68816b0086b1cb0e1e
-Merge: 12b1886 d08124b
+Merge: 12b1886d d08124be
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Mar 17 18:34:54 2013 -0400
 
     Merge branch 'master' of github.com:/atgreen/libffi
 
 commit 9e34992a5ea2fda1dba5875bf96dc91a7230f51f
-Merge: 12b1886 d08124b
+Merge: 12b1886d d08124be
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Mar 17 18:34:54 2013 -0400
 
@@ -13161,7 +14324,7 @@ Date:   Sat Mar 16 08:35:57 2013 -0400
     2.0.13rc1
 
 commit ff647ad4dff2f07dd153f295a1f70b1d906cd6ca
-Merge: 4acf005 d9dd417
+Merge: 4acf0056 d9dd417b
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Mar 16 08:20:40 2013 -0400
 
@@ -13201,7 +14364,7 @@ Date:   Sat Mar 16 07:57:35 2013 -0400
     Update configury.
 
 commit 9180d8f39c9b6afe17b78277c2711a5d9948e824
-Merge: 2fb527a 7e1b326
+Merge: 2fb527a0 7e1b3264
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Mar 16 07:46:55 2013 -0400
 
@@ -13214,7 +14377,7 @@ Date:   Sat Mar 16 07:46:38 2013 -0400
     Add Meta processor support
 
 commit 211a9ebf4d1a9801e15e103566aed2b8c42790be
-Merge: f308faf ee18766
+Merge: f308faf1 ee18766b
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Mar 16 04:24:40 2013 -0700
 
@@ -13223,7 +14386,7 @@ Date:   Sat Mar 16 04:24:40 2013 -0700
     Fix for a crasher due to misaligned stack on x86-32.
 
 commit 7e1b32649efd24814e86172e196f390566f9e970
-Merge: f308faf ee18766
+Merge: f308faf1 ee18766b
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sat Mar 16 04:24:40 2013 -0700
 
@@ -13390,7 +14553,7 @@ Date:   Wed Feb 6 17:37:15 2013 -0500
     Work around LLVM ABI problem on x86-64
 
 commit 370112938e705128fd5dd4017fc1a1210bd0271a
-Merge: bada2e3 bcc0c28
+Merge: bada2e32 bcc0c280
 Author: Anthony Green <green@moxielogic.com>
 Date:   Sun Jan 27 05:09:04 2013 -0800
 
@@ -13414,21 +14577,21 @@ Date:   Mon Jan 21 08:02:07 2013 -0500
     Update README
 
 commit 655bb8f3690feba8e840a5f1854b1d78ed08f692
-Merge: 1035ffb 840f975
+Merge: 1035ffb2 840f9758
 Author: Anthony Green <green@moxielogic.com>
 Date:   Mon Jan 21 08:01:24 2013 -0500
 
     Merge branch 'master' of github.com:/atgreen/libffi
 
 commit 1035ffb2f468e1a1c401d58cff7e7abb69838e68
-Merge: aeb8719 4086024
+Merge: aeb8719a 40860245
 Author: Anthony Green <green@moxielogic.com>
 Date:   Mon Jan 21 07:55:53 2013 -0500
 
     Update README
 
 commit 840f975866052fdd91b2c224d56e01ae5900b60d
-Merge: aeb8719 4086024
+Merge: aeb8719a 40860245
 Author: Anthony Green <green@moxielogic.com>
 Date:   Mon Jan 21 07:55:53 2013 -0500
 
@@ -13641,7 +14804,7 @@ Date:   Wed Jan 2 09:39:17 2013 -0500
     Add missing ChangeLog entry and generated files.
 
 commit 1f8675d4c101d19d67ca0a55ff2ba973349558ad
-Merge: 335f419 f6b58d2
+Merge: 335f419a f6b58d2b
 Author: Anthony Green <green@moxielogic.com>
 Date:   Wed Jan 2 06:34:38 2013 -0800
 
@@ -13650,7 +14813,7 @@ Date:   Wed Jan 2 06:34:38 2013 -0800
     fix build error on ppc when long double == double
 
 commit 335f419a86090cda9f215d149572f9481c3ad034
-Merge: 53236d5 6d6f711
+Merge: 53236d50 6d6f7110
 Author: Anthony Green <green@moxielogic.com>
 Date:   Wed Jan 2 06:30:03 2013 -0800
 
@@ -13772,7 +14935,7 @@ Date:   Tue Oct 30 14:06:09 2012 -0400
     Add PaX work-around
 
 commit 9ccd51be1fdeb99f8b4f42f905166c2abbba8ac0
-Merge: f342996 fa5d747
+Merge: f342996c fa5d7479
 Author: Anthony Green <green@moxielogic.com>
 Date:   Tue Oct 30 13:37:37 2012 -0400
 
@@ -14239,7 +15402,7 @@ Date:   Mon Feb 28 15:36:07 2011 -0500
     More AIX fixes. rc9.
 
 commit 53d7b165642c220aa5166ba350b490802f359b54
-Merge: 18dd85d 3000dc2
+Merge: 18dd85d6 3000dc23
 Author: Anthony Green <green@moxielogic.com>
 Date:   Mon Feb 28 15:23:31 2011 -0500
 
@@ -14288,7 +15451,7 @@ Date:   Sun Feb 13 11:41:05 2011 -0500
     Add missing msvcc.sh
 
 commit 3000dc237f6017a7445d8404097a4f46b73fdd29
-Merge: 55e4a5a 1fbf9dc
+Merge: 55e4a5aa 1fbf9dc4
 Author: Landon Fuller <landonf@bikemonkey.org>
 Date:   Sun Feb 13 08:55:53 2011 -0500
 
@@ -14354,14 +15517,14 @@ Date:   Sat Feb 12 10:24:49 2011 -0500
     Switch to the current iOS 4.2 SDK.
 
 commit 58fb8ca2dfb89ad70284bb9678d3d4dbb658c8a7
-Merge: cc3fbd9 71c792f
+Merge: cc3fbd97 71c792f5
 Author: Landon Fuller <landonf@bikemonkey.org>
 Date:   Sat Feb 12 10:23:19 2011 -0500
 
     Merge remote branch 'upstream/master'
 
 commit cc3fbd975ce9366d4c40a6ff6c108f664867bd7c
-Merge: e449a43 f6ab3ed
+Merge: e449a43b f6ab3edc
 Author: Landon Fuller <landonf@bikemonkey.org>
 Date:   Sat Feb 12 10:21:02 2011 -0500
 
@@ -14512,7 +15675,7 @@ Date:   Tue Feb 8 19:22:56 2011 -0500
     Update README
 
 commit 1106229a5721a659da5c231ec0e8211119615394
-Merge: bc9d0be f6ab3ed
+Merge: bc9d0be2 f6ab3edc
 Author: Anthony Green <green@moxielogic.com>
 Date:   Tue Feb 8 19:20:09 2011 -0500
 
@@ -15101,7 +16264,7 @@ Date:   Wed Dec 23 23:46:22 2009 -0500
     Switch to quilt. Rebase to latest GCC.
 
 commit ce806772f02387b9a74f6496a263a368bccd5d59
-Merge: cd98813 dcc1f6b
+Merge: cd98813d dcc1f6b4
 Author: Anthony Green <green@moxielogic.com>
 Date:   Mon Oct 5 00:41:35 2009 -0400
 
@@ -16292,7 +17455,7 @@ Date:   Sun Nov 29 16:56:10 1998 +0000
     Initial revision
 
 commit d2a9eb5a8b7cbc8b769809cad59c82b975c178e2
-Merge: d3782ec bc75c54
+Merge: d3782ec8 bc75c54b
 Author: green <green>
 Date:   Sun Nov 29 16:48:16 1998 +0000
 
