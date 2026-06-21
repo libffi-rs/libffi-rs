@@ -9,7 +9,7 @@ on:
         required: true
         type: text
       url:
-        description: 'URL of libffi .tar.gz release file'
+        description: 'URL of libffi .tar.gz release file or source archive'
         required: true
         type: text
 
@@ -18,6 +18,7 @@ env:
   PR_BRANCH: action-upgrade-${{ github.ref_name }}-to-libffi-${{ github.event.inputs.version }}
   BRANCH: ${{ github.ref_name }}
   LIBFFI_URL: ${{ github.event.inputs.url }}
+  LIBFFI_DIR: libffi-sys-rs/libffi
 
 jobs:
   download_unpack:
@@ -31,15 +32,32 @@ jobs:
           git config user.name "github-actions[bot]"
       - name: Create new branch
         run: git switch -c "$PR_BRANCH"
-      - name: Delete old libffi, download an unpack new
+      - name: Delete old libffi, download and unpack new
         run: |
-          rm -rf libffi-sys-rs/libffi/
-          mkdir libffi-sys-rs/libffi/
-          curl -Lo "${{ runner.temp }}/libffi.tar.gz" "$LIBFFI_URL"
+          set -euxo pipefail
+          rm -rf "$LIBFFI_DIR"
+          mkdir -p "$LIBFFI_DIR"
+          curl -fL -o "${{ runner.temp }}/libffi.tar.gz" "$LIBFFI_URL"
           sha256sum "${{ runner.temp }}/libffi.tar.gz"
           export SHASUM=$(sha256sum "${{ runner.temp }}/libffi.tar.gz" | cut -d " " -f 1)
-          tar zxvf "${{ runner.temp }}/libffi.tar.gz" -C libffi-sys-rs/libffi/ --strip-components=1
-          git add libffi-sys-rs/libffi
+          tar zxvf "${{ runner.temp }}/libffi.tar.gz" -C "$LIBFFI_DIR" --strip-components=1
+
+          if [ ! -x "$LIBFFI_DIR/configure" ]; then
+            echo "Archive does not contain generated autotools files; bootstrapping libffi from source snapshot."
+            sudo apt-get update
+            sudo apt-get install -y autoconf automake libtool libtool-bin make
+            (
+              cd "$LIBFFI_DIR"
+              if [ -x ./autogen.sh ]; then
+                ./autogen.sh
+              else
+                autoreconf -vfi
+              fi
+            )
+          fi
+
+          test -x "$LIBFFI_DIR/configure"
+          git add "$LIBFFI_DIR"
           git commit -m "Downloaded libffi $VERSION from $LIBFFI_URL. SHA256 of the .tar.gz was $SHASUM."
           git push origin "$PR_BRANCH"
   
@@ -55,27 +73,95 @@ jobs:
         run: |
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
+      - name: Setup MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          path-type: inherit
+      - name: Configure MSVC for x86_64
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: amd64
       - name: Generate x86_64 headers
-        shell: cmd
+        shell: msys2 {0}
+        env:
+          MSYSTEM: MINGW64
         run: |
-          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
-          C:\msys64\usr\bin\env MSYS2_PATH_TYPE=inherit MSYSTEM=mingw64 CHERE_INVOKING=enabled_from_arguments /usr/bin/bash -lc "cd libffi-sys-rs/libffi && ./configure --build x86_64-pc-msys --target x86_64-pc-msys --host x86_64-pc-msys --disable-dependency-tracking --with-pic --disable-shared --disable-docs CC=""$(pwd)/msvcc.sh -m64"" CXX=""$(pwd)/msvcc.sh -m64"" CPP=""cl.exe -nologo -EP"" CXXCPP=""cl.exe -nologo -EP"""
-          COPY /Y libffi-sys-rs\libffi\x86_64-pc-msys\include\ffi.h libffi-sys-rs\include\msvc\x86_64\ffi.h
-          COPY /Y libffi-sys-rs\libffi\x86_64-pc-msys\fficonfig.h libffi-sys-rs\include\msvc\x86_64\fficonfig.h
+          set -euxo pipefail
+          cd "$LIBFFI_DIR"
+          rm -rf x86_64-pc-msys
+          ./configure \
+            --build x86_64-pc-msys \
+            --target x86_64-pc-msys \
+            --host x86_64-pc-msys \
+            --disable-dependency-tracking \
+            --with-pic \
+            --disable-shared \
+            --disable-docs \
+            CPPFLAGS="-DFFI_BUILDING_DLL" \
+            LD="link" \
+            CC="$(pwd)/msvcc.sh -m64" \
+            CXX="$(pwd)/msvcc.sh -m64" \
+            CPP="cl.exe -nologo -EP" \
+            CXXCPP="cl.exe -nologo -EP"
+          cp -f x86_64-pc-msys/include/ffi.h ../include/msvc/x86_64/ffi.h
+          cp -f x86_64-pc-msys/fficonfig.h ../include/msvc/x86_64/fficonfig.h
+      - name: Configure MSVC for x86
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: amd64_x86
       - name: Generate 32-bit x86 headers
-        shell: cmd
+        shell: msys2 {0}
+        env:
+          MSYSTEM: MINGW32
         run: |
-          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" amd64_x86
-          C:\msys64\usr\bin\env MSYS2_PATH_TYPE=inherit MSYSTEM=mingw32 CHERE_INVOKING=enabled_from_arguments /usr/bin/bash -lc "cd libffi-sys-rs/libffi && ./configure --build i686-pc-msys --target i686-pc-msys --host i686-pc-msys --disable-dependency-tracking --with-pic --disable-shared --disable-docs CC=""$(pwd)/msvcc.sh"" CXX=""$(pwd)/msvcc.sh"" CPP=""cl.exe -nologo -EP"" CXXCPP=""cl.exe -nologo -EP"""
-          COPY /Y libffi-sys-rs\libffi\i686-pc-msys\include\ffi.h libffi-sys-rs\include\msvc\x86\ffi.h
-          COPY /Y libffi-sys-rs\libffi\i686-pc-msys\fficonfig.h libffi-sys-rs\include\msvc\x86\fficonfig.h
+          set -euxo pipefail
+          cd "$LIBFFI_DIR"
+          rm -rf i686-pc-msys
+          ./configure \
+            --build i686-pc-msys \
+            --target i686-pc-msys \
+            --host i686-pc-msys \
+            --disable-dependency-tracking \
+            --with-pic \
+            --disable-shared \
+            --disable-docs \
+            CPPFLAGS="-DFFI_BUILDING_DLL" \
+            LD="link" \
+            CC="$(pwd)/msvcc.sh" \
+            CXX="$(pwd)/msvcc.sh" \
+            CPP="cl.exe -nologo -EP" \
+            CXXCPP="cl.exe -nologo -EP"
+          cp -f i686-pc-msys/include/ffi.h ../include/msvc/x86/ffi.h
+          cp -f i686-pc-msys/fficonfig.h ../include/msvc/x86/fficonfig.h
+      - name: Configure MSVC for aarch64
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: amd64_arm64
       - name: Generate aarch64 headers
-        shell: cmd
+        shell: msys2 {0}
+        env:
+          MSYSTEM: MINGW32
         run: |
-          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" amd64_arm64
-          C:\msys64\usr\bin\env MSYS2_PATH_TYPE=inherit MSYSTEM=mingw32 CHERE_INVOKING=enabled_from_arguments /usr/bin/bash -lc "cd libffi-sys-rs/libffi && ./configure --build x86_64-pc-msys --target aarch64-pc-msys --host aarch64-pc-msys --disable-dependency-tracking --with-pic --disable-shared --disable-docs CC=""$(pwd)/msvcc.sh"" CXX=""$(pwd)/msvcc.sh"" CPP=""cl.exe -nologo -EP"" CXXCPP=""cl.exe -nologo -EP"""
-          COPY /Y libffi-sys-rs\libffi\aarch64-pc-msys\include\ffi.h libffi-sys-rs\include\msvc\aarch64\ffi.h
-          COPY /Y libffi-sys-rs\libffi\aarch64-pc-msys\fficonfig.h libffi-sys-rs\include\msvc\aarch64\fficonfig.h
+          set -euxo pipefail
+          cd "$LIBFFI_DIR"
+          rm -rf aarch64-pc-msys
+          ./configure \
+            --build x86_64-pc-msys \
+            --target aarch64-pc-msys \
+            --host aarch64-pc-msys \
+            --disable-dependency-tracking \
+            --with-pic \
+            --disable-shared \
+            --disable-docs \
+            CPPFLAGS="-DFFI_BUILDING_DLL" \
+            LD="link" \
+            CC="$(pwd)/msvcc.sh" \
+            CXX="$(pwd)/msvcc.sh" \
+            CPP="cl.exe -nologo -EP" \
+            CXXCPP="cl.exe -nologo -EP"
+          cp -f aarch64-pc-msys/include/ffi.h ../include/msvc/aarch64/ffi.h
+          cp -f aarch64-pc-msys/fficonfig.h ../include/msvc/aarch64/fficonfig.h
       - name: Commit changes to git
         continue-on-error: true
         run: |
