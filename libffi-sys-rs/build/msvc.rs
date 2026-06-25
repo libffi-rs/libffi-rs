@@ -36,9 +36,8 @@ pub fn build_and_link() {
         _ => unsupported(&target_arch),
     });
 
-    let asm_path = pre_process_asm(all_includes.as_slice(), &target_arch);
-
-    cc::Build::new()
+    let mut build = cc::Build::new();
+    build
         .includes(&all_includes)
         .files(BUILD_FILES)
         .files(match target_arch.as_str() {
@@ -47,14 +46,40 @@ pub fn build_and_link() {
             "aarch64" => BUILD_FILES_AARCH64,
             _ => unsupported(&target_arch),
         })
-        .file(asm_path)
         .define("WIN32", None)
         .define("_LIB", None)
         .define("FFI_BUILDING", None)
         .define("FFI_STATIC_BUILD", None)
         .pic(true)
-        .warnings(false)
-        .compile("libffi");
+        .warnings(false);
+
+    // cc routes `.S` to ml64 on an MSVC target, but llvm-ml64 cannot handle
+    // all instructions yet which means cross-compilation fails.
+    // Instead, compile the GNU assembly on these systems (clang-cl / cargo-xwin)
+    let is_clang_cl = build
+        .get_compiler()
+        .path()
+        .file_name()
+        .and_then(|n| n.to_str())
+        .is_some_and(|n| n.contains("clang"));
+    if is_clang_cl && target_arch == "x86_64" {
+        let out_dir = env::var("OUT_DIR").unwrap();
+        let obj = format!("{out_dir}/win64_gnu.obj");
+        let mut cmd = build.get_compiler().to_command();
+        for inc in &all_includes {
+            cmd.arg(format!("/I{inc}"));
+        }
+        cmd.arg("/DFFI_STATIC_BUILD")
+            .arg("/c")
+            .arg("libffi/src/x86/win64.S")
+            .arg(format!("/Fo{obj}"));
+        run_command("Assemble win64.S (clang-cl)", &mut cmd);
+        build.object(&obj);
+    } else {
+        build.file(pre_process_asm(all_includes.as_slice(), &target_arch));
+    }
+
+    build.compile("libffi");
 
     println!("cargo::rerun-if-changed=build/");
     println!("cargo::rerun-if-changed=libffi/include");
