@@ -62,6 +62,10 @@ pub fn build_and_link() {
         .file_name()
         .and_then(|n| n.to_str())
         .is_some_and(|n| n.contains("clang"));
+    if is_clang_cl {
+        // dlmalloc's lock is an `int` while the Windows interlocked intrinsics expect `volatile long *`
+        build.flag_if_supported("-Wno-error=incompatible-pointer-types");
+    }
     if is_clang_cl && target_arch == "x86_64" {
         let out_dir = env::var("OUT_DIR").unwrap();
         let obj = format!("{out_dir}/win64_gnu.obj");
