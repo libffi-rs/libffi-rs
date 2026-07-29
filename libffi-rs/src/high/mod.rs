@@ -46,6 +46,17 @@
 //! assert_eq!(8, counter.call(2));
 //! ```
 //!
+//! The callable pointer cannot outlive the closure allocation:
+//!
+//! ```compile_fail
+//! use libffi::high::{Closure0, FnPtr0};
+//!
+//! fn escape<'a>(callback: &'a impl Fn() -> u64) -> FnPtr0<'a, u64> {
+//!     let closure = Closure0::new(callback);
+//!     *closure.code_ptr()
+//! }
+//! ```
+//!
 //! Note that in the above example, `counter` is an ordinary C function
 //! pointer of type `extern "C" fn(u64) -> u64`.
 //!
@@ -233,14 +244,15 @@ macro_rules! define_closure_mod {
             impl<'a, $( $T, )* R: CType> $closure<'a, $( $T, )* R> {
                 /// Gets the C code pointer that is used to invoke the
                 /// closure.
-                pub fn code_ptr(&self) -> & $fnptr <'a, $( $T, )* R> {
+                pub fn code_ptr<'closure>(
+                    &'closure self,
+                ) -> &'closure $fnptr <'closure, $( $T, )* R> {
                     // Safety: Here we produce an FnPtrN wrapper for
                     // the correct `fn` pointer, which is repr(transparent)
                     // and therefore reference, layout, and otherwise ABI compatible
-                    // with that type.
-                    // Additionally, the FnPtrN wrapper enforces usage of the returned
-                    // function pointer be only within the lifetime of the closure
-                    // from which it was made.
+                    // with that type. Both lifetimes in the return type are tied to
+                    // this borrow of the closure, so copying the FnPtrN cannot make
+                    // the executable pointer outlive its allocation.
                     // Other safety invariants have not been checked by
                     // the author of this comment, see the `instantiate_code_ptr`
                     // method docs for more.
@@ -331,7 +343,9 @@ macro_rules! define_closure_mod {
             impl<'a, $( $T, )* R: CType> $closure_mut<'a, $( $T, )* R> {
                 /// Gets the C code pointer that is used to invoke the
                 /// closure.
-                pub fn code_ptr(&self) -> & $fnptr <'a, $( $T, )* R> {
+                pub fn code_ptr<'closure>(
+                    &'closure self,
+                ) -> &'closure $fnptr <'closure, $( $T, )* R> {
                     unsafe {
                         self.untyped.instantiate_code_ptr()
                     }
@@ -462,7 +476,9 @@ macro_rules! define_closure_mod {
             impl<$( $T, )* R: CType> $closure_once<$( $T, )* R> {
                 /// Gets the C code pointer that is used to invoke the
                 /// closure.
-                pub fn code_ptr(&self) -> & $fnptr <'_, $( $T, )* R> {
+                pub fn code_ptr<'closure>(
+                    &'closure self,
+                ) -> &'closure $fnptr <'closure, $( $T, )* R> {
                     unsafe {
                         self.untyped.instantiate_code_ptr()
                     }
