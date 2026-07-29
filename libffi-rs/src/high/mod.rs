@@ -57,6 +57,24 @@
 //! }
 //! ```
 //!
+//! Callable pointers are also neither [`Send`] nor [`Sync`]. The callback may
+//! capture thread-local data or require exclusive access, as with [`FnMut`] and
+//! [`FnOnce`], so calling copies concurrently would be unsound:
+//!
+//! ```compile_fail
+//! use libffi::high::FnPtr0;
+//!
+//! fn require_send<T: Send>() {}
+//! require_send::<FnPtr0<'static, ()>>();
+//! ```
+//!
+//! ```compile_fail
+//! use libffi::high::FnPtr0;
+//!
+//! fn require_sync<T: Sync>() {}
+//! require_sync::<FnPtr0<'static, ()>>();
+//! ```
+//!
 //! Note that in the above example, `counter` is an ordinary C function
 //! pointer of type `extern "C" fn(u64) -> u64`.
 //!
@@ -195,7 +213,14 @@ macro_rules! define_closure_mod {
             #[repr(transparent)]
             pub struct $fnptr<'a, $( $T, )* R> {
                 func: extern "C" fn($( $T, )*) -> R,
-                _lifetime: PhantomData<&'a extern "C" fn($( $T, )*) -> R>,
+                // The raw-pointer marker makes the wrapper neither Send nor
+                // Sync. A code pointer may refer to non-Sync, mutable, or
+                // one-shot callback state and therefore must stay on the
+                // thread where it was obtained.
+                _marker: PhantomData<(
+                    &'a extern "C" fn($( $T, )*) -> R,
+                    *mut (),
+                )>,
             }
             impl<'a, $( $T, )* R> $fnptr<'a, $( $T, )* R> {
                 /// Call the wrapped [`fn`] pointer.
