@@ -8,16 +8,26 @@ The format is based on [Keep a Changelog] and this project adheres to
 [Keep a Changelog]: http://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: http://semver.org/spec/v2.0.0.html
 
+## [Unreleased]
+
+- Fix cross-compilation of MSVC from Linux
+
 ## [4.2.0] - 2026-06-21
+
 - Bump libffi to v3.6.0
 
 ## [4.1.0] - 2026-01-01
+
 - In order to fix target_abi detection on powerpc, the MSRV for powerpc targets has been raised to Rust 1.90.
 
 ## [4.0.0] - 2025-10-15
+
 ### Breaking Changes
+
 - `FFI_TYPE_*` constants are now `u16` instead of `u32`s, this should not affect most users
+
 ### Other Changes
+
 - Bump libffi to v3.5.2
   - Fixes builds that use `mkdir` from uutils 
 - `nostd` is now tested and officially supported with an `std` feature flag.

@@ -9,20 +9,26 @@ The format is based on [Keep a Changelog] and this project adheres to
 [Semantic Versioning]: http://semver.org/spec/v2.0.0.html
 
 ## [5.1.1] - 2026-06-21
+
 No user-facing changes.
 
 ## [5.1.0] - 2026-01-01
+
 - Adds support for dynamically choosing the return type of cifs at runtime with `middle::Cif::call_return_into` and `low::call_return_into`.
   - `middle::Ret` is `#[repr(C)]` to keep it similar to `Arg`.
   - This allows for easier use when the return type is not known at compile time, as when implementing `ctypes`-esque modules.
 
 ## [5.0.0] - 2025-10-15
+
 ### Breaking Changes
+
 - Added lifetime to `middle::Arg`
   - Any broken code is unsound
 - `set_abi` functions are now replaced with `new_with_abi` and `new_variadic_with_abi` for safety
 - `ArgType` has been added to `low::Error` and the entire enum has been marked as non-exhaustive
+
 ### Other Changes
+
 - Bump libffi to v3.5.2
   - Fixes builds that use `mkdir` from uutils
 - `no_std` is now supported with a `std` feature flag, enabled by default.
