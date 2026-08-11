@@ -123,7 +123,12 @@ pub fn ret<T: ?Sized>(r: &mut T) -> Ret<'_> {
 /// let args = vec![Type::f64(), Type::pointer()];
 /// let cif = Cif::new(args.into_iter(), Type::f64());
 ///
-/// let n = unsafe { cif.call(CodePtr(add as *mut _), &[arg(&5f64), arg(&&6f64)]) };
+/// let n = unsafe {
+///     cif.call(
+///         CodePtr::from_fun(add as *const _),
+///         &[arg(&5f64), arg(&&6f64)],
+///     )
+/// };
 /// assert_eq!(11f64, n);
 /// ```
 #[derive(Debug)]
@@ -552,7 +557,7 @@ mod test {
     fn call() {
         let cif = Cif::new(alloc::vec![Type::i64(), Type::i64()], Type::i64());
         let f = |m: i64, n: i64| -> i64 {
-            unsafe { cif.call(CodePtr(add_it as *mut c_void), &[arg(&m), arg(&n)]) }
+            unsafe { cif.call(CodePtr::from_fun(add_it as *const _), &[arg(&m), arg(&n)]) }
         };
 
         assert_eq!(12, f(5, 7));
@@ -568,7 +573,7 @@ mod test {
 
         unsafe {
             cif.call_return_into(
-                CodePtr(add_it as *mut c_void),
+                CodePtr::from_fun(add_it as *const _),
                 &[arg(&5i64), arg(&7i64)],
                 ret(&mut ret_val),
             );
@@ -713,7 +718,7 @@ mod test {
 
         let result: i32 = unsafe {
             cif.call(
-                CodePtr(snprintf as *mut _),
+                CodePtr::from_fun(snprintf as *const _),
                 &[
                     arg(&output_buffer.as_mut_ptr()),
                     arg(&output_buffer.len()),

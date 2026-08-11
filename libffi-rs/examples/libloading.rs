@@ -43,9 +43,9 @@ fn main() {
         let func = func.into_raw().as_raw_ptr();
 
         // Now we proceed as normal with libffi-rs
-        let result: i32 = cif.call(CodePtr(func as *mut _), &args1);
+        let result: i32 = cif.call(CodePtr::from_fun(func as *const _), &args1);
         assert_eq!(result, 1);
-        let result: i32 = cif.call(CodePtr(func as *mut _), &args2);
+        let result: i32 = cif.call(CodePtr::from_fun(func as *const _), &args2);
         assert_eq!(result, 0);
     }
 }

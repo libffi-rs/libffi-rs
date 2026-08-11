@@ -49,6 +49,8 @@
 //! Note that in the above example, `counter` is an ordinary C function
 //! pointer of type `extern "C" fn(u64) -> u64`.
 //!
+//! The pointer cannot outlive the closure allocation that created it.
+//!
 //! Here’s an example using `ClosureOnce3` to create a closure that owns
 //! a vector:
 //!
@@ -233,7 +235,7 @@ macro_rules! define_closure_mod {
             impl<'a, $( $T, )* R: CType> $closure<'a, $( $T, )* R> {
                 /// Gets the C code pointer that is used to invoke the
                 /// closure.
-                pub fn code_ptr(&self) -> & $fnptr <'a, $( $T, )* R> {
+                pub fn code_ptr(&self) -> & $fnptr <'_, $( $T, )* R> {
                     // Safety: Here we produce an FnPtrN wrapper for
                     // the correct `fn` pointer, which is repr(transparent)
                     // and therefore reference, layout, and otherwise ABI compatible
@@ -331,7 +333,7 @@ macro_rules! define_closure_mod {
             impl<'a, $( $T, )* R: CType> $closure_mut<'a, $( $T, )* R> {
                 /// Gets the C code pointer that is used to invoke the
                 /// closure.
-                pub fn code_ptr(&self) -> & $fnptr <'a, $( $T, )* R> {
+                pub fn code_ptr(&self) -> & $fnptr <'_, $( $T, )* R> {
                     unsafe {
                         self.untyped.instantiate_code_ptr()
                     }
