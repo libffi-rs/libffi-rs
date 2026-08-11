@@ -7,11 +7,12 @@
 //! avoided drastic renaming in favor of hewing close to the libffi API.
 //! See [`middle`](crate::middle) for an easier-to-use approach.
 
-use core::ffi::{c_uint, c_void};
-use core::ptr::addr_of;
-use core::{mem, ptr};
-
 use crate::raw;
+use core::ffi::{c_uint, c_void};
+use core::{
+    mem,
+    ptr::{self, addr_of, NonNull},
+};
 
 /// The errors reported by libffi.
 #[non_exhaustive]
@@ -51,24 +52,35 @@ fn status_to_result<R>(status: raw::ffi_status, good: R) -> Result<R> {
 /// collections thereof.
 #[derive(Clone, Copy, Debug, Hash)]
 #[repr(transparent)]
-pub struct CodePtr(pub *mut c_void);
+pub struct CodePtr(pub NonNull<c_void>);
 
 // How useful is this type? Does it need all the methods?
 impl CodePtr {
     /// Initializes a code pointer from a function pointer.
     ///
-    /// This is useful mainly for talking to C APIs that take untyped
-    /// callbacks specified in the API as having type `void(*)()`.
-    pub fn from_fun(fun: unsafe extern "C" fn()) -> Self {
-        CodePtr(fun as *mut c_void)
+    /// The cast erases the function's signature, allowing this constructor to
+    /// accept functions with any arguments and return type:
+    ///
+    /// ```
+    /// use libffi::low::CodePtr;
+    ///
+    /// extern "C" fn add(a: u64, b: u64) -> u64 { a + b }
+    ///
+    /// let code = CodePtr::from_fun(add as *const _);
+    /// ```
+    ///
+    /// A Rust function pointer is always non-null. If a null raw pointer is
+    /// supplied instead, this function panics.
+    pub fn from_fun(fun: *const c_void) -> Self {
+        CodePtr(NonNull::new(fun.cast_mut()).expect("function pointer must not be null"))
     }
 
     /// Initializes a code pointer from a void pointer.
     ///
     /// This is the other common type used in APIs (or at least in
     /// libffi) for untyped callback arguments.
-    pub fn from_ptr(fun: *const c_void) -> Self {
-        CodePtr(fun.cast_mut())
+    pub fn from_ptr(fun: NonNull<c_void>) -> Self {
+        CodePtr(fun)
     }
 
     /// Gets the code pointer typed as a C function pointer.
@@ -114,7 +126,7 @@ impl CodePtr {
     /// This is the other common type used in APIs (or at least in
     /// libffi) for untyped callback arguments.
     pub fn as_ptr(self) -> *const c_void {
-        self.0
+        self.0.as_ptr()
     }
 
     /// Gets the code pointer typed as a `void*`.
@@ -122,7 +134,7 @@ impl CodePtr {
     /// This is the other common type used in APIs (or at least in
     /// libffi) for untyped callback arguments.
     pub fn as_mut_ptr(self) -> *mut c_void {
-        self.0
+        self.0.as_ptr()
     }
 }
 
@@ -333,7 +345,7 @@ pub unsafe fn prep_cif_var(
 ///     prep_cif(&mut cif, ffi_abi_FFI_DEFAULT_ABI, 2,
 ///              &mut types::uint64, args.as_mut_ptr()).unwrap();
 ///
-///     call::<u64>(&mut cif, CodePtr(c_function as *mut _),
+///     call::<u64>(&mut cif, CodePtr::from_fun(c_function as *const _),
 ///          vec![ &mut 4u64 as *mut _ as *mut c_void,
 ///                &mut 5u64 as *mut _ as *mut c_void ].as_mut_ptr())
 /// };
@@ -468,7 +480,7 @@ unsafe fn call_return_small_big_endian_result<R>(type_tag: u16, result: *const u
 ///
 ///     call_return_into(
 ///         addr_of_mut!(cif),
-///         CodePtr(c_function as *mut _),
+///         CodePtr::from_fun(c_function as *const _),
 ///         vec![
 ///             &mut 4u64 as *mut _ as *mut c_void,
 ///             &mut 5u64 as *mut _ as *mut c_void,
@@ -573,7 +585,7 @@ pub fn closure_alloc() -> (*mut ffi_closure, CodePtr) {
             raw::ffi_closure_alloc(mem::size_of::<ffi_closure>(), code_pointer.as_mut_ptr());
         (
             closure as *mut ffi_closure,
-            CodePtr::from_ptr(code_pointer.assume_init()),
+            CodePtr::from_ptr(NonNull::new(code_pointer.assume_init()).unwrap()),
         )
     }
 }
@@ -697,7 +709,7 @@ pub type RawCallback = unsafe extern "C" fn(
 ///                  &mut cif,
 ///                  callback,
 ///                  &mut userdata,
-///                  CodePtr(add5 as *mut _)).unwrap();
+///                  code).unwrap();
 ///
 ///     assert_eq!(11, add5(6));
 ///     assert_eq!(12, add5(7));
@@ -790,7 +802,7 @@ pub unsafe fn prep_closure<U, R>(
 ///                      &mut cif,
 ///                      callback,
 ///                      &mut userdata,
-///                      CodePtr(add5 as *mut _)).unwrap();
+///                      code).unwrap();
 ///
 ///     assert_eq!(5, add5(6));
 ///     assert_eq!(11, add5(7));
@@ -885,7 +897,11 @@ mod test {
             )
             .unwrap();
 
-            let result: $ty = call(&mut cif, CodePtr($fn as *mut _), arg_array.as_mut_ptr());
+            let result: $ty = call(
+                &mut cif,
+                CodePtr::from_fun($fn as *const _),
+                arg_array.as_mut_ptr(),
+            );
 
             assert_eq!(result, $val);
         }};
@@ -911,7 +927,11 @@ mod test {
                     null_mut(),
                 )
                 .unwrap();
-                call::<()>(&mut cif, CodePtr(return_nothing as *mut _), null_mut());
+                call::<()>(
+                    &mut cif,
+                    CodePtr::from_fun(return_nothing as *const _),
+                    null_mut(),
+                );
             }
         }
 
@@ -997,7 +1017,7 @@ mod test {
             let mut result = mem::MaybeUninit::<$ty>::uninit();
             call_return_into(
                 &mut cif,
-                CodePtr($fn as *mut _),
+                CodePtr::from_fun($fn as *const _),
                 arg_array.as_mut_ptr(),
                 result.as_mut_ptr().cast(),
             );
@@ -1027,7 +1047,7 @@ mod test {
                 .unwrap();
                 call_return_into(
                     &mut cif,
-                    CodePtr(return_nothing as *mut _),
+                    CodePtr::from_fun(return_nothing as *const _),
                     null_mut(),
                     null_mut(),
                 );
@@ -1117,7 +1137,7 @@ mod test {
             let result_ptr = result_buffer.as_mut_ptr().byte_add(mem::size_of::<$ty>());
             call_return_into(
                 &mut cif,
-                CodePtr($fn as *mut _),
+                CodePtr::from_fun($fn as *const _),
                 arg_array.as_mut_ptr(),
                 result_ptr.cast(),
             );
