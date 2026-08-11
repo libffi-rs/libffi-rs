@@ -122,10 +122,10 @@ pub type c_c32 = [f32; 2];
 pub type c_c64 = [f64; 2];
 
 #[cfg(all(feature = "complex", not(windows)))]
-impl_ffi_type!(c_c32, c32);
+impl_ffi_type!(c_c32, c_c32, c32);
 
 #[cfg(all(feature = "complex", not(windows)))]
-impl_ffi_type!(c_c64, c64);
+impl_ffi_type!(c_c64, c_c64, c64);
 
 unsafe impl<T> CType for *const T {
     fn reify() -> Type<Self> {

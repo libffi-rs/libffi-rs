@@ -19,7 +19,7 @@ libc = "0.2.65"
 libloading = "0.8"
 
 [features]
-complex = []
+complex = ["libffi-sys/complex"]
 default = ["std"]
 std = ["libffi-sys/std"]
 system = ["libffi-sys/system"]

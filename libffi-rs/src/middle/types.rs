@@ -608,12 +608,7 @@ mod test {
             raw::FFI_TYPE_COMPLEX
         );
         #[cfg(all(feature = "complex", not(windows)))]
-        assert_eq!(
-            unsafe { (**struct_1.elements.add(7)).type_ },
-            raw::FFI_TYPE_COMPLEX
-        );
-        #[cfg(all(feature = "complex", not(windows)))]
-        assert!(unsafe { (*struct_1.elements.add(8)).is_null() });
+        assert!(unsafe { (*struct_1.elements.add(7)).is_null() });
 
         // Second struct: i16, struct, u16
         let struct_2 = unsafe { &**struct_1.elements };
