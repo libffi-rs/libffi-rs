@@ -6,6 +6,7 @@
 //! and a result type, and libffi uses this to figure out how to set up
 //! a call to a function with those types.
 
+use alloc::vec::Vec;
 use core::fmt;
 use core::mem;
 use core::ptr::{addr_of_mut, null_mut};
@@ -438,6 +439,49 @@ impl Type {
         Self(unsafe { Unique::new(ffi_type_struct_create(fields.into_iter())) })
     }
 
+    /// Computes the offsets of this structure's fields for the given ABI.
+    ///
+    /// The returned offsets are in the same order as the fields passed to
+    /// [`Type::structure`]. This also initializes the structure's size and
+    /// alignment. A structure type should not be laid out for one ABI and then
+    /// reused with another ABI.
+    ///
+    /// # Errors
+    ///
+    /// Returns [`low::Error::Abi`] if `abi` is invalid, or
+    /// [`low::Error::Typedef`] if this is not a structure type or its
+    /// definition is invalid.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use libffi::low::ffi_abi_FFI_DEFAULT_ABI;
+    /// use libffi::middle::Type;
+    ///
+    /// let mut structure = Type::structure([Type::u8(), Type::u64()]);
+    /// let offsets = structure
+    ///     .struct_offsets(ffi_abi_FFI_DEFAULT_ABI)
+    ///     .unwrap();
+    ///
+    /// assert_eq!(offsets[0], 0);
+    /// assert!(offsets[1] >= 1);
+    /// ```
+    pub fn struct_offsets(&mut self, abi: super::FfiAbi) -> low::Result<Vec<usize>> {
+        let struct_type = self.as_raw_ptr();
+
+        unsafe {
+            // Validate and lay out the type before inspecting its element
+            // array. Passing a null offsets pointer is explicitly supported by
+            // libffi for this purpose.
+            low::get_struct_offsets(abi, struct_type, null_mut())?;
+
+            let field_count = ffi_type_array_len((*struct_type).elements);
+            let mut offsets = alloc::vec![0; field_count];
+            low::get_struct_offsets(abi, struct_type, offsets.as_mut_ptr())?;
+            Ok(offsets)
+        }
+    }
+
     /// Gets a raw pointer to the underlying [`low::ffi_type`].
     ///
     /// This method may be useful for interacting with the
@@ -496,6 +540,28 @@ mod test {
         let _ = Type::structure(alloc::vec![Type::i64(), Type::i64(), Type::u64()])
             .clone()
             .clone();
+    }
+
+    #[repr(C)]
+    struct StructWithPadding {
+        one: u8,
+        two: u64,
+        three: u16,
+    }
+
+    #[test]
+    fn get_struct_offsets() {
+        let mut type_ = Type::structure([Type::u8(), Type::u64(), Type::u16()]);
+        let offsets = type_.struct_offsets(low::ffi_abi_FFI_DEFAULT_ABI).unwrap();
+
+        assert_eq!(
+            offsets,
+            alloc::vec![
+                mem::offset_of!(StructWithPadding, one),
+                mem::offset_of!(StructWithPadding, two),
+                mem::offset_of!(StructWithPadding, three),
+            ]
+        );
     }
 
     /// Verify that [`Type`]'s `Debug` impl does not misbehave.

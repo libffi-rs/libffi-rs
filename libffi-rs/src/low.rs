@@ -304,6 +304,61 @@ pub unsafe fn prep_cif_var(
     status_to_result(status, ())
 }
 
+/// Computes the offsets of a structure's fields for the given ABI.
+///
+///  In either case, libffi initializes the
+/// structure type's `size` and `alignment` fields.
+///
+/// # Safety
+///
+/// `struct_type` must point to a valid structure [`ffi_type`] whose
+/// null-terminated element array remains valid for the duration of this call.
+/// If `offsets` is not null, it must be valid for writes of one [`usize`] per
+/// structure field.
+///
+/// # Arguments
+///
+/// - `abi` — the calling convention to use
+/// - `struct_type` — the structure type to compute offsets for
+/// - `offsets` — the array to store the offsets in. It must have one element for every field in `struct_type`. It may instead be null to lay out the structure without retrieving its field offsets.
+///
+/// # Examples
+///
+/// ```
+/// use core::ptr::{addr_of_mut, null_mut};
+/// use libffi::low::*;
+///
+/// let mut elements = unsafe {
+///     [addr_of_mut!(types::uint8), addr_of_mut!(types::uint64), null_mut()]
+/// };
+/// let mut structure = ffi_type {
+///     type_: type_tag::STRUCT,
+///     elements: elements.as_mut_ptr(),
+///     ..Default::default()
+/// };
+/// let mut offsets = [0; 2];
+///
+/// unsafe {
+///     get_struct_offsets(
+///         ffi_abi_FFI_DEFAULT_ABI,
+///         addr_of_mut!(structure),
+///         offsets.as_mut_ptr(),
+///     )
+/// }
+/// .unwrap();
+///
+/// assert_eq!(offsets[0], 0);
+/// assert!(offsets[1] >= 1);
+/// ```
+pub unsafe fn get_struct_offsets(
+    abi: ffi_abi,
+    struct_type: *mut ffi_type,
+    offsets: *mut usize,
+) -> Result<()> {
+    let status = raw::ffi_get_struct_offsets(abi, struct_type, offsets);
+    status_to_result(status, ())
+}
+
 /// Calls a C function as specified by a CIF.
 ///
 /// # Arguments
@@ -827,6 +882,54 @@ mod test {
     #[repr(C)]
     #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
     struct LargeStruct(u64, u64, u64, u64);
+    #[repr(C)]
+    struct StructWithPadding {
+        one: u8,
+        two: u64,
+        three: u16,
+    }
+
+    #[test]
+    fn test_get_struct_offsets() {
+        #[allow(unused_unsafe)]
+        let mut elements = unsafe {
+            [
+                addr_of_mut!(types::uint8),
+                addr_of_mut!(types::uint64),
+                addr_of_mut!(types::uint16),
+                null_mut(),
+            ]
+        };
+        let mut type_ = ffi_type {
+            type_: type_tag::STRUCT,
+            elements: elements.as_mut_ptr(),
+            ..Default::default()
+        };
+        let mut offsets = [usize::MAX; 3];
+
+        unsafe {
+            get_struct_offsets(
+                ffi_abi_FFI_DEFAULT_ABI,
+                addr_of_mut!(type_),
+                offsets.as_mut_ptr(),
+            )
+            .unwrap();
+        }
+
+        assert_eq!(
+            offsets,
+            [
+                mem::offset_of!(StructWithPadding, one),
+                mem::offset_of!(StructWithPadding, two),
+                mem::offset_of!(StructWithPadding, three),
+            ]
+        );
+        assert_eq!(type_.size, mem::size_of::<StructWithPadding>());
+        assert_eq!(
+            usize::from(type_.alignment),
+            mem::align_of::<StructWithPadding>()
+        );
+    }
 
     extern "C" fn return_nothing() {}
     extern "C" fn return_i8(a: i8) -> i8 {
