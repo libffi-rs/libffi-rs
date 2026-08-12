@@ -258,9 +258,11 @@ unsafe extern "C" fn is_vfp_type(mut ty: *const ffi_type) -> ::core::ffi::c_int 
                     }
                 }
                 FFI_TYPE_LONGDOUBLE => {
-                    ele_count = size.wrapping_div(::core::mem::size_of::<::f128::f128>() as size_t);
+                    ele_count = size
+                        .wrapping_div(::core::mem::size_of::<::core::ffi::c_double>() as size_t);
                     if size
-                        != ele_count.wrapping_mul(::core::mem::size_of::<::f128::f128>() as size_t)
+                        != ele_count
+                            .wrapping_mul(::core::mem::size_of::<::core::ffi::c_double>() as size_t)
                     {
                         return 0 as ::core::ffi::c_int;
                     }
@@ -449,7 +451,7 @@ unsafe extern "C" fn compress_hfa_type(
         }
         AARCH64_RET_S2 => {
             asm!(
-                "ldp q16, q17, [{1}]\n", "\tst2 { v16.s, v17.s }[0], [{0}]\n",
+                "ldp q16, q17, [{1}]\n", "\tst2 {{ v16.s, v17.s }}[0], [{0}]\n",
                 inlateout(reg) dest => _, inlateout(reg) reg => _, out("v16") _,
                 out("v17") _, options(preserves_flags)
             );
@@ -457,7 +459,7 @@ unsafe extern "C" fn compress_hfa_type(
         AARCH64_RET_S3 => {
             asm!(
                 "ldp q16, q17, [{1}]\n", "\tldr q18, [{1}, #32]\n",
-                "\tst3 { v16.s, v17.s, v18.s }[0], [{0}]\n", inlateout(reg) dest => _,
+                "\tst3 {{ v16.s, v17.s, v18.s }}[0], [{0}]\n", inlateout(reg) dest => _,
                 inlateout(reg) reg => _, out("v16") _, out("v17") _, out("v18") _,
                 options(preserves_flags)
             );
@@ -465,7 +467,7 @@ unsafe extern "C" fn compress_hfa_type(
         AARCH64_RET_S4 => {
             asm!(
                 "ldp q16, q17, [{1}]\n", "\tldp q18, q19, [{1}, #32]\n",
-                "\tst4 { v16.s, v17.s, v18.s, v19.s }[0], [{0}]\n", inlateout(reg) dest
+                "\tst4 {{ v16.s, v17.s, v18.s, v19.s }}[0], [{0}]\n", inlateout(reg) dest
                 => _, inlateout(reg) reg => _, out("v16") _, out("v17") _, out("v18") _,
                 out("v19") _, options(preserves_flags)
             );
@@ -477,7 +479,7 @@ unsafe extern "C" fn compress_hfa_type(
         }
         AARCH64_RET_D2 => {
             asm!(
-                "ldp q16, q17, [{1}]\n", "\tst2 { v16.d, v17.d }[0], [{0}]\n",
+                "ldp q16, q17, [{1}]\n", "\tst2 {{ v16.d, v17.d }}[0], [{0}]\n",
                 inlateout(reg) dest => _, inlateout(reg) reg => _, out("v16") _,
                 out("v17") _, options(preserves_flags)
             );
@@ -485,7 +487,7 @@ unsafe extern "C" fn compress_hfa_type(
         AARCH64_RET_D3 => {
             asm!(
                 "ldp q16, q17, [{1}]\n", "\tldr q18, [{1}, #32]\n",
-                "\tst3 { v16.d, v17.d, v18.d }[0], [{0}]\n", inlateout(reg) dest => _,
+                "\tst3 {{ v16.d, v17.d, v18.d }}[0], [{0}]\n", inlateout(reg) dest => _,
                 inlateout(reg) reg => _, out("v16") _, out("v17") _, out("v18") _,
                 options(preserves_flags)
             );
@@ -493,7 +495,7 @@ unsafe extern "C" fn compress_hfa_type(
         AARCH64_RET_D4 => {
             asm!(
                 "ldp q16, q17, [{1}]\n", "\tldp q18, q19, [{1}, #32]\n",
-                "\tst4 { v16.d, v17.d, v18.d, v19.d }[0], [{0}]\n", inlateout(reg) dest
+                "\tst4 {{ v16.d, v17.d, v18.d, v19.d }}[0], [{0}]\n", inlateout(reg) dest
                 => _, inlateout(reg) reg => _, out("v16") _, out("v17") _, out("v18") _,
                 out("v19") _, options(preserves_flags)
             );

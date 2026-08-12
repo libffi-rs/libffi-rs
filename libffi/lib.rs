@@ -4,10 +4,7 @@
 #![allow(non_upper_case_globals)]
 #![allow(unused_assignments)]
 #![allow(unused_mut)]
-#![feature(asm)]
 #![feature(raw_ref_op)]
-
-extern crate f128;
 
 pub mod src {
     pub mod aarch64 {

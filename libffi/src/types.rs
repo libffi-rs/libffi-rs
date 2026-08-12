@@ -161,28 +161,59 @@ pub static mut ffi_type_double: ffi_type = _ffi_type {
 };
 #[no_mangle]
 pub static mut ffi_type_longdouble: ffi_type = _ffi_type {
-    size: ::core::mem::size_of::<::f128::f128>() as size_t,
+    // long double has the same 64-bit representation as double on aarch64 macOS.
+    size: ::core::mem::size_of::<::core::ffi::c_double>() as size_t,
     alignment: 8 as ::core::ffi::c_ulong as ::core::ffi::c_ushort,
     type_0: 3 as ::core::ffi::c_ushort,
     elements: ::core::ptr::null::<*mut _ffi_type>() as *mut *mut _ffi_type,
 };
-static mut ffi_elements_complex_float: [*mut ffi_type; 2] = unsafe {
+
+#[repr(transparent)]
+struct FfiElements([*mut ffi_type; 2]);
+
+// These arrays are immutable after initialization. The raw pointers refer to
+// process-wide ffi_type descriptors, matching libffi's C definitions.
+unsafe impl Sync for FfiElements {}
+
+static ffi_elements_complex_float: FfiElements = FfiElements(unsafe {
     [
         &raw const ffi_type_float as *mut ffi_type,
         ::core::ptr::null::<ffi_type>() as *mut ffi_type,
     ]
-};
-static mut ffi_elements_complex_double: [*mut ffi_type; 2] = unsafe {
+});
+static ffi_elements_complex_double: FfiElements = FfiElements(unsafe {
     [
         &raw const ffi_type_double as *mut ffi_type,
         ::core::ptr::null::<ffi_type>() as *mut ffi_type,
     ]
-};
-static mut ffi_elements_complex_longdouble: [*mut ffi_type; 2] = unsafe {
+});
+static ffi_elements_complex_longdouble: FfiElements = FfiElements(unsafe {
     [
         &raw const ffi_type_longdouble as *mut ffi_type,
         ::core::ptr::null::<ffi_type>() as *mut ffi_type,
     ]
+});
+
+#[no_mangle]
+pub static mut ffi_type_complex_float: ffi_type = _ffi_type {
+    size: 2 * ::core::mem::size_of::<::core::ffi::c_float>(),
+    alignment: ::core::mem::align_of::<::core::ffi::c_float>() as ::core::ffi::c_ushort,
+    type_0: FFI_TYPE_COMPLEX as ::core::ffi::c_ushort,
+    elements: &ffi_elements_complex_float.0 as *const _ as *mut *mut ffi_type,
+};
+#[no_mangle]
+pub static mut ffi_type_complex_double: ffi_type = _ffi_type {
+    size: 2 * ::core::mem::size_of::<::core::ffi::c_double>(),
+    alignment: ::core::mem::align_of::<::core::ffi::c_double>() as ::core::ffi::c_ushort,
+    type_0: FFI_TYPE_COMPLEX as ::core::ffi::c_ushort,
+    elements: &ffi_elements_complex_double.0 as *const _ as *mut *mut ffi_type,
+};
+#[no_mangle]
+pub static mut ffi_type_complex_longdouble: ffi_type = _ffi_type {
+    size: 2 * ::core::mem::size_of::<::core::ffi::c_double>(),
+    alignment: ::core::mem::align_of::<::core::ffi::c_double>() as ::core::ffi::c_ushort,
+    type_0: FFI_TYPE_COMPLEX as ::core::ffi::c_ushort,
+    elements: &ffi_elements_complex_longdouble.0 as *const _ as *mut *mut ffi_type,
 };
 #[no_mangle]
 pub static mut ffi_type_uint128: ffi_type = _ffi_type {
