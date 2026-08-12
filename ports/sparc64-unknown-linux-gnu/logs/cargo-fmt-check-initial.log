@@ -1,0 +1,66 @@
+Diff in /home/ubuntu/port/build.rs:2:
+ 
+ fn main() {
+     let target = env::var("TARGET").expect("Cargo must set TARGET");
+-    assert_eq!(target, "sparc64-unknown-linux-gnu", "this crate is only for sparc64 GNU/Linux");
++    assert_eq!(
++        target, "sparc64-unknown-linux-gnu",
++        "this crate is only for sparc64 GNU/Linux"
++    );
+     assert_eq!(env::var("CARGO_CFG_TARGET_ARCH").as_deref(), Ok("sparc64"));
+     assert_eq!(env::var("CARGO_CFG_TARGET_OS").as_deref(), Ok("linux"));
+     assert_eq!(env::var("CARGO_CFG_TARGET_ENV").as_deref(), Ok("gnu"));
+Diff in /home/ubuntu/port/build.rs:16:
+ 
+     cc::Build::new()
+         .target(&target)
+-        .compiler(env::var("CC_sparc64_unknown_linux_gnu").unwrap_or_else(|_| "sparc64-linux-gnu-gcc".into()))
++        .compiler(
++            env::var("CC_sparc64_unknown_linux_gnu")
++                .unwrap_or_else(|_| "sparc64-linux-gnu-gcc".into()),
++        )
+         .file("asm/sparc/v9.S")
+         .file("asm/sparc/flush.S")
+         .include("artifacts")
+Diff in /home/ubuntu/port/src/lib.rs:1:
+ #![no_std]
+ #![allow(clippy::all)]
+-#![allow(dead_code, non_camel_case_types, non_snake_case, non_upper_case_globals)]
++#![allow(
++    dead_code,
++    non_camel_case_types,
++    non_snake_case,
++    non_upper_case_globals
++)]
+ #![allow(unused_assignments, unused_mut, unused_parens, unused_unsafe)]
+ #![allow(improper_ctypes, static_mut_refs)]
+ 
+Diff in /home/ubuntu/port/src/types.rs:189:
+ // These are the configured SPARC64 GNU C layouts: (8,4), (16,8), (32,16).
+ #[no_mangle]
+ pub static mut ffi_type_complex_float: ffi_type = _ffi_type {
+-    size: 8, alignment: 4, type_0: FFI_TYPE_COMPLEX as u16,
++    size: 8,
++    alignment: 4,
++    type_0: FFI_TYPE_COMPLEX as u16,
+     elements: core::ptr::addr_of_mut!(ffi_elements_complex_float).cast(),
+ };
+ #[no_mangle]
+Diff in /home/ubuntu/port/src/types.rs:196:
+ pub static mut ffi_type_complex_double: ffi_type = _ffi_type {
+-    size: 16, alignment: 8, type_0: FFI_TYPE_COMPLEX as u16,
++    size: 16,
++    alignment: 8,
++    type_0: FFI_TYPE_COMPLEX as u16,
+     elements: core::ptr::addr_of_mut!(ffi_elements_complex_double).cast(),
+ };
+ #[no_mangle]
+Diff in /home/ubuntu/port/src/types.rs:201:
+ pub static mut ffi_type_complex_longdouble: ffi_type = _ffi_type {
+-    size: 32, alignment: 16, type_0: FFI_TYPE_COMPLEX as u16,
++    size: 32,
++    alignment: 16,
++    type_0: FFI_TYPE_COMPLEX as u16,
+     elements: core::ptr::addr_of_mut!(ffi_elements_complex_longdouble).cast(),
+ };
+ 

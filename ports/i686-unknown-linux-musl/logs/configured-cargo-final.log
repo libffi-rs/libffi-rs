@@ -1,0 +1,26 @@
+    Finished `release` profile [optimized] target(s) in 0.07s
+     Running unittests src/lib.rs (target/i686-unknown-linux-musl/release/deps/libffi_c2rust_i686_musl-97ac661eb25cee31)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/e2e.rs (target/i686-unknown-linux-musl/release/deps/e2e-b3e2f89c0ac8c610)
+
+running 7 tests
+test configured_i686_layout_and_types_are_exact ... ok
+test executable_closure_round_trip ... ok
+test ffi_call_floating_point ... ok
+test ffi_call_integer ... ok
+test ffi_call_stack_arguments ... ok
+test ffi_call_struct_by_value_and_return ... ok
+test ffi_call_x87_long_double ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests libffi_c2rust_i686_musl
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

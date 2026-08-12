@@ -1,0 +1,9 @@
+    Updating crates.io index
+     Locking 0 packages to latest compatible versions
+    Removing autocfg v1.5.1
+    Removing c2rust-asm-casts v0.22.1
+    Removing f128 v0.2.9
+    Removing f128_input v0.2.1
+    Removing f128_internal v0.2.2
+    Removing libc v0.2.189
+    Removing num-traits v0.2.19

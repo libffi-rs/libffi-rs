@@ -1,0 +1,156 @@
+   Compiling libffi-c2rust-i686-gnu v0.0.0 (/home/ubuntu/libffi-rs/port-i686)
+warning: unused variable: `flags`
+   --> src/closures.rs:993:5
+    |
+993 |     mut flags: ::core::ffi::c_int,
+    |     ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_flags`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable `nfences` is assigned to, but never used
+    --> src/closures.rs:1519:9
+     |
+1519 |     let mut nfences: ::core::ffi::c_int = 0 as ::core::ffi::c_int;
+     |         ^^^^^^^^^^^
+     |
+     = note: consider using `_nfences` instead
+
+warning: unused variable: `flags`
+    --> src/closures.rs:5326:5
+     |
+5326 |     mut flags: ::core::ffi::c_int,
+     |     ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_flags`
+
+warning: unnecessary `unsafe` block
+    --> src/closures.rs:5457:61
+     |
+5457 | static mut open_temp_exec_file_opts: [C2RustUnnamed_2; 9] = unsafe {
+     |                                                             ^^^^^^ unnecessary `unsafe` block
+     |
+     = note: `#[warn(unused_unsafe)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `isvariadic`
+   --> src/prep_cif.rs:139:5
+    |
+139 |     mut isvariadic: ::core::ffi::c_uint,
+    |     ^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_isvariadic`
+
+warning: unused variable: `nfixedargs`
+   --> src/prep_cif.rs:140:5
+    |
+140 |     mut nfixedargs: ::core::ffi::c_uint,
+    |     ^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_nfixedargs`
+
+warning: unnecessary `unsafe` block
+   --> src/types.rs:179:61
+    |
+179 | static mut ffi_elements_complex_float: [*mut ffi_type; 2] = unsafe {
+    |                                                             ^^^^^^ unnecessary `unsafe` block
+
+warning: unnecessary `unsafe` block
+   --> src/types.rs:185:62
+    |
+185 | static mut ffi_elements_complex_double: [*mut ffi_type; 2] = unsafe {
+    |                                                              ^^^^^^ unnecessary `unsafe` block
+
+warning: unnecessary `unsafe` block
+   --> src/types.rs:191:66
+    |
+191 | static mut ffi_elements_complex_longdouble: [*mut ffi_type; 2] = unsafe {
+    |                                                                  ^^^^^^ unnecessary `unsafe` block
+
+warning: function pointer comparisons do not produce meaningful results since their addresses are not guaranteed to be unique
+   --> src/x86/ffi.rs:787:12
+    |
+787 |         if dest == Some(ffi_closure_i386 as unsafe extern "C" fn() -> ()) {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: the address of the same function can vary between different codegen units
+    = note: furthermore, different functions could have the same address after being merged together
+    = note: for more information visit <https://doc.rust-lang.org/nightly/core/ptr/fn.fn_addr_eq.html>
+    = note: `#[warn(unpredictable_function_pointer_comparisons)]` on by default
+
+warning: function pointer comparisons do not produce meaningful results since their addresses are not guaranteed to be unique
+   --> src/x86/ffi.rs:790:19
+    |
+790 |         } else if dest == Some(ffi_closure_STDCALL as unsafe extern "C" fn() -> ()) {
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: the address of the same function can vary between different codegen units
+    = note: furthermore, different functions could have the same address after being merged together
+    = note: for more information visit <https://doc.rust-lang.org/nightly/core/ptr/fn.fn_addr_eq.html>
+
+warning: unused unary operation that must be used
+    --> src/closures.rs:2079:29
+     |
+2079 | ...                   !(0 as ::core::ffi::c_int as size_t);
+     |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the unary operation produces a value
+     |
+     = note: `#[warn(unused_must_use)]` (part of `#[warn(unused)]`) on by default
+help: use `let _ = ...` to ignore the resulting value
+     |
+2079 |                             let _ = !(0 as ::core::ffi::c_int as size_t);
+     |                             +++++++
+
+warning: unused comparison that must be used
+    --> src/closures.rs:5664:25
+     |
+5664 |                         ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the comparison produces a value
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+5664 |                         let _ = ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         +++++++
+
+warning: unused comparison that must be used
+    --> src/closures.rs:5678:25
+     |
+5678 |                         ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the comparison produces a value
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+5678 |                         let _ = ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         +++++++
+
+warning: `write` redeclared with a different signature
+  --> src/tramp.rs:29:5
+   |
+29 | /     fn write(
+30 | |         __fd: ::core::ffi::c_int,
+31 | |         __buf: *const ::core::ffi::c_void,
+32 | |         __n: size_t,
+33 | |     ) -> ssize_t;
+   | |_________________^ this signature doesn't match the previous declaration
+   |
+  ::: src/closures.rs:61:5
+   |
+61 | /     fn write(
+62 | |         __fd: ::core::ffi::c_int,
+63 | |         __buf: *const ::core::ffi::c_void,
+64 | |         __n: size_t,
+65 | |     ) -> ssize_t;
+   | |_________________- `write` previously declared here
+   |
+   = note: expected `unsafe extern "C" fn(i32, *const c_void, usize) -> isize`
+              found `unsafe extern "C" fn(i32, *const c_void, usize) -> i32`
+   = note: `#[warn(clashing_extern_declarations)]` on by default
+
+warning: `libffi-c2rust-i686-gnu` (lib) generated 15 warnings (5 duplicates) (run `cargo fix --lib -p libffi-c2rust-i686-gnu` to apply 2 suggestions)
+warning: `libffi-c2rust-i686-gnu` (lib test) generated 15 warnings (10 duplicates) (run `cargo fix --lib -p libffi-c2rust-i686-gnu --tests` to apply 2 suggestions)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.60s
+     Running unittests lib.rs (target/i686-unknown-linux-gnu/debug/deps/libffi_c2rust_i686_gnu-e661813ffab79ab0)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/e2e.rs (target/i686-unknown-linux-gnu/debug/deps/e2e-828137d06639ad5e)
+
+running 9 tests
+test closure_round_trip ... ok
+test many2_test ... error: test failed, to rerun pass `--test e2e`
+
+Caused by:
+  process didn't exit successfully: `/home/ubuntu/libffi-rs/port-i686/target/i686-unknown-linux-gnu/debug/deps/e2e-828137d06639ad5e --test-threads=1` (signal: 11, SIGSEGV: invalid memory reference)

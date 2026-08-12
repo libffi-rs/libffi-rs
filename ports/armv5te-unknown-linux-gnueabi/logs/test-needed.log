@@ -1,0 +1,41 @@
++ echo 'test executable: target/armv5te-unknown-linux-gnueabi/debug/deps/ffi-896816d6ff3ebbd8'
+test executable: target/armv5te-unknown-linux-gnueabi/debug/deps/ffi-896816d6ff3ebbd8
++ file target/armv5te-unknown-linux-gnueabi/debug/deps/ffi-896816d6ff3ebbd8
+target/armv5te-unknown-linux-gnueabi/debug/deps/ffi-896816d6ff3ebbd8: ELF 32-bit LSB pie executable, ARM, EABI5 version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux.so.3, BuildID[sha1]=92b401b7935018bc764905eca3395e09283359cf, for GNU/Linux 3.2.0, with debug_info, not stripped
++ echo '=== ELF attributes ==='
+=== ELF attributes ===
++ arm-linux-gnueabi-readelf -A target/armv5te-unknown-linux-gnueabi/debug/deps/ffi-896816d6ff3ebbd8
+Attribute Section: aeabi
+File Attributes
+  Tag_CPU_name: "ARM v5TE"
+  Tag_CPU_arch: v5TE
+  Tag_ARM_ISA_use: Yes
+  Tag_THUMB_ISA_use: Thumb-1
+  Tag_ABI_PCS_GOT_use: GOT-indirect
+  Tag_ABI_PCS_wchar_t: 4
+  Tag_ABI_FP_rounding: Needed
+  Tag_ABI_FP_denormal: Needed
+  Tag_ABI_FP_exceptions: Needed
+  Tag_ABI_FP_number_model: IEEE 754
+  Tag_ABI_align_needed: 8-byte
+  Tag_ABI_enum_size: int
+  Tag_ABI_FP_16bit_format: IEEE 754
++ echo '=== dynamic NEEDED entries (must not contain libffi) ==='
+=== dynamic NEEDED entries (must not contain libffi) ===
++ arm-linux-gnueabi-readelf -d target/armv5te-unknown-linux-gnueabi/debug/deps/ffi-896816d6ff3ebbd8
++ grep NEEDED
+ 0x00000001 (NEEDED)                     Shared library: [libgcc_s.so.1]
+ 0x00000001 (NEEDED)                     Shared library: [libc.so.6]
+ 0x00000001 (NEEDED)                     Shared library: [ld-linux.so.3]
++ arm-linux-gnueabi-readelf -d target/armv5te-unknown-linux-gnueabi/debug/deps/ffi-896816d6ff3ebbd8
++ grep NEEDED
++ grep -qi libffi
++ echo '=== definitions supplied by executable ==='
+=== definitions supplied by executable ===
++ arm-linux-gnueabi-nm --defined-only target/armv5te-unknown-linux-gnueabi/debug/deps/ffi-896816d6ff3ebbd8
++ grep -E ' (ffi_call|ffi_prep_cif|ffi_prep_closure_loc|ffi_closure_alloc|ffi_type_sint32)$'
+00075cd0 T ffi_call
+0006da48 T ffi_closure_alloc
+00077fac T ffi_prep_cif
+0007699c T ffi_prep_closure_loc
+000f50a8 D ffi_type_sint32

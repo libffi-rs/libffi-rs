@@ -1,0 +1,87 @@
+test -f fficonfig.h || rm -f stamp-h1
+test -f fficonfig.h || make  stamp-h1
+make  all-recursive
+make[1]: Entering directory '/home/ubuntu/work/configured'
+fail=; \
+if (target_option=k; case ${target_option-} in ?) ;; *) echo "am__make_running_with_option: internal error: invalid" "target option '${target_option-}' specified" >&2; exit 1;; esac; has_opt=no; sane_makeflags=$MAKEFLAGS; if { if test -z '1'; then false; elif test -n 'x86_64-pc-linux-gnu'; then true; elif test -n '4.3' && test -n '/home/ubuntu/work/configured'; then true; else false; fi; }; then sane_makeflags=$MFLAGS; else case $MAKEFLAGS in *\\[\ \	]*) bs=\\; sane_makeflags=`printf '%s\n' "$MAKEFLAGS" | sed "s/$bs$bs[$bs $bs	]*//g"`;; esac; fi; skip_next=no; strip_trailopt () { flg=`printf '%s\n' "$flg" | sed "s/$1.*$//"`; }; for flg in $sane_makeflags; do test $skip_next = yes && { skip_next=no; continue; }; case $flg in *=*|--*) continue;; -*I) strip_trailopt 'I'; skip_next=yes;; -*I?*) strip_trailopt 'I';; -*O) strip_trailopt 'O'; skip_next=yes;; -*O?*) strip_trailopt 'O';; -*l) strip_trailopt 'l'; skip_next=yes;; -*l?*) strip_trailopt 'l';; -[dEDm]) skip_next=yes;; -[JT]) skip_next=yes;; esac; case $flg in *$target_option*) has_opt=yes; break;; esac; done; test $has_opt = yes); then \
+  failcom='fail=yes'; \
+else \
+  failcom='exit 1'; \
+fi; \
+dot_seen=no; \
+target=`echo all-recursive | sed s/-recursive//`; \
+case "all-recursive" in \
+  distclean-* | maintainer-clean-*) list='include testsuite man doc' ;; \
+  *) list='include testsuite man ' ;; \
+esac; \
+for subdir in $list; do \
+  echo "Making $target in $subdir"; \
+  if test "$subdir" = "."; then \
+    dot_seen=yes; \
+    local_target="$target-am"; \
+  else \
+    local_target="$target"; \
+  fi; \
+  (CDPATH="${ZSH_VERSION+.}:" && cd $subdir && make  $local_target) \
+  || eval $failcom; \
+done; \
+if test "$dot_seen" = "no"; then \
+  make  "$target-am" || exit 1; \
+fi; test -z "$fail"
+Making all in include
+make[2]: Entering directory '/home/ubuntu/work/configured/include'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/home/ubuntu/work/configured/include'
+Making all in testsuite
+make[2]: Entering directory '/home/ubuntu/work/configured/testsuite'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/home/ubuntu/work/configured/testsuite'
+Making all in man
+make[2]: Entering directory '/home/ubuntu/work/configured/man'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/home/ubuntu/work/configured/man'
+make[2]: Entering directory '/home/ubuntu/work/configured'
+/usr/bin/mkdir -p src
+: > src/.dirstamp
+/usr/bin/mkdir -p src/.deps
+: > src/.deps/.dirstamp
+depbase=`echo src/prep_cif.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile sparc64-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi  -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src   -Wall -O2 -g -fPIC -fexceptions -MT src/prep_cif.lo -MD -MP -MF $depbase.Tpo -c -o src/prep_cif.lo /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/prep_cif.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+depbase=`echo src/types.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile sparc64-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi  -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src   -Wall -O2 -g -fPIC -fexceptions -MT src/types.lo -MD -MP -MF $depbase.Tpo -c -o src/types.lo /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/types.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+depbase=`echo src/raw_api.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile sparc64-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi  -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src   -Wall -O2 -g -fPIC -fexceptions -MT src/raw_api.lo -MD -MP -MF $depbase.Tpo -c -o src/raw_api.lo /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/raw_api.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+depbase=`echo src/java_raw_api.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile sparc64-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi  -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src   -Wall -O2 -g -fPIC -fexceptions -MT src/java_raw_api.lo -MD -MP -MF $depbase.Tpo -c -o src/java_raw_api.lo /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/java_raw_api.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+depbase=`echo src/closures.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile sparc64-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi  -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src   -Wall -O2 -g -fPIC -fexceptions -MT src/closures.lo -MD -MP -MF $depbase.Tpo -c -o src/closures.lo /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/closures.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+depbase=`echo src/tramp.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile sparc64-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi  -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src   -Wall -O2 -g -fPIC -fexceptions -MT src/tramp.lo -MD -MP -MF $depbase.Tpo -c -o src/tramp.lo /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/tramp.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+/usr/bin/mkdir -p src/sparc
+: > src/sparc/.dirstamp
+/usr/bin/mkdir -p src/sparc/.deps
+: > src/sparc/.deps/.dirstamp
+depbase=`echo src/sparc/ffi.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile sparc64-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi  -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src   -Wall -O2 -g -fPIC -fexceptions -MT src/sparc/ffi.lo -MD -MP -MF $depbase.Tpo -c -o src/sparc/ffi.lo /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/sparc/ffi.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+depbase=`echo src/sparc/ffi64.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile sparc64-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi  -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src   -Wall -O2 -g -fPIC -fexceptions -MT src/sparc/ffi64.lo -MD -MP -MF $depbase.Tpo -c -o src/sparc/ffi64.lo /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/sparc/ffi64.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+depbase=`echo src/sparc/v8.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile sparc64-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi  -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src  '-I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src' -O2 -g -fPIC -MT src/sparc/v8.lo -MD -MP -MF $depbase.Tpo -c -o src/sparc/v8.lo /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/sparc/v8.S &&\
+mv -f $depbase.Tpo $depbase.Plo
+depbase=`echo src/sparc/v9.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile sparc64-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi  -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src  '-I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src' -O2 -g -fPIC -MT src/sparc/v9.lo -MD -MP -MF $depbase.Tpo -c -o src/sparc/v9.lo /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/sparc/v9.S &&\
+mv -f $depbase.Tpo $depbase.Plo
+/bin/bash ./libtool  --tag=CC   --mode=link sparc64-linux-gnu-gcc  -Wall -O2 -g -fPIC -fexceptions   -o libffi_convenience.la  src/prep_cif.lo src/types.lo src/raw_api.lo src/java_raw_api.lo src/closures.lo src/tramp.lo   src/sparc/ffi.lo src/sparc/ffi64.lo src/sparc/v8.lo src/sparc/v9.lo 
+/bin/bash ./libtool  --tag=CC   --mode=link sparc64-linux-gnu-gcc  -Wall -O2 -g -fPIC -fexceptions -no-undefined -version-info `grep -v '^#' /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/libtool-version`     -o libffi.la -rpath /usr/local/lib/../lib src/prep_cif.lo src/types.lo src/raw_api.lo src/java_raw_api.lo src/closures.lo src/tramp.lo  src/sparc/ffi.lo src/sparc/ffi64.lo src/sparc/v8.lo src/sparc/v9.lo 
+test -f fficonfig.h || rm -f stamp-h1
+test -f fficonfig.h || make  stamp-h1
+make[2]: Leaving directory '/home/ubuntu/work/configured'
+make[1]: Leaving directory '/home/ubuntu/work/configured'

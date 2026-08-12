@@ -1,0 +1,84 @@
++ uname -a
+Linux ip-172-31-36-63 6.17.0-1019-aws #19~24.04.1-Ubuntu SMP Tue Jun 23 18:53:06 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
++ rustc --version --verbose
+rustc 1.97.1 (8bab26f4f 2026-07-14)
+binary: rustc
+commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452
+commit-date: 2026-07-14
+host: x86_64-unknown-linux-gnu
+release: 1.97.1
+LLVM version: 22.1.6
++ cargo --version
+cargo 1.97.1 (c980f4866 2026-06-30)
++ c2rust --version
+C2Rust 0.22.1
++ i486-linux-musl-gcc --version
++ head -1
+i486-linux-musl-gcc (GCC) 11.2.1 20211120
++ file target/i686-unknown-linux-musl/release/liblibffi_c2rust_i686_musl.a target/i686-unknown-linux-musl/release/deps/e2e-b3e2f89c0ac8c610
+target/i686-unknown-linux-musl/release/liblibffi_c2rust_i686_musl.a: current ar archive
+target/i686-unknown-linux-musl/release/deps/e2e-b3e2f89c0ac8c610:    ELF 32-bit LSB executable, Intel 80386, version 1 (GNU/Linux), statically linked, not stripped
++ i486-linux-musl-readelf -h target/i686-unknown-linux-musl/release/deps/e2e-b3e2f89c0ac8c610
++ grep -E 'Class:|Machine:|Type:'
+  Class:                             ELF32
+  Type:                              EXEC (Executable file)
+  Machine:                           Intel 80386
++ echo '--- dynamic section ---'
+--- dynamic section ---
++ i486-linux-musl-readelf -d target/i686-unknown-linux-musl/release/deps/e2e-b3e2f89c0ac8c610
+
+There is no dynamic section in this file.
++ echo '--- interpreter segments (must be empty) ---'
+--- interpreter segments (must be empty) ---
++ i486-linux-musl-readelf -l target/i686-unknown-linux-musl/release/deps/e2e-b3e2f89c0ac8c610
++ grep INTERP
++ true
++ echo '--- ldd ---'
+--- ldd ---
++ ldd target/i686-unknown-linux-musl/release/deps/e2e-b3e2f89c0ac8c610
+	not a dynamic executable
++ true
++ echo '--- required defined archive symbols ---'
+--- required defined archive symbols ---
++ i486-linux-musl-nm -g --defined-only target/i686-unknown-linux-musl/release/liblibffi_c2rust_i686_musl.a
++ awk '{print $2,$3}'
++ grep -E ' [TDBR]?(ffi_call|ffi_prep_cif|ffi_closure_alloc|ffi_closure_free|ffi_prep_closure_loc|ffi_closure_inner|ffi_call_i386|ffi_closure_i386|ffi_type_longdouble|ffi_type_complex_float|ffi_type_complex_double|ffi_type_complex_longdouble)$'
++ sort -u
+D ffi_type_complex_double
+D ffi_type_complex_float
+D ffi_type_complex_longdouble
+D ffi_type_longdouble
+T ffi_call
+T ffi_call_i386
+T ffi_closure_alloc
+T ffi_closure_free
+T ffi_closure_i386
+T ffi_closure_inner
+T ffi_prep_cif
+T ffi_prep_closure_loc
++ echo '--- required defined executable symbols ---'
+--- required defined executable symbols ---
++ i486-linux-musl-nm -g --defined-only target/i686-unknown-linux-musl/release/deps/e2e-b3e2f89c0ac8c610
++ grep -E ' (ffi_call|ffi_prep_cif|ffi_closure_alloc|ffi_prep_closure_loc|ffi_call_i386|ffi_type_longdouble)$'
++ sort -u
+08092cd0 T ffi_closure_alloc
+08093a10 T ffi_call
+08093f10 T ffi_prep_cif
+08094130 T ffi_prep_closure_loc
+08095000 T ffi_call_i386
+08136068 D ffi_type_longdouble
++ echo '--- direct native run ---'
+--- direct native run ---
++ target/i686-unknown-linux-musl/release/deps/e2e-b3e2f89c0ac8c610 --test-threads=1
+
+running 7 tests
+test configured_i686_layout_and_types_are_exact ... ok
+test executable_closure_round_trip ... ok
+test ffi_call_floating_point ... ok
+test ffi_call_integer ... ok
+test ffi_call_stack_arguments ... ok
+test ffi_call_struct_by_value_and_return ... ok
+test ffi_call_x87_long_double ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

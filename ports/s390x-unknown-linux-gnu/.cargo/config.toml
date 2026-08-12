@@ -1,0 +1,3 @@
+[target.s390x-unknown-linux-gnu]
+linker = "s390x-linux-gnu-gcc"
+runner = "qemu-s390x -L /usr/s390x-linux-gnu"

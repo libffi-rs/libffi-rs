@@ -1,0 +1,15 @@
+[package]
+name = "libffi-c2rust-x86-64-gnux32"
+version = "0.0.0"
+edition = "2021"
+publish = false
+build = "build.rs"
+autobins = false
+
+[lib]
+name = "libffi_c2rust_x86_64_gnux32"
+path = "lib.rs"
+crate-type = ["staticlib", "rlib"]
+
+[build-dependencies]
+cc = "1"

@@ -1,0 +1,184 @@
+   Compiling libffi-sparc64-c2rust v0.1.0 (/home/ubuntu/port)
+warning: unused variable: `flags`
+   --> src/closures.rs:939:5
+    |
+939 |     mut flags: ::core::ffi::c_int,
+    |     ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_flags`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable `nfences` is assigned to, but never used
+    --> src/closures.rs:1436:9
+     |
+1436 |     let mut nfences: ::core::ffi::c_int = 0 as ::core::ffi::c_int;
+     |         ^^^^^^^^^^^
+     |
+     = note: consider using `_nfences` instead
+
+warning: unused variable: `flags`
+    --> src/closures.rs:5320:5
+     |
+5320 |     mut flags: ::core::ffi::c_int,
+     |     ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_flags`
+
+warning: unused variable: `flags`
+ --> src/tramp.rs:8:5
+  |
+8 |     mut flags: ::core::ffi::c_int,
+  |     ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_flags`
+
+warning: unused variable: `arg`
+  --> src/tramp.rs:14:5
+   |
+14 |     mut arg: *mut ::core::ffi::c_void,
+   |     ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_arg`
+
+warning: unused variable: `target`
+  --> src/tramp.rs:15:5
+   |
+15 |     mut target: *mut ::core::ffi::c_void,
+   |     ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_target`
+
+warning: unused variable: `data`
+  --> src/tramp.rs:16:5
+   |
+16 |     mut data: *mut ::core::ffi::c_void,
+   |     ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_data`
+
+warning: unused variable: `arg`
+  --> src/tramp.rs:21:5
+   |
+21 |     mut arg: *mut ::core::ffi::c_void,
+   |     ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_arg`
+
+warning: unused variable: `arg`
+  --> src/tramp.rs:26:41
+   |
+26 | pub unsafe extern "C" fn ffi_tramp_free(mut arg: *mut ::core::ffi::c_void) {}
+   |                                         ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_arg`
+
+warning: unused variable: `ntotalargs`
+   --> src/sparc/ffi64.rs:430:5
+    |
+430 |     mut ntotalargs: ::core::ffi::c_uint,
+    |     ^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_ntotalargs`
+
+warning: unused variable: `codeloc`
+   --> src/sparc/ffi64.rs:617:5
+    |
+617 |     mut codeloc: *mut ::core::ffi::c_void,
+    |     ^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_codeloc`
+
+warning: unused unary operation that must be used
+    --> src/closures.rs:1972:29
+     |
+1972 | ...                   !(0 as ::core::ffi::c_int as size_t);
+     |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the unary operation produces a value
+     |
+     = note: `#[warn(unused_must_use)]` (part of `#[warn(unused)]`) on by default
+help: use `let _ = ...` to ignore the resulting value
+     |
+1972 |                             let _ = !(0 as ::core::ffi::c_int as size_t);
+     |                             +++++++
+
+warning: unused comparison that must be used
+    --> src/closures.rs:5637:25
+     |
+5637 |                         ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the comparison produces a value
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+5637 |                         let _ = ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         +++++++
+
+warning: unused comparison that must be used
+    --> src/closures.rs:5650:25
+     |
+5650 |                         ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the comparison produces a value
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+5650 |                         let _ = ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         +++++++
+
+warning: `ffi_prep_closure_loc` redeclared with a different signature
+  --> src/prep_cif.rs:4:5
+   |
+ 4 | /     fn ffi_prep_closure_loc(
+ 5 | |         _: *mut ffi_closure,
+ 6 | |         _: *mut ffi_cif,
+ 7 | |         fun: Option<
+...  |
+16 | |         codeloc: *mut ::core::ffi::c_void,
+17 | |     ) -> ffi_status;
+   | |____________________^ this signature doesn't match the previous declaration
+   |
+  ::: src/java_raw_api.rs:2:5
+   |
+ 2 | /     fn ffi_prep_closure_loc(
+ 3 | |         _: *mut ffi_closure,
+ 4 | |         _: *mut ffi_cif,
+ 5 | |         fun: Option<
+...  |
+14 | |         codeloc: *mut ::core::ffi::c_void,
+15 | |     ) -> ffi_status;
+   | |____________________- `ffi_prep_closure_loc` previously declared here
+   |
+   = note: expected `unsafe extern "C" fn(*mut java_raw_api::ffi_closure, *mut java_raw_api::ffi_cif, Option<unsafe extern "C" fn(*mut java_raw_api::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+              found `unsafe extern "C" fn(*mut prep_cif::ffi_closure, *mut prep_cif::ffi_cif, Option<unsafe extern "C" fn(*mut prep_cif::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+   = note: `#[warn(clashing_extern_declarations)]` on by default
+
+warning: `ffi_prep_closure_loc` redeclared with a different signature
+  --> src/raw_api.rs:2:5
+   |
+ 2 | /     fn ffi_prep_closure_loc(
+ 3 | |         _: *mut ffi_closure,
+ 4 | |         _: *mut ffi_cif,
+ 5 | |         fun: Option<
+...  |
+14 | |         codeloc: *mut ::core::ffi::c_void,
+15 | |     ) -> ffi_status;
+   | |____________________^ this signature doesn't match the previous declaration
+   |
+  ::: src/java_raw_api.rs:2:5
+   |
+ 2 | /     fn ffi_prep_closure_loc(
+ 3 | |         _: *mut ffi_closure,
+ 4 | |         _: *mut ffi_cif,
+ 5 | |         fun: Option<
+...  |
+14 | |         codeloc: *mut ::core::ffi::c_void,
+15 | |     ) -> ffi_status;
+   | |____________________- `ffi_prep_closure_loc` previously declared here
+   |
+   = note: expected `unsafe extern "C" fn(*mut java_raw_api::ffi_closure, *mut java_raw_api::ffi_cif, Option<unsafe extern "C" fn(*mut java_raw_api::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+              found `unsafe extern "C" fn(*mut raw_api::ffi_closure, *mut raw_api::ffi_cif, Option<unsafe extern "C" fn(*mut raw_api::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+
+warning: `libffi-sparc64-c2rust` (lib) generated 16 warnings (run `cargo fix --lib -p libffi-sparc64-c2rust` to apply 10 suggestions)
+warning: creating a shared reference to mutable static
+   --> tests/e2e.rs:185:20
+    |
+185 |         assert_eq!(ffi_type_complex_longdouble.kind, FFI_TYPE_COMPLEX);
+    |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ shared reference to mutable static
+    |
+    = note: shared references to mutable statics are dangerous; it's undefined behavior if the static is mutated or if a mutable reference is created for it while the shared reference lives
+    = note: for more information, see <https://doc.rust-lang.org/edition-guide/rust-2024/static-mut-references.html>
+    = note: `#[warn(static_mut_refs)]` (part of `#[warn(rust_2024_compatibility)]`) on by default
+
+warning: `libffi-sparc64-c2rust` (lib test) generated 16 warnings (16 duplicates)
+error: linking with `sparc64-linux-gnu-gcc` failed: exit status: 1
+  |
+  = note:  "sparc64-linux-gnu-gcc" "/home/ubuntu/port/target/sparc64-unknown-linux-gnu/debug/deps/rustcsS1UOD/symbols.o" "<23 object files omitted>" "-Wl,--as-needed" "-Wl,-Bstatic" "/home/ubuntu/port/target/sparc64-unknown-linux-gnu/debug/deps/libffi-14854fb9b4be3bd8.rlib" "<sysroot>/lib/rustlib/sparc64-unknown-linux-gnu/lib/{libtest-*,libgetopts-*,librustc_std_workspace_std-*,libstd-*,libpanic_unwind-*,libobject-*,libmemchr-*,libaddr2line-*,libgimli-*,libcfg_if-*,librustc_demangle-*,libstd_detect-*,libhashbrown-*,librustc_std_workspace_alloc-*,libminiz_oxide-*,libadler2-*,libunwind-*,liblibc-*,librustc_std_workspace_core-*,liballoc-*,libcore-*,libcompiler_builtins-*}.rlib" "-Wl,-Bdynamic" "-lgcc_s" "-lutil" "-lrt" "-lpthread" "-lm" "-ldl" "-lc" "-L" "/home/ubuntu/port/target/sparc64-unknown-linux-gnu/debug/deps/rustcsS1UOD/raw-dylibs" "-Wl,--eh-frame-hdr" "-Wl,-z,noexecstack" "-L" "/home/ubuntu/port/target/sparc64-unknown-linux-gnu/debug/build/libffi-sparc64-c2rust-d6288e1275abd374/out" "-L" "<sysroot>/lib/rustlib/sparc64-unknown-linux-gnu/lib" "-o" "/home/ubuntu/port/target/sparc64-unknown-linux-gnu/debug/deps/e2e-0745c3ddc88cbf43" "-Wl,--gc-sections" "-pie" "-Wl,-z,relro,-z,now" "-nodefaultlibs"
+  = note: some arguments are omitted. use `--verbose` to show all linker arguments
+  = note: /usr/lib/gcc-cross/sparc64-linux-gnu/13/../../../../sparc64-linux-gnu/bin/ld: /home/ubuntu/port/target/sparc64-unknown-linux-gnu/debug/deps/libffi-14854fb9b4be3bd8.rlib(ffi-14854fb9b4be3bd8.b2cvab10h1yqff3r6xo8tg03p.0z44c6l.rcgu.o): in function `ffi_prep_closure_loc':
+          /home/ubuntu/port/src/sparc/ffi64.rs:640:(.text.ffi_prep_closure_loc+0x564): undefined reference to `ffi_flush_icache'
+          collect2: error: ld returned 1 exit status
+          
+  = note: some `extern` functions couldn't be found; some native libraries may need to be installed or have their path specified
+  = note: use the `-l` flag to specify native libraries to link
+  = note: use the `cargo:rustc-link-lib` directive to specify the native libraries to link with Cargo (see https://doc.rust-lang.org/cargo/reference/build-scripts.html#rustc-link-lib)
+
+warning: `libffi-sparc64-c2rust` (test "e2e") generated 1 warning
+error: could not compile `libffi-sparc64-c2rust` (test "e2e") due to 1 previous error; 1 warning emitted

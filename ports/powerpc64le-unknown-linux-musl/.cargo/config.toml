@@ -1,0 +1,7 @@
+[target.powerpc64le-unknown-linux-musl]
+linker = "powerpc64le-linux-musl-gcc"
+runner = "qemu-ppc64le-static"
+
+[env]
+CC_powerpc64le_unknown_linux_musl = "powerpc64le-linux-musl-gcc"
+AR_powerpc64le_unknown_linux_musl = "powerpc64le-linux-musl-ar"

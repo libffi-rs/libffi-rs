@@ -1,0 +1,5 @@
+rustc 1.97.1 (8bab26f4f 2026-07-14)
+cargo 1.97.1 (c980f4866 2026-06-30)
+powerpc64le-linux-gnu-gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+qemu-ppc64le version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.18)
+C2Rust 0.22.1

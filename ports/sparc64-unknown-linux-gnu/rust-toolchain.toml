@@ -1,0 +1,5 @@
+[toolchain]
+channel = "stable"
+components = ["rustfmt"]
+targets = ["sparc64-unknown-linux-gnu"]
+profile = "minimal"

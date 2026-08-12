@@ -1,0 +1,20 @@
+Linux ip-172-31-46-220 6.17.0-1019-aws #19~24.04.1-Ubuntu SMP Tue Jun 23 18:53:06 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
+893bd63954735468305c83ddd56718e3863fdacd minor fixes
+1f3108f20b65d4b2a35cc5fd618aa06c5ff40c1c test
+8e43bdfe7221e8af44e224683c5010e52cb3c61d start on cleanup
+25ac1998f65299682b3f67f678c604ffd3d4b400 fix compile
+23efc98b537fedc2d0a8c313747283aeecc33587 initial c2rust
+gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+powerpc64-linux-gnu-gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
+Ubuntu clang version 18.1.3 (1ubuntu1)
+qemu-ppc64 version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.18)
+rustc 1.97.1 (8bab26f4f 2026-07-14)
+binary: rustc
+commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452
+commit-date: 2026-07-14
+host: x86_64-unknown-linux-gnu
+release: 1.97.1
+LLVM version: 22.1.6
+cargo 1.97.1 (c980f4866 2026-06-30)
+bear 3.1.3
+C2Rust 0.22.1

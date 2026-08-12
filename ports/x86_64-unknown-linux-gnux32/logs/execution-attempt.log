@@ -1,0 +1,24 @@
++ uname -a
+Linux ip-172-31-41-107 6.17.0-1019-aws #19~24.04.1-Ubuntu SMP Tue Jun 23 18:53:06 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
+++ uname -r
++ grep -E 'CONFIG_X86_X32|CONFIG_X86_X32_ABI|CONFIG_IA32_EMULATION' /boot/config-6.17.0-1019-aws
+CONFIG_IA32_EMULATION=y
+# CONFIG_IA32_EMULATION_DEFAULT_DISABLED is not set
+# CONFIG_X86_X32_ABI is not set
++ qemu-x86_64 --version
++ head -1
+qemu-x86_64 version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.18)
++ file target/x86_64-unknown-linux-gnux32/debug/deps/e2e-faceaaa124542668
+target/x86_64-unknown-linux-gnux32/debug/deps/e2e-faceaaa124542668: ELF 32-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /libx32/ld-linux-x32.so.2, BuildID[sha1]=aa23be20b5081aab73cc159c6451175c646d98c9, for GNU/Linux 3.4.0, with debug_info, not stripped
++ set +e
++ target/x86_64-unknown-linux-gnux32/debug/deps/e2e-faceaaa124542668 --nocapture
+bash: line 1: target/x86_64-unknown-linux-gnux32/debug/deps/e2e-faceaaa124542668: cannot execute binary file: Exec format error
++ NATIVE_RC=126
++ echo 'native exit status: 126'
+native exit status: 126
++ qemu-x86_64 -L / target/x86_64-unknown-linux-gnux32/debug/deps/e2e-faceaaa124542668 --nocapture
+qemu-x86_64: /home/ubuntu/work/port/target/x86_64-unknown-linux-gnux32/debug/deps/e2e-faceaaa124542668: Invalid ELF image for this architecture
++ QEMU_RC=255
++ echo 'qemu-x86_64 exit status: 255'
+qemu-x86_64 exit status: 255
++ set -e

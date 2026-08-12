@@ -1,0 +1,59 @@
+Configured C units:
+/home/ubuntu/libffi-port/configured/src/closures.c
+/home/ubuntu/libffi-port/configured/src/java_raw_api.c
+/home/ubuntu/libffi-port/configured/src/powerpc/ffi.c
+/home/ubuntu/libffi-port/configured/src/powerpc/ffi_linux64.c
+/home/ubuntu/libffi-port/configured/src/powerpc/ffi_sysv.c
+/home/ubuntu/libffi-port/configured/src/prep_cif.c
+/home/ubuntu/libffi-port/configured/src/raw_api.c
+/home/ubuntu/libffi-port/configured/src/tramp.c
+/home/ubuntu/libffi-port/configured/src/types.c
+Target macros:
+#define _BIG_ENDIAN 1
+#define _CALL_ELF 1
+#define __BIG_ENDIAN__ 1
+#define __BYTE_ORDER__ __ORDER_BIG_ENDIAN__
+#define __FLOAT_WORD_ORDER__ __ORDER_BIG_ENDIAN__
+#define __LONG_DOUBLE_128__ 1
+#define __LONG_DOUBLE_IBM128__ 1
+#define __ORDER_BIG_ENDIAN__ 4321
+#define __ORDER_LITTLE_ENDIAN__ 1234
+#define __ORDER_PDP_ENDIAN__ 3412
+#define __PPC64__ 1
+#define __PPC__ 1
+#define __SIZEOF_LONG_DOUBLE__ 16
+#define __VEC_ELEMENT_REG_ORDER__ __ORDER_BIG_ENDIAN__
+#define __powerpc64__ 1
+#define __powerpc__ 1
+ABI probe:
+long_double size=16 align=16 mant=106 complex_ld=32/16 int128=16/16 ptr=8/8 cif=40/8 offsets abi=0 nargs=4 arg_types=8 bytes=24 flags=28 nfixedargs=32\nconfigured/powerpc64-unknown-linux-gnu/.libs/libffi.a: current ar archive
+0000000000000030 D ffi_prep_cif
+0000000000000018 D ffi_prep_cif_core
+0000000000000048 D ffi_prep_cif_var
+0000000000000060 D ffi_prep_closure
+0000000000000110 R ffi_type_double
+00000000000000f8 R ffi_type_float
+0000000000000000 D ffi_type_longdouble
+00000000000000e0 R ffi_type_pointer
+0000000000000068 R ffi_type_sint16
+0000000000000098 R ffi_type_sint32
+00000000000000c8 R ffi_type_sint64
+0000000000000038 R ffi_type_sint8
+0000000000000050 R ffi_type_uint16
+0000000000000080 R ffi_type_uint32
+00000000000000b0 R ffi_type_uint64
+0000000000000020 R ffi_type_uint8
+0000000000000008 R ffi_type_void
+0000000000000528 D ffi_closure_alloc
+0000000000000558 D ffi_closure_free
+0000000000000060 D ffi_call
+0000000000000078 D ffi_call_go
+0000000000000018 D ffi_prep_cif_machdep
+0000000000000030 D ffi_prep_cif_machdep_var
+0000000000000090 D ffi_prep_closure_loc
+00000000000000a8 D ffi_closure_helper_LINUX64
+0000000000000048 D ffi_prep_cif_linux64
+0000000000000060 D ffi_prep_cif_linux64_var
+0000000000000090 D ffi_prep_closure_loc_linux64
+0000000000000000 D ffi_call_LINUX64
+0000000000000000 D ffi_closure_LINUX64

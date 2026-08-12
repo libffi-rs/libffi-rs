@@ -1,0 +1,167 @@
+checking build system type... aarch64-unknown-linux-gnu
+checking host system type... powerpc64le-unknown-linux-gnu
+checking target system type... powerpc64le-unknown-linux-gnu
+continue configure in default builddir "./powerpc64le-unknown-linux-gnu"
+....exec /bin/bash .././configure "--srcdir=.." "--enable-builddir=powerpc64le-unknown-linux-gnu" "linux
+gnu"
+checking build system type... aarch64-unknown-linux-gnu
+checking host system type... powerpc64le-unknown-linux-gnu
+checking target system type... powerpc64le-unknown-linux-gnu
+checking for gsed... sed
+checking for a BSD-compatible install... /usr/bin/install -c
+checking whether build environment is sane... yes
+checking for powerpc64le-unknown-linux-gnu-strip... no
+checking for strip... strip
+checking for a race-free mkdir -p... /usr/bin/mkdir -p
+checking for gawk... no
+checking for mawk... mawk
+checking whether make sets $(MAKE)... yes
+checking whether make supports nested variables... yes
+checking for powerpc64le-unknown-linux-gnu-gcc... powerpc64le-linux-gnu-gcc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... yes
+checking for suffix of object files... o
+checking whether the compiler supports GNU C... yes
+checking whether powerpc64le-linux-gnu-gcc accepts -g... yes
+checking for powerpc64le-linux-gnu-gcc option to enable C11 features... none needed
+checking whether powerpc64le-linux-gnu-gcc understands -c and -o together... yes
+checking whether make supports the include directive... yes (GNU style)
+checking dependency style of powerpc64le-linux-gnu-gcc... gcc3
+checking for powerpc64le-unknown-linux-gnu-g++... no
+checking for powerpc64le-unknown-linux-gnu-c++... no
+checking for powerpc64le-unknown-linux-gnu-gpp... no
+checking for powerpc64le-unknown-linux-gnu-aCC... no
+checking for powerpc64le-unknown-linux-gnu-CC... no
+checking for powerpc64le-unknown-linux-gnu-cxx... no
+checking for powerpc64le-unknown-linux-gnu-cc++... no
+checking for powerpc64le-unknown-linux-gnu-cl.exe... no
+checking for powerpc64le-unknown-linux-gnu-FCC... no
+checking for powerpc64le-unknown-linux-gnu-KCC... no
+checking for powerpc64le-unknown-linux-gnu-RCC... no
+checking for powerpc64le-unknown-linux-gnu-xlC_r... no
+checking for powerpc64le-unknown-linux-gnu-xlC... no
+checking for powerpc64le-unknown-linux-gnu-clang++... no
+checking for g++... no
+checking for c++... c++
+configure: WARNING: using cross tools not prefixed with host triplet
+checking whether the compiler supports GNU C++... yes
+checking whether c++ accepts -g... yes
+checking for c++ option to enable C++11 features... none needed
+checking dependency style of c++... gcc3
+checking dependency style of powerpc64le-linux-gnu-gcc... gcc3
+checking for grep that handles long lines and -e... /usr/bin/grep
+checking for egrep... /usr/bin/grep -E
+checking how to print strings... printf
+checking for a sed that does not truncate output... /usr/bin/sed
+checking for fgrep... /usr/bin/grep -F
+checking for ld used by powerpc64le-linux-gnu-gcc... /usr/powerpc64le-linux-gnu/bin/ld
+checking if the linker (/usr/powerpc64le-linux-gnu/bin/ld) is GNU ld... yes
+checking for BSD- or MS-compatible name lister (nm)... no
+checking for powerpc64le-unknown-linux-gnu-dumpbin... no
+checking for powerpc64le-unknown-linux-gnu-link... no
+checking for dumpbin... no
+checking for link... link -dump
+checking the name lister (nm) interface... BSD nm
+checking whether ln -s works... yes
+checking the maximum length of command line arguments... 1572864
+checking how to convert aarch64-unknown-linux-gnu file names to powerpc64le-unknown-linux-gnu format... func_convert_file_noop
+checking how to convert aarch64-unknown-linux-gnu file names to toolchain format... func_convert_file_noop
+checking for /usr/powerpc64le-linux-gnu/bin/ld option to reload object files... -r
+checking for powerpc64le-unknown-linux-gnu-file... no
+checking for file... file
+checking for powerpc64le-unknown-linux-gnu-objdump... no
+checking for objdump... objdump
+checking how to recognize dependent libraries... pass_all
+checking for powerpc64le-unknown-linux-gnu-dlltool... no
+checking for dlltool... no
+checking how to associate runtime and link libraries... printf %s\n
+checking for powerpc64le-unknown-linux-gnu-ar... no
+checking for ar... ar
+checking for archiver @FILE support... @
+checking for powerpc64le-unknown-linux-gnu-strip... strip
+checking for powerpc64le-unknown-linux-gnu-ranlib... no
+checking for ranlib... ranlib
+checking command to parse nm output from powerpc64le-linux-gnu-gcc object... ok
+checking for sysroot... no
+checking for a working dd... /usr/bin/dd
+checking how to truncate binary pipes... /usr/bin/dd bs=4096 count=1
+checking for powerpc64le-unknown-linux-gnu-mt... no
+checking for mt... no
+checking if : is a manifest tool... no
+checking for stdio.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for strings.h... yes
+checking for sys/stat.h... yes
+checking for sys/types.h... no
+checking for unistd.h... no
+checking for dlfcn.h... no
+checking for objdir... .libs
+checking if powerpc64le-linux-gnu-gcc supports -fno-rtti -fno-exceptions... no
+checking for powerpc64le-linux-gnu-gcc option to produce PIC... -fPIC -DPIC
+checking if powerpc64le-linux-gnu-gcc PIC flag -fPIC -DPIC works... yes
+checking if powerpc64le-linux-gnu-gcc static flag -static works... yes
+checking if powerpc64le-linux-gnu-gcc supports -c -o file.o... yes
+checking if powerpc64le-linux-gnu-gcc supports -c -o file.o... (cached) yes
+checking whether the powerpc64le-linux-gnu-gcc linker (/usr/powerpc64le-linux-gnu/bin/ld) supports shared libraries... yes
+checking dynamic linker characteristics... GNU/Linux ld.so
+checking how to hardcode library paths into programs... immediate
+checking whether stripping libraries is possible... yes
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... no
+checking whether to build static libraries... yes
+checking how to run the C++ preprocessor... c++ -E
+checking for ld used by c++... /usr/powerpc64le-linux-gnu/bin/ld
+checking if the linker (/usr/powerpc64le-linux-gnu/bin/ld) is GNU ld... yes
+checking whether the c++ linker (/usr/powerpc64le-linux-gnu/bin/ld) supports shared libraries... yes
+checking for c++ option to produce PIC... -fPIC -DPIC
+checking if c++ PIC flag -fPIC -DPIC works... yes
+checking if c++ static flag -static works... yes
+checking if c++ supports -c -o file.o... yes
+checking if c++ supports -c -o file.o... (cached) yes
+checking whether the c++ linker (/usr/powerpc64le-linux-gnu/bin/ld) supports shared libraries... yes
+checking dynamic linker characteristics... (cached) GNU/Linux ld.so
+checking how to hardcode library paths into programs... immediate
+checking for powerpc64le-unknown-linux-gnu-readelf... no
+checking for powerpc64le-unknown-linux-gnu-greadelf... no
+checking for readelf... readelf
+checking size of size_t... 8
+checking for C compiler vendor... gnu
+checking CFLAGS for most reasonable warnings... -Wall
+checking whether to enable maintainer-specific portions of Makefiles... no
+checking for sys/memfd.h... no
+checking for memfd_create... yes
+checking for memcpy... yes
+checking for alloca.h... yes
+checking size of double... 8
+checking size of long double... 16
+checking for __int128_t... yes
+checking whether byte ordering is bigendian... no
+checking assembler .cfi pseudo-op support... yes
+checking whether compiler supports pointer authentication... no
+checking for _ prefix in compiled symbols... no
+checking whether the C compiler accepts -fno-lto... yes
+checking whether .eh_frame section should be read-only... yes
+checking for __attribute__((visibility("hidden")))... yes
+configure: versioning on shared library symbols is no
+checking that generated files are newer than configure... done
+configure: creating ./config.status
+config.status: creating include/Makefile
+config.status: creating include/ffi.h
+config.status: creating Makefile
+config.status: creating testsuite/Makefile
+config.status: creating man/Makefile
+config.status: creating doc/Makefile
+config.status: creating libffi.pc
+config.status: creating fficonfig.h
+config.status: executing buildir commands
+config.status: create top_srcdir/Makefile guessed from local Makefile
+config.status: build in powerpc64le-unknown-linux-gnu (HOST=)
+config.status: executing depfiles commands
+config.status: executing libtool commands
+config.status: executing include commands
+config.status: executing src commands

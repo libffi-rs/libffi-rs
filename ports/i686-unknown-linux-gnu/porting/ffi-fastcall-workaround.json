@@ -1,0 +1,29 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-DHAVE_CONFIG_H",
+      "-I.",
+      "-I../libffi-sys-rs/libffi",
+      "-I.",
+      "-I../libffi-sys-rs/libffi/include",
+      "-Iinclude",
+      "-I../libffi-sys-rs/libffi/src",
+      "-Wall",
+      "-m32",
+      "-O0",
+      "-g",
+      "-fPIC",
+      "-fexceptions",
+      "-c",
+      "-fPIC",
+      "-DPIC",
+      "-o",
+      "src/x86/ffi.o",
+      "/home/ubuntu/libffi-rs/config-i686/ffi-c2rust-input.c"
+    ],
+    "directory": "/home/ubuntu/libffi-rs/config-i686",
+    "file": "/home/ubuntu/libffi-rs/config-i686/ffi-c2rust-input.c",
+    "output": "/home/ubuntu/libffi-rs/config-i686/src/x86/ffi.o"
+  }
+]

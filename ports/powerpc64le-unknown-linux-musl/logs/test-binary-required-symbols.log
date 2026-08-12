@@ -1,0 +1,4 @@
+0000000010073100 T ffi_call
+0000000010080000 T ffi_closure_LINUX64
+00000000100720b0 T ffi_closure_alloc
+0000000010066110 T ffi_prep_cif

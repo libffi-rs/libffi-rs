@@ -1,0 +1,624 @@
+warning: unused variable: `ntotalargs`
+   --> src/riscv/ffi.rs:608:5
+    |
+608 |     mut ntotalargs: ::core::ffi::c_uint,
+    |     ^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_ntotalargs`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `flags`
+   --> src/closures.rs:962:5
+    |
+962 |     mut flags: ::core::ffi::c_int,
+    |     ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_flags`
+
+warning: variable `nfences` is assigned to, but never used
+    --> src/closures.rs:1488:9
+     |
+1488 |     let mut nfences: ::core::ffi::c_int = 0 as ::core::ffi::c_int;
+     |         ^^^^^^^^^^^
+     |
+     = note: consider using `_nfences` instead
+
+warning: unused variable: `flags`
+    --> src/closures.rs:5297:5
+     |
+5297 |     mut flags: ::core::ffi::c_int,
+     |     ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_flags`
+
+warning: unnecessary `unsafe` block
+    --> src/closures.rs:5428:61
+     |
+5428 | static mut open_temp_exec_file_opts: [C2RustUnnamed_0; 9] = unsafe {
+     |                                                             ^^^^^^ unnecessary `unsafe` block
+     |
+     = note: `#[warn(unused_unsafe)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `cif`
+   --> src/java_raw_api.rs:284:5
+    |
+284 |     mut cif: *mut ffi_cif,
+    |     ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_cif`
+
+warning: unused variable: `rvalue`
+   --> src/java_raw_api.rs:285:5
+    |
+285 |     mut rvalue: *mut ::core::ffi::c_void,
+    |     ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_rvalue`
+
+warning: unused variable: `cif`
+   --> src/java_raw_api.rs:288:5
+    |
+288 |     mut cif: *mut ffi_cif,
+    |     ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_cif`
+
+warning: unused variable: `rvalue`
+   --> src/java_raw_api.rs:289:5
+    |
+289 |     mut rvalue: *mut ::core::ffi::c_void,
+    |     ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_rvalue`
+
+warning: unused unary operation that must be used
+    --> src/closures.rs:2049:29
+     |
+2049 | ...                   !(0 as ::core::ffi::c_int as size_t);
+     |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the unary operation produces a value
+     |
+     = note: `#[warn(unused_must_use)]` (part of `#[warn(unused)]`) on by default
+help: use `let _ = ...` to ignore the resulting value
+     |
+2049 |                             let _ = !(0 as ::core::ffi::c_int as size_t);
+     |                             +++++++
+
+warning: unused comparison that must be used
+    --> src/closures.rs:5635:25
+     |
+5635 |                         ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the comparison produces a value
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+5635 |                         let _ = ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         +++++++
+
+warning: unused comparison that must be used
+    --> src/closures.rs:5649:25
+     |
+5649 |                         ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the comparison produces a value
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+5649 |                         let _ = ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         +++++++
+
+warning: `ffi_prep_closure_loc` redeclared with a different signature
+  --> src/prep_cif.rs:4:5
+   |
+ 4 | /     fn ffi_prep_closure_loc(
+ 5 | |         _: *mut ffi_closure,
+ 6 | |         _: *mut ffi_cif,
+ 7 | |         fun: Option<
+...  |
+16 | |         codeloc: *mut ::core::ffi::c_void,
+17 | |     ) -> ffi_status;
+   | |____________________^ this signature doesn't match the previous declaration
+   |
+  ::: src/java_raw_api.rs:2:5
+   |
+ 2 | /     fn ffi_prep_closure_loc(
+ 3 | |         _: *mut ffi_closure,
+ 4 | |         _: *mut ffi_cif,
+ 5 | |         fun: Option<
+...  |
+14 | |         codeloc: *mut ::core::ffi::c_void,
+15 | |     ) -> ffi_status;
+   | |____________________- `ffi_prep_closure_loc` previously declared here
+   |
+   = note: expected `unsafe extern "C" fn(*mut java_raw_api::ffi_closure, *mut java_raw_api::ffi_cif, Option<unsafe extern "C" fn(*mut java_raw_api::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+              found `unsafe extern "C" fn(*mut prep_cif::ffi_closure, *mut prep_cif::ffi_cif, Option<unsafe extern "C" fn(*mut prep_cif::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+   = note: `#[warn(clashing_extern_declarations)]` on by default
+
+warning: `ffi_prep_closure_loc` redeclared with a different signature
+  --> src/raw_api.rs:2:5
+   |
+ 2 | /     fn ffi_prep_closure_loc(
+ 3 | |         _: *mut ffi_closure,
+ 4 | |         _: *mut ffi_cif,
+ 5 | |         fun: Option<
+...  |
+14 | |         codeloc: *mut ::core::ffi::c_void,
+15 | |     ) -> ffi_status;
+   | |____________________^ this signature doesn't match the previous declaration
+   |
+  ::: src/java_raw_api.rs:2:5
+   |
+ 2 | /     fn ffi_prep_closure_loc(
+ 3 | |         _: *mut ffi_closure,
+ 4 | |         _: *mut ffi_cif,
+ 5 | |         fun: Option<
+...  |
+14 | |         codeloc: *mut ::core::ffi::c_void,
+15 | |     ) -> ffi_status;
+   | |____________________- `ffi_prep_closure_loc` previously declared here
+   |
+   = note: expected `unsafe extern "C" fn(*mut java_raw_api::ffi_closure, *mut java_raw_api::ffi_cif, Option<unsafe extern "C" fn(*mut java_raw_api::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+              found `unsafe extern "C" fn(*mut raw_api::ffi_closure, *mut raw_api::ffi_cif, Option<unsafe extern "C" fn(*mut raw_api::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+
+warning: `write` redeclared with a different signature
+  --> src/tramp.rs:29:5
+   |
+29 | /     fn write(
+30 | |         __fd: ::core::ffi::c_int,
+31 | |         __buf: *const ::core::ffi::c_void,
+32 | |         __n: size_t,
+33 | |     ) -> ssize_t;
+   | |_________________^ this signature doesn't match the previous declaration
+   |
+  ::: src/closures.rs:40:5
+   |
+40 | /     fn write(
+41 | |         __fd: ::core::ffi::c_int,
+42 | |         __buf: *const ::core::ffi::c_void,
+43 | |         __n: size_t,
+44 | |     ) -> ssize_t;
+   | |_________________- `write` previously declared here
+   |
+   = note: expected `unsafe extern "C" fn(i32, *const c_void, usize) -> isize`
+              found `unsafe extern "C" fn(i32, *const c_void, usize) -> i64`
+
+   Compiling libffi-c2rust-riscv64gc v0.0.0 (/port)
+warning: `libffi-c2rust-riscv64gc` (lib) generated 15 warnings (run `cargo fix --lib -p libffi-c2rust-riscv64gc` to apply 7 suggestions)
+warning: `libffi-c2rust-riscv64gc` (lib test) generated 15 warnings (15 duplicates)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.85s
+     Running unittests lib.rs (target/riscv64gc-unknown-linux-gnu/debug/deps/libffi_c2rust_riscv64gc-9f5532b72e2e14ed)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/e2e.rs (target/riscv64gc-unknown-linux-gnu/debug/deps/e2e-c6160f9853be0cd6)
+
+running 7 tests
+error: test failed, to rerun pass `--test e2e`
+
+Caused by:
+  process didn't exit successfully: `qemu-riscv64 -L /usr/riscv64-linux-gnu /port/target/riscv64gc-unknown-linux-gnu/debug/deps/e2e-c6160f9853be0cd6 --nocapture` (signal: 11, SIGSEGV: invalid memory reference)
+==== reports_libffi_version
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.40s
+     Running tests/e2e.rs (target/riscv64gc-unknown-linux-gnu/debug/deps/e2e-c6160f9853be0cd6)
+
+running 1 test
+test reports_libffi_version ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.01s
+
+RC=0
+==== return_dbl_test
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.00s
+     Running tests/e2e.rs (target/riscv64gc-unknown-linux-gnu/debug/deps/e2e-c6160f9853be0cd6)
+
+running 1 test
+error: test failed, to rerun pass `--test e2e`
+
+Caused by:
+  process didn't exit successfully: `qemu-riscv64 -L /usr/riscv64-linux-gnu /port/target/riscv64gc-unknown-linux-gnu/debug/deps/e2e-c6160f9853be0cd6 return_dbl_test --exact --nocapture` (signal: 11, SIGSEGV: invalid memory reference)
+RC=101
+==== negint_test
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.00s
+     Running tests/e2e.rs (target/riscv64gc-unknown-linux-gnu/debug/deps/e2e-c6160f9853be0cd6)
+
+running 1 test
+error: test failed, to rerun pass `--test e2e`
+
+Caused by:
+  process didn't exit successfully: `qemu-riscv64 -L /usr/riscv64-linux-gnu /port/target/riscv64gc-unknown-linux-gnu/debug/deps/e2e-c6160f9853be0cd6 negint_test --exact --nocapture` (signal: 11, SIGSEGV: invalid memory reference)
+RC=101
+==== many_test
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.00s
+     Running tests/e2e.rs (target/riscv64gc-unknown-linux-gnu/debug/deps/e2e-c6160f9853be0cd6)
+
+running 1 test
+error: test failed, to rerun pass `--test e2e`
+
+Caused by:
+  process didn't exit successfully: `qemu-riscv64 -L /usr/riscv64-linux-gnu /port/target/riscv64gc-unknown-linux-gnu/debug/deps/e2e-c6160f9853be0cd6 many_test --exact --nocapture` (signal: 11, SIGSEGV: invalid memory reference)
+RC=101
+==== many2_test
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.00s
+     Running tests/e2e.rs (target/riscv64gc-unknown-linux-gnu/debug/deps/e2e-c6160f9853be0cd6)
+
+running 1 test
+error: test failed, to rerun pass `--test e2e`
+
+Caused by:
+  process didn't exit successfully: `qemu-riscv64 -L /usr/riscv64-linux-gnu /port/target/riscv64gc-unknown-linux-gnu/debug/deps/e2e-c6160f9853be0cd6 many2_test --exact --nocapture` (signal: 11, SIGSEGV: invalid memory reference)
+RC=101
+==== struct1_test
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.00s
+     Running tests/e2e.rs (target/riscv64gc-unknown-linux-gnu/debug/deps/e2e-c6160f9853be0cd6)
+
+running 1 test
+error: test failed, to rerun pass `--test e2e`
+
+Caused by:
+  process didn't exit successfully: `qemu-riscv64 -L /usr/riscv64-linux-gnu /port/target/riscv64gc-unknown-linux-gnu/debug/deps/e2e-c6160f9853be0cd6 struct1_test --exact --nocapture` (signal: 11, SIGSEGV: invalid memory reference)
+RC=101
+==== struct_by_value_3f_test
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.00s
+     Running tests/e2e.rs (target/riscv64gc-unknown-linux-gnu/debug/deps/e2e-c6160f9853be0cd6)
+
+running 1 test
+error: test failed, to rerun pass `--test e2e`
+
+Caused by:
+  process didn't exit successfully: `qemu-riscv64 -L /usr/riscv64-linux-gnu /port/target/riscv64gc-unknown-linux-gnu/debug/deps/e2e-c6160f9853be0cd6 struct_by_value_3f_test --exact --nocapture` (signal: 11, SIGSEGV: invalid memory reference)
+RC=101
+     Removed 316 files, 181.0MiB total
+   Compiling find-msvc-tools v0.1.10
+   Compiling shlex v2.0.1
+   Compiling cc v1.4.2
+   Compiling libffi-c2rust-riscv64gc v0.0.0 (/port)
+warning: unused variable: `ntotalargs`
+   --> src/riscv/ffi.rs:608:5
+    |
+608 |     mut ntotalargs: ::core::ffi::c_uint,
+    |     ^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_ntotalargs`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `flags`
+   --> src/closures.rs:962:5
+    |
+962 |     mut flags: ::core::ffi::c_int,
+    |     ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_flags`
+
+warning: variable `nfences` is assigned to, but never used
+    --> src/closures.rs:1488:9
+     |
+1488 |     let mut nfences: ::core::ffi::c_int = 0 as ::core::ffi::c_int;
+     |         ^^^^^^^^^^^
+     |
+     = note: consider using `_nfences` instead
+
+warning: unused variable: `flags`
+    --> src/closures.rs:5297:5
+     |
+5297 |     mut flags: ::core::ffi::c_int,
+     |     ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_flags`
+
+warning: unnecessary `unsafe` block
+    --> src/closures.rs:5428:61
+     |
+5428 | static mut open_temp_exec_file_opts: [C2RustUnnamed_0; 9] = unsafe {
+     |                                                             ^^^^^^ unnecessary `unsafe` block
+     |
+     = note: `#[warn(unused_unsafe)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `cif`
+   --> src/java_raw_api.rs:284:5
+    |
+284 |     mut cif: *mut ffi_cif,
+    |     ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_cif`
+
+warning: unused variable: `rvalue`
+   --> src/java_raw_api.rs:285:5
+    |
+285 |     mut rvalue: *mut ::core::ffi::c_void,
+    |     ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_rvalue`
+
+warning: unused variable: `cif`
+   --> src/java_raw_api.rs:288:5
+    |
+288 |     mut cif: *mut ffi_cif,
+    |     ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_cif`
+
+warning: unused variable: `rvalue`
+   --> src/java_raw_api.rs:289:5
+    |
+289 |     mut rvalue: *mut ::core::ffi::c_void,
+    |     ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_rvalue`
+
+warning: unused unary operation that must be used
+    --> src/closures.rs:2049:29
+     |
+2049 | ...                   !(0 as ::core::ffi::c_int as size_t);
+     |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the unary operation produces a value
+     |
+     = note: `#[warn(unused_must_use)]` (part of `#[warn(unused)]`) on by default
+help: use `let _ = ...` to ignore the resulting value
+     |
+2049 |                             let _ = !(0 as ::core::ffi::c_int as size_t);
+     |                             +++++++
+
+warning: unused comparison that must be used
+    --> src/closures.rs:5635:25
+     |
+5635 |                         ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the comparison produces a value
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+5635 |                         let _ = ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         +++++++
+
+warning: unused comparison that must be used
+    --> src/closures.rs:5649:25
+     |
+5649 |                         ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the comparison produces a value
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+5649 |                         let _ = ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         +++++++
+
+warning: `ffi_prep_closure_loc` redeclared with a different signature
+  --> src/prep_cif.rs:4:5
+   |
+ 4 | /     fn ffi_prep_closure_loc(
+ 5 | |         _: *mut ffi_closure,
+ 6 | |         _: *mut ffi_cif,
+ 7 | |         fun: Option<
+...  |
+16 | |         codeloc: *mut ::core::ffi::c_void,
+17 | |     ) -> ffi_status;
+   | |____________________^ this signature doesn't match the previous declaration
+   |
+  ::: src/java_raw_api.rs:2:5
+   |
+ 2 | /     fn ffi_prep_closure_loc(
+ 3 | |         _: *mut ffi_closure,
+ 4 | |         _: *mut ffi_cif,
+ 5 | |         fun: Option<
+...  |
+14 | |         codeloc: *mut ::core::ffi::c_void,
+15 | |     ) -> ffi_status;
+   | |____________________- `ffi_prep_closure_loc` previously declared here
+   |
+   = note: expected `unsafe extern "C" fn(*mut java_raw_api::ffi_closure, *mut java_raw_api::ffi_cif, Option<unsafe extern "C" fn(*mut java_raw_api::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+              found `unsafe extern "C" fn(*mut prep_cif::ffi_closure, *mut prep_cif::ffi_cif, Option<unsafe extern "C" fn(*mut prep_cif::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+   = note: `#[warn(clashing_extern_declarations)]` on by default
+
+warning: `ffi_prep_closure_loc` redeclared with a different signature
+  --> src/raw_api.rs:2:5
+   |
+ 2 | /     fn ffi_prep_closure_loc(
+ 3 | |         _: *mut ffi_closure,
+ 4 | |         _: *mut ffi_cif,
+ 5 | |         fun: Option<
+...  |
+14 | |         codeloc: *mut ::core::ffi::c_void,
+15 | |     ) -> ffi_status;
+   | |____________________^ this signature doesn't match the previous declaration
+   |
+  ::: src/java_raw_api.rs:2:5
+   |
+ 2 | /     fn ffi_prep_closure_loc(
+ 3 | |         _: *mut ffi_closure,
+ 4 | |         _: *mut ffi_cif,
+ 5 | |         fun: Option<
+...  |
+14 | |         codeloc: *mut ::core::ffi::c_void,
+15 | |     ) -> ffi_status;
+   | |____________________- `ffi_prep_closure_loc` previously declared here
+   |
+   = note: expected `unsafe extern "C" fn(*mut java_raw_api::ffi_closure, *mut java_raw_api::ffi_cif, Option<unsafe extern "C" fn(*mut java_raw_api::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+              found `unsafe extern "C" fn(*mut raw_api::ffi_closure, *mut raw_api::ffi_cif, Option<unsafe extern "C" fn(*mut raw_api::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+
+warning: `write` redeclared with a different signature
+  --> src/tramp.rs:29:5
+   |
+29 | /     fn write(
+30 | |         __fd: ::core::ffi::c_int,
+31 | |         __buf: *const ::core::ffi::c_void,
+32 | |         __n: size_t,
+33 | |     ) -> ssize_t;
+   | |_________________^ this signature doesn't match the previous declaration
+   |
+  ::: src/closures.rs:40:5
+   |
+40 | /     fn write(
+41 | |         __fd: ::core::ffi::c_int,
+42 | |         __buf: *const ::core::ffi::c_void,
+43 | |         __n: size_t,
+44 | |     ) -> ssize_t;
+   | |_________________- `write` previously declared here
+   |
+   = note: expected `unsafe extern "C" fn(i32, *const c_void, usize) -> isize`
+              found `unsafe extern "C" fn(i32, *const c_void, usize) -> i64`
+
+warning: `libffi-c2rust-riscv64gc` (lib) generated 15 warnings (run `cargo fix --lib -p libffi-c2rust-riscv64gc` to apply 7 suggestions)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.34s
+     Running tests/e2e.rs (target/riscv64gc-unknown-linux-gnu/debug/deps/e2e-c6160f9853be0cd6)
+
+running 7 tests
+test reports_libffi_version ... ok
+test many2_test ... ok
+test many_test ... ok
+test struct1_test ... ok
+test negint_test ... ok
+test struct_by_value_3f_test ... ok
+test return_dbl_test ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+   Compiling libffi-c2rust-riscv64gc v0.0.0 (/port)
+warning: unused variable: `ntotalargs`
+   --> src/riscv/ffi.rs:608:5
+    |
+608 |     mut ntotalargs: ::core::ffi::c_uint,
+    |     ^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_ntotalargs`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `flags`
+   --> src/closures.rs:962:5
+    |
+962 |     mut flags: ::core::ffi::c_int,
+    |     ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_flags`
+
+warning: variable `nfences` is assigned to, but never used
+    --> src/closures.rs:1488:9
+     |
+1488 |     let mut nfences: ::core::ffi::c_int = 0 as ::core::ffi::c_int;
+     |         ^^^^^^^^^^^
+     |
+     = note: consider using `_nfences` instead
+
+warning: unused variable: `flags`
+    --> src/closures.rs:5297:5
+     |
+5297 |     mut flags: ::core::ffi::c_int,
+     |     ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_flags`
+
+warning: unnecessary `unsafe` block
+    --> src/closures.rs:5428:61
+     |
+5428 | static mut open_temp_exec_file_opts: [C2RustUnnamed_0; 9] = unsafe {
+     |                                                             ^^^^^^ unnecessary `unsafe` block
+     |
+     = note: `#[warn(unused_unsafe)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `cif`
+   --> src/java_raw_api.rs:284:5
+    |
+284 |     mut cif: *mut ffi_cif,
+    |     ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_cif`
+
+warning: unused variable: `rvalue`
+   --> src/java_raw_api.rs:285:5
+    |
+285 |     mut rvalue: *mut ::core::ffi::c_void,
+    |     ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_rvalue`
+
+warning: unused variable: `cif`
+   --> src/java_raw_api.rs:288:5
+    |
+288 |     mut cif: *mut ffi_cif,
+    |     ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_cif`
+
+warning: unused variable: `rvalue`
+   --> src/java_raw_api.rs:289:5
+    |
+289 |     mut rvalue: *mut ::core::ffi::c_void,
+    |     ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_rvalue`
+
+warning: unused unary operation that must be used
+    --> src/closures.rs:2049:29
+     |
+2049 | ...                   !(0 as ::core::ffi::c_int as size_t);
+     |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the unary operation produces a value
+     |
+     = note: `#[warn(unused_must_use)]` (part of `#[warn(unused)]`) on by default
+help: use `let _ = ...` to ignore the resulting value
+     |
+2049 |                             let _ = !(0 as ::core::ffi::c_int as size_t);
+     |                             +++++++
+
+warning: unused comparison that must be used
+    --> src/closures.rs:5635:25
+     |
+5635 |                         ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the comparison produces a value
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+5635 |                         let _ = ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         +++++++
+
+warning: unused comparison that must be used
+    --> src/closures.rs:5649:25
+     |
+5649 |                         ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the comparison produces a value
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+5649 |                         let _ = ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         +++++++
+
+warning: `ffi_prep_closure_loc` redeclared with a different signature
+  --> src/prep_cif.rs:4:5
+   |
+ 4 | /     fn ffi_prep_closure_loc(
+ 5 | |         _: *mut ffi_closure,
+ 6 | |         _: *mut ffi_cif,
+ 7 | |         fun: Option<
+...  |
+16 | |         codeloc: *mut ::core::ffi::c_void,
+17 | |     ) -> ffi_status;
+   | |____________________^ this signature doesn't match the previous declaration
+   |
+  ::: src/java_raw_api.rs:2:5
+   |
+ 2 | /     fn ffi_prep_closure_loc(
+ 3 | |         _: *mut ffi_closure,
+ 4 | |         _: *mut ffi_cif,
+ 5 | |         fun: Option<
+...  |
+14 | |         codeloc: *mut ::core::ffi::c_void,
+15 | |     ) -> ffi_status;
+   | |____________________- `ffi_prep_closure_loc` previously declared here
+   |
+   = note: expected `unsafe extern "C" fn(*mut java_raw_api::ffi_closure, *mut java_raw_api::ffi_cif, Option<unsafe extern "C" fn(*mut java_raw_api::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+              found `unsafe extern "C" fn(*mut prep_cif::ffi_closure, *mut prep_cif::ffi_cif, Option<unsafe extern "C" fn(*mut prep_cif::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+   = note: `#[warn(clashing_extern_declarations)]` on by default
+
+warning: `ffi_prep_closure_loc` redeclared with a different signature
+  --> src/raw_api.rs:2:5
+   |
+ 2 | /     fn ffi_prep_closure_loc(
+ 3 | |         _: *mut ffi_closure,
+ 4 | |         _: *mut ffi_cif,
+ 5 | |         fun: Option<
+...  |
+14 | |         codeloc: *mut ::core::ffi::c_void,
+15 | |     ) -> ffi_status;
+   | |____________________^ this signature doesn't match the previous declaration
+   |
+  ::: src/java_raw_api.rs:2:5
+   |
+ 2 | /     fn ffi_prep_closure_loc(
+ 3 | |         _: *mut ffi_closure,
+ 4 | |         _: *mut ffi_cif,
+ 5 | |         fun: Option<
+...  |
+14 | |         codeloc: *mut ::core::ffi::c_void,
+15 | |     ) -> ffi_status;
+   | |____________________- `ffi_prep_closure_loc` previously declared here
+   |
+   = note: expected `unsafe extern "C" fn(*mut java_raw_api::ffi_closure, *mut java_raw_api::ffi_cif, Option<unsafe extern "C" fn(*mut java_raw_api::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+              found `unsafe extern "C" fn(*mut raw_api::ffi_closure, *mut raw_api::ffi_cif, Option<unsafe extern "C" fn(*mut raw_api::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+
+warning: `write` redeclared with a different signature
+  --> src/tramp.rs:29:5
+   |
+29 | /     fn write(
+30 | |         __fd: ::core::ffi::c_int,
+31 | |         __buf: *const ::core::ffi::c_void,
+32 | |         __n: size_t,
+33 | |     ) -> ssize_t;
+   | |_________________^ this signature doesn't match the previous declaration
+   |
+  ::: src/closures.rs:40:5
+   |
+40 | /     fn write(
+41 | |         __fd: ::core::ffi::c_int,
+42 | |         __buf: *const ::core::ffi::c_void,
+43 | |         __n: size_t,
+44 | |     ) -> ssize_t;
+   | |_________________- `write` previously declared here
+   |
+   = note: expected `unsafe extern "C" fn(i32, *const c_void, usize) -> isize`
+              found `unsafe extern "C" fn(i32, *const c_void, usize) -> i64`
+
+warning: `libffi-c2rust-riscv64gc` (lib) generated 15 warnings (run `cargo fix --lib -p libffi-c2rust-riscv64gc` to apply 7 suggestions)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.70s
+     Running tests/e2e.rs (target/riscv64gc-unknown-linux-gnu/debug/deps/e2e-c6160f9853be0cd6)
+
+running 1 test
+test closure_test ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 7 filtered out; finished in 0.02s
+

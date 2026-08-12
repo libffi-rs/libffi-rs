@@ -1,0 +1,15 @@
+Required exported symbols:
+0000000000000000 D ffi_type_complex_longdouble
+0000000000000000 D ffi_type_double
+0000000000000000 D ffi_type_longdouble
+0000000000000000 D ffi_type_sint32
+0000000000000000 D ffi_type_void
+0000000000000000 T ffi_call
+0000000000000000 T ffi_prep_closure_loc
+0000000000000000 T ffi_prep_cif
+0000000000000000 T ffi_closure_alloc
+0000000000000000 T ffi_closure_free
+0000000000000000 T ffi_call_SYSV
+00000000000000b0 T ffi_closure_SYSV
+0000000000000090 T ffi_go_closure_SYSV
+0000000000001000 T trampoline_code_table

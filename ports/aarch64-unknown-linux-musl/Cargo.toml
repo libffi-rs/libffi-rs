@@ -1,0 +1,17 @@
+[package]
+name = "libffi-c2rust-aarch64-musl"
+version = "0.0.0"
+edition = "2021"
+publish = false
+build = "build.rs"
+
+[lib]
+name = "libffi_c2rust_aarch64_musl"
+path = "lib.rs"
+crate-type = ["staticlib", "rlib"]
+
+[build-dependencies]
+cc = "1"
+
+[workspace]
+members = []

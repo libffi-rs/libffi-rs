@@ -1,0 +1,414 @@
+    Updating crates.io index
+ Downloading crates ...
+  Downloaded c2rust v0.22.1
+  Installing c2rust v0.22.1
+    Updating crates.io index
+warning: package `pest v2.6.0` in Cargo.lock is yanked in registry `crates-io`, consider running without --locked
+warning: package `pest_derive v2.6.0` in Cargo.lock is yanked in registry `crates-io`, consider running without --locked
+warning: package `pest_generator v2.6.0` in Cargo.lock is yanked in registry `crates-io`, consider running without --locked
+warning: package `pest_meta v2.6.0` in Cargo.lock is yanked in registry `crates-io`, consider running without --locked
+warning: package `hermit-abi v0.3.1` in Cargo.lock is yanked in registry `crates-io`, consider running without --locked
+    Updating crates.io index
+ Downloading crates ...
+  Downloaded adler v1.0.2
+  Downloaded c2rust-bitfields v0.22.1
+  Downloaded addr2line v0.19.0
+  Downloaded anyhow v1.0.75
+  Downloaded autocfg v1.1.0
+  Downloaded itoa v1.0.6
+  Downloaded atty v0.2.14
+  Downloaded fastrand v2.3.0
+  Downloaded c2rust-ast-printer v0.22.1
+  Downloaded c2rust-bitfields-derive v0.22.1
+  Downloaded c2rust-build-paths v0.22.1
+  Downloaded cfg-if v1.0.0
+  Downloaded clap_lex v0.2.4
+  Downloaded generic-array v0.14.7
+  Downloaded bitflags v1.3.2
+  Downloaded block-buffer v0.10.4
+  Downloaded c2rust-ast-builder v0.22.1
+  Downloaded cc v1.0.79
+  Downloaded cexpr v0.6.0
+  Downloaded clap_derive v3.2.25
+  Downloaded cmake v0.1.50
+  Downloaded errno v0.3.13
+  Downloaded failure v0.1.8
+  Downloaded failure_derive v0.1.8
+  Downloaded half v1.8.2
+  Downloaded lazycell v1.3.0
+  Downloaded pathdiff v0.2.1
+  Downloaded pest_generator v2.6.0
+  Downloaded print_bytes v1.2.0
+  Downloaded rustc-hash v1.1.0
+  Downloaded serde_bencode v0.2.3
+  Downloaded serde_bytes v0.11.9
+  Downloaded termcolor v1.2.0
+  Downloaded thiserror-impl v1.0.40
+  Downloaded unicode-xid v0.2.4
+  Downloaded which v4.4.0
+  Downloaded arc-swap v1.6.0
+  Downloaded backtrace v0.3.67
+  Downloaded bitflags v2.9.1
+  Downloaded c2rust-ast-exporter v0.22.1
+  Downloaded clang-sys v1.6.1
+  Downloaded colored v1.9.3
+  Downloaded cpufeatures v0.2.17
+  Downloaded crypto-common v0.1.6
+  Downloaded digest v0.10.7
+  Downloaded dtoa v1.0.6
+  Downloaded either v1.8.1
+  Downloaded getrandom v0.3.3
+  Downloaded glob v0.3.1
+  Downloaded heck v0.4.1
+  Downloaded is-terminal v0.4.7
+  Downloaded is_executable v1.0.1
+  Downloaded lazy_static v1.4.0
+  Downloaded linked-hash-map v0.5.6
+  Downloaded log-reroute v0.1.8
+  Downloaded pest_derive v2.6.0
+  Downloaded proc-macro-error-attr v1.0.4
+  Downloaded rustc-demangle v0.1.23
+  Downloaded rustversion v1.0.12
+  Downloaded serde_derive v1.0.219
+  Downloaded textwrap v0.16.0
+  Downloaded thiserror v1.0.40
+  Downloaded typenum v1.16.0
+  Downloaded unicode-ident v1.0.22
+  Downloaded version_check v0.9.4
+  Downloaded colored v2.0.0
+  Downloaded env_logger v0.10.0
+  Downloaded humantime v2.1.0
+  Downloaded io-lifetimes v1.0.10
+  Downloaded libloading v0.7.4
+  Downloaded log v0.4.17
+  Downloaded once_cell v1.21.2
+  Downloaded os_str_bytes v6.5.0
+  Downloaded pest_meta v2.6.0
+  Downloaded proc-macro-error v1.0.4
+  Downloaded quote v1.0.40
+  Downloaded ryu v1.0.13
+  Downloaded serde_cbor v0.11.2
+  Downloaded sha2 v0.10.8
+  Downloaded shlex v1.3.0
+  Downloaded strsim v0.10.0
+  Downloaded strum v0.24.1
+  Downloaded ucd-trie v0.1.5
+  Downloaded yaml-rust v0.4.5
+  Downloaded indexmap v1.9.3
+  Downloaded prettyplease v0.2.32
+  Downloaded proc-macro2 v1.0.103
+  Downloaded serde v1.0.219
+  Downloaded smallvec v1.15.1
+  Downloaded strum_macros v0.24.3
+  Downloaded synstructure v0.12.6
+  Downloaded tempfile v3.20.0
+  Downloaded handlebars v4.3.7
+  Downloaded miniz_oxide v0.6.2
+  Downloaded hashbrown v0.12.3
+  Downloaded memchr v2.5.0
+  Downloaded minimal-lexical v0.2.1
+  Downloaded nom v7.1.3
+  Downloaded itertools v0.10.5
+  Downloaded pest v2.6.0
+  Downloaded aho-corasick v1.0.1
+  Downloaded bindgen v0.69.5
+  Downloaded clap v3.2.25
+  Downloaded serde_json v1.0.96
+  Downloaded c2rust-transpile v0.22.1
+  Downloaded object v0.30.3
+  Downloaded regex v1.8.1
+  Downloaded syn v1.0.109
+  Downloaded fern v0.6.2
+  Downloaded rustix v0.37.25
+  Downloaded syn v2.0.106
+  Downloaded regex-syntax v0.7.1
+  Downloaded rustix v1.0.7
+  Downloaded gimli v0.27.2
+  Downloaded libc v0.2.174
+  Downloaded linux-raw-sys v0.3.7
+  Downloaded linux-raw-sys v0.9.4
+   Compiling proc-macro2 v1.0.103
+   Compiling unicode-ident v1.0.22
+   Compiling libc v0.2.174
+   Compiling memchr v2.5.0
+   Compiling log v0.4.17
+   Compiling quote v1.0.40
+   Compiling syn v2.0.106
+   Compiling io-lifetimes v1.0.10
+   Compiling rustix v0.37.25
+   Compiling cfg-if v1.0.0
+   Compiling serde v1.0.219
+   Compiling thiserror v1.0.40
+   Compiling syn v1.0.109
+   Compiling thiserror-impl v1.0.40
+   Compiling glob v0.3.1
+   Compiling cc v1.0.79
+   Compiling clang-sys v1.6.1
+   Compiling prettyplease v0.2.32
+   Compiling version_check v0.9.4
+   Compiling aho-corasick v1.0.1
+   Compiling linux-raw-sys v0.3.7
+   Compiling either v1.8.1
+   Compiling bitflags v1.3.2
+   Compiling minimal-lexical v0.2.1
+   Compiling regex-syntax v0.7.1
+   Compiling nom v7.1.3
+   Compiling regex v1.8.1
+   Compiling libloading v0.7.4
+   Compiling bindgen v0.69.5
+   Compiling ucd-trie v0.1.5
+   Compiling pest v2.6.0
+   Compiling is-terminal v0.4.7
+   Compiling cexpr v0.6.0
+   Compiling which v4.4.0
+   Compiling itertools v0.10.5
+   Compiling proc-macro-error-attr v1.0.4
+   Compiling atty v0.2.14
+   Compiling once_cell v1.21.2
+   Compiling lazy_static v1.4.0
+   Compiling bitflags v2.9.1
+   Compiling rustc-hash v1.1.0
+   Compiling shlex v1.3.0
+   Compiling humantime v2.1.0
+   Compiling print_bytes v1.2.0
+   Compiling autocfg v1.1.0
+   Compiling termcolor v1.2.0
+   Compiling lazycell v1.3.0
+   Compiling env_logger v0.10.0
+   Compiling indexmap v1.9.3
+   Compiling c2rust-build-paths v0.22.1
+   Compiling pest_meta v2.6.0
+   Compiling proc-macro-error v1.0.4
+   Compiling backtrace v0.3.67
+   Compiling cmake v0.1.50
+   Compiling unicode-xid v0.2.4
+   Compiling heck v0.4.1
+   Compiling gimli v0.27.2
+   Compiling rustix v1.0.7
+   Compiling adler v1.0.2
+   Compiling rustversion v1.0.12
+   Compiling getrandom v0.3.3
+   Compiling failure_derive v0.1.8
+   Compiling serde_json v1.0.96
+   Compiling miniz_oxide v0.6.2
+   Compiling addr2line v0.19.0
+   Compiling synstructure v0.12.6
+   Compiling c2rust-ast-exporter v0.22.1
+   Compiling pest_generator v2.6.0
+   Compiling object v0.30.3
+   Compiling serde_bytes v0.11.9
+   Compiling linux-raw-sys v0.9.4
+   Compiling rustc-demangle v0.1.23
+   Compiling hashbrown v0.12.3
+   Compiling itoa v1.0.6
+   Compiling ryu v1.0.13
+   Compiling half v1.8.2
+   Compiling serde_cbor v0.11.2
+   Compiling pest_derive v2.6.0
+error: failed to run custom build command for `c2rust-ast-exporter v0.22.1`
+
+Caused by:
+  process didn't exit successfully: `/tmp/cargo-installWjQsyA/release/build/c2rust-ast-exporter-f097c9c0b298d723/build-script-build` (exit status: 101)
+  --- stdout
+  CMAKE_TOOLCHAIN_FILE_x86_64-unknown-linux-gnu = None
+  CMAKE_TOOLCHAIN_FILE_x86_64_unknown_linux_gnu = None
+  HOST_CMAKE_TOOLCHAIN_FILE = None
+  CMAKE_TOOLCHAIN_FILE = None
+  CMAKE_GENERATOR_x86_64-unknown-linux-gnu = None
+  CMAKE_GENERATOR_x86_64_unknown_linux_gnu = None
+  HOST_CMAKE_GENERATOR = None
+  CMAKE_GENERATOR = None
+  CMAKE_PREFIX_PATH_x86_64-unknown-linux-gnu = None
+  CMAKE_PREFIX_PATH_x86_64_unknown_linux_gnu = None
+  HOST_CMAKE_PREFIX_PATH = None
+  CMAKE_PREFIX_PATH = None
+  CMAKE_x86_64-unknown-linux-gnu = None
+  CMAKE_x86_64_unknown_linux_gnu = None
+  HOST_CMAKE = None
+  CMAKE = None
+  running: cd "/tmp/cargo-installWjQsyA/release/build/c2rust-ast-exporter-41d1d10a20f9bdcc/out/build" && CMAKE_PREFIX_PATH="" "cmake" "/home/ubuntu/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/c2rust-ast-exporter-0.22.1/src" "-DLLVM_DIR=/usr/lib/llvm-18/lib/cmake/llvm" "-DClang_DIR=/usr/lib/llvm-18/lib/cmake/clang" "-DCMAKE_INSTALL_PREFIX=/tmp/cargo-installWjQsyA/release/build/c2rust-ast-exporter-41d1d10a20f9bdcc/out" "-DCMAKE_C_FLAGS= -ffunction-sections -fdata-sections -fPIC -m64" "-DCMAKE_C_COMPILER=/usr/bin/cc" "-DCMAKE_CXX_FLAGS= -ffunction-sections -fdata-sections -fPIC -m64" "-DCMAKE_CXX_COMPILER=/usr/bin/c++" "-DCMAKE_ASM_FLAGS= -ffunction-sections -fdata-sections -fPIC -m64" "-DCMAKE_ASM_COMPILER=/usr/bin/cc" "-DCMAKE_BUILD_TYPE=Release"
+  -- The C compiler identification is GNU 13.3.0
+  -- The CXX compiler identification is GNU 13.3.0
+  -- Detecting C compiler ABI info
+  -- Detecting C compiler ABI info - done
+  -- Check for working C compiler: /usr/bin/cc - skipped
+  -- Detecting C compile features
+  -- Detecting C compile features - done
+  -- Detecting CXX compiler ABI info
+  -- Detecting CXX compiler ABI info - done
+  -- Check for working CXX compiler: /usr/bin/c++ - skipped
+  -- Detecting CXX compile features
+  -- Detecting CXX compile features - done
+  -- Performing Test HAVE_FFI_CALL
+  -- Performing Test HAVE_FFI_CALL - Success
+  -- Found FFI: /usr/lib/x86_64-linux-gnu/libffi.so  
+  -- Could NOT find LibEdit (missing: LibEdit_INCLUDE_DIRS LibEdit_LIBRARIES) 
+  -- Performing Test Terminfo_LINKABLE
+  -- Performing Test Terminfo_LINKABLE - Success
+  -- Found Terminfo: /usr/lib/x86_64-linux-gnu/libtinfo.so  
+  -- Could NOT find ZLIB (missing: ZLIB_LIBRARY ZLIB_INCLUDE_DIR) 
+  -- Could NOT find zstd (missing: zstd_LIBRARY zstd_INCLUDE_DIR) 
+  -- Found LibXml2: /usr/lib/x86_64-linux-gnu/libxml2.so (found version "2.9.14") 
+  -- Could NOT find CURL (missing: CURL_LIBRARY CURL_INCLUDE_DIR) 
+  -- Could NOT find LibEdit (missing: LibEdit_INCLUDE_DIRS LibEdit_LIBRARIES) 
+  -- Could NOT find ZLIB (missing: ZLIB_LIBRARY ZLIB_INCLUDE_DIR) 
+  -- Could NOT find zstd (missing: zstd_LIBRARY zstd_INCLUDE_DIR) 
+  -- Could NOT find CURL (missing: CURL_LIBRARY CURL_INCLUDE_DIR) 
+  -- Configuring incomplete, errors occurred!
+
+  --- stderr
+  CMake Error at /usr/lib/llvm-18/lib/cmake/clang/ClangTargets.cmake:833 (message):
+    The imported target "clangBasic" references the file
+
+       "/usr/lib/llvm-18/lib/libclangBasic.a"
+
+    but this file does not exist.  Possible reasons include:
+
+    * The file was deleted, renamed, or moved to another location.
+
+    * An install or uninstall procedure did not complete successfully.
+
+    * The installation package was faulty and contained
+
+       "/usr/lib/llvm-18/lib/cmake/clang/ClangTargets.cmake"
+
+    but not all the files it references.
+
+  Call Stack (most recent call first):
+    /usr/lib/llvm-18/lib/cmake/clang/ClangConfig.cmake:20 (include)
+    CMakeLists.txt:63 (find_package)
+
+
+
+  thread 'main' (12225) panicked at /home/ubuntu/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cmake-0.1.50/src/lib.rs:1098:5:
+
+  command did not execute successfully, got: exit status: 1
+
+  build script failed, must exit now
+  note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+warning: build failed, waiting for other jobs to finish...
+error: failed to compile `c2rust v0.22.1`, intermediate artifacts can be found at `/tmp/cargo-installWjQsyA`.
+To reuse those artifacts with a future compilation, set the environment variable `CARGO_BUILD_BUILD_DIR` to that path.
+    Updating crates.io index
+  Installing c2rust v0.22.1
+    Updating crates.io index
+warning: package `pest v2.6.0` in Cargo.lock is yanked in registry `crates-io`, consider running without --locked
+warning: package `pest_derive v2.6.0` in Cargo.lock is yanked in registry `crates-io`, consider running without --locked
+warning: package `pest_generator v2.6.0` in Cargo.lock is yanked in registry `crates-io`, consider running without --locked
+warning: package `pest_meta v2.6.0` in Cargo.lock is yanked in registry `crates-io`, consider running without --locked
+warning: package `hermit-abi v0.3.1` in Cargo.lock is yanked in registry `crates-io`, consider running without --locked
+    Updating crates.io index
+   Compiling proc-macro2 v1.0.103
+   Compiling unicode-ident v1.0.22
+   Compiling libc v0.2.174
+   Compiling memchr v2.5.0
+   Compiling log v0.4.17
+   Compiling quote v1.0.40
+   Compiling syn v2.0.106
+   Compiling io-lifetimes v1.0.10
+   Compiling rustix v0.37.25
+   Compiling thiserror v1.0.40
+   Compiling serde v1.0.219
+   Compiling cfg-if v1.0.0
+   Compiling syn v1.0.109
+   Compiling thiserror-impl v1.0.40
+   Compiling cc v1.0.79
+   Compiling glob v0.3.1
+   Compiling clang-sys v1.6.1
+   Compiling version_check v0.9.4
+   Compiling prettyplease v0.2.32
+   Compiling aho-corasick v1.0.1
+   Compiling bitflags v1.3.2
+   Compiling minimal-lexical v0.2.1
+   Compiling linux-raw-sys v0.3.7
+   Compiling either v1.8.1
+   Compiling regex-syntax v0.7.1
+   Compiling regex v1.8.1
+   Compiling nom v7.1.3
+   Compiling libloading v0.7.4
+   Compiling bindgen v0.69.5
+   Compiling ucd-trie v0.1.5
+   Compiling cexpr v0.6.0
+   Compiling pest v2.6.0
+   Compiling is-terminal v0.4.7
+   Compiling which v4.4.0
+   Compiling itertools v0.10.5
+   Compiling proc-macro-error-attr v1.0.4
+   Compiling atty v0.2.14
+   Compiling print_bytes v1.2.0
+   Compiling bitflags v2.9.1
+   Compiling lazy_static v1.4.0
+   Compiling termcolor v1.2.0
+   Compiling once_cell v1.21.2
+   Compiling shlex v1.3.0
+   Compiling lazycell v1.3.0
+   Compiling autocfg v1.1.0
+   Compiling rustc-hash v1.1.0
+   Compiling humantime v2.1.0
+   Compiling env_logger v0.10.0
+   Compiling indexmap v1.9.3
+   Compiling pest_meta v2.6.0
+   Compiling c2rust-build-paths v0.22.1
+   Compiling proc-macro-error v1.0.4
+   Compiling backtrace v0.3.67
+   Compiling cmake v0.1.50
+   Compiling adler v1.0.2
+   Compiling unicode-xid v0.2.4
+   Compiling failure_derive v0.1.8
+   Compiling rustix v1.0.7
+   Compiling rustversion v1.0.12
+   Compiling getrandom v0.3.3
+   Compiling serde_json v1.0.96
+   Compiling gimli v0.27.2
+   Compiling heck v0.4.1
+   Compiling addr2line v0.19.0
+   Compiling synstructure v0.12.6
+   Compiling miniz_oxide v0.6.2
+   Compiling c2rust-ast-exporter v0.22.1
+   Compiling pest_generator v2.6.0
+   Compiling object v0.30.3
+   Compiling serde_bytes v0.11.9
+   Compiling half v1.8.2
+   Compiling ryu v1.0.13
+   Compiling itoa v1.0.6
+   Compiling rustc-demangle v0.1.23
+   Compiling linux-raw-sys v0.9.4
+   Compiling hashbrown v0.12.3
+   Compiling serde_cbor v0.11.2
+   Compiling pest_derive v2.6.0
+   Compiling colored v1.9.3
+   Compiling c2rust-bitfields-derive v0.22.1
+   Compiling fastrand v2.3.0
+   Compiling os_str_bytes v6.5.0
+   Compiling linked-hash-map v0.5.6
+   Compiling anyhow v1.0.75
+   Compiling arc-swap v1.6.0
+   Compiling log-reroute v0.1.8
+   Compiling yaml-rust v0.4.5
+   Compiling clap_lex v0.2.4
+   Compiling tempfile v3.20.0
+   Compiling c2rust-bitfields v0.22.1
+   Compiling fern v0.6.2
+   Compiling strum_macros v0.24.3
+   Compiling c2rust-ast-printer v0.22.1
+   Compiling failure v0.1.8
+   Compiling clap_derive v3.2.25
+   Compiling handlebars v4.3.7
+   Compiling c2rust-ast-builder v0.22.1
+   Compiling serde_bencode v0.2.3
+   Compiling colored v2.0.0
+   Compiling serde_derive v1.0.219
+   Compiling smallvec v1.15.1
+   Compiling strum v0.24.1
+   Compiling dtoa v1.0.6
+   Compiling textwrap v0.16.0
+   Compiling pathdiff v0.2.1
+   Compiling strsim v0.10.0
+   Compiling clap v3.2.25
+   Compiling c2rust-transpile v0.22.1
+   Compiling is_executable v1.0.1
+   Compiling c2rust v0.22.1
+    Finished `release` profile [optimized] target(s) in 3m 44s
+  Installing /home/ubuntu/.cargo/bin/c2rust
+  Installing /home/ubuntu/.cargo/bin/c2rust-transpile
+   Installed package `c2rust v0.22.1` (executables `c2rust`, `c2rust-transpile`)

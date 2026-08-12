@@ -1,0 +1,13 @@
+[package]
+name = "libffi-sparc64-c2rust"
+version = "0.1.0"
+edition = "2021"
+publish = false
+build = "build.rs"
+
+[lib]
+name = "ffi"
+crate-type = ["rlib", "staticlib"]
+
+[build-dependencies]
+cc = "1"

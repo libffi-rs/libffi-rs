@@ -1,0 +1,179 @@
+ Downloading crates ...
+  Downloaded cc v1.4.2
+  Downloaded find-msvc-tools v0.1.10
+  Downloaded shlex v2.0.1
+    Updating crates.io index
+ Downloading crates ...
+  Downloaded adler2 v2.0.1
+  Downloaded cfg-if v1.0.4
+  Downloaded addr2line v0.25.1
+  Downloaded foldhash v0.2.0
+  Downloaded hashbrown v0.17.1
+  Downloaded gimli v0.32.3
+  Downloaded rustc-demangle v0.1.27
+  Downloaded getopts v0.2.24
+  Downloaded miniz_oxide v0.8.9
+  Downloaded memchr v2.7.6
+  Downloaded rustc-literal-escaper v0.0.7
+  Downloaded object v0.37.3
+  Downloaded libc v0.2.185
+   Compiling compiler_builtins v0.1.160 (/home/ubuntu/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/compiler-builtins/compiler-builtins)
+   Compiling core v0.0.0 (/home/ubuntu/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core)
+   Compiling libc v0.2.185
+   Compiling object v0.37.3
+   Compiling find-msvc-tools v0.1.10
+   Compiling shlex v2.0.1
+   Compiling std v0.0.0 (/home/ubuntu/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/std)
+   Compiling cc v1.4.2
+   Compiling libffi-c2rust-x86-64-gnux32 v0.0.0 (/home/ubuntu/work/port)
+   Compiling rustc-std-workspace-core v1.99.0 (/home/ubuntu/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/rustc-std-workspace-core)
+   Compiling alloc v0.0.0 (/home/ubuntu/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/alloc)
+   Compiling unwind v0.0.0 (/home/ubuntu/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/unwind)
+   Compiling adler2 v2.0.1
+   Compiling memchr v2.7.6
+   Compiling rustc-std-workspace-alloc v1.99.0 (/home/ubuntu/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/rustc-std-workspace-alloc)
+   Compiling gimli v0.32.3
+   Compiling std_detect v0.1.5 (/home/ubuntu/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/std_detect)
+   Compiling hashbrown v0.17.1
+   Compiling miniz_oxide v0.8.9
+   Compiling addr2line v0.25.1
+   Compiling panic_unwind v0.0.0 (/home/ubuntu/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/panic_unwind)
+   Compiling panic_abort v0.0.0 (/home/ubuntu/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/panic_abort)
+   Compiling rustc-demangle v0.1.27
+   Compiling cfg-if v1.0.4
+   Compiling rustc-literal-escaper v0.0.7
+   Compiling proc_macro v0.0.0 (/home/ubuntu/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/proc_macro)
+error[E0658]: extern types are experimental
+ --> src/tramp.rs:2:5
+  |
+2 |     pub type _IO_wide_data;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  = note: see issue #43467 <https://github.com/rust-lang/rust/issues/43467> for more information
+  = help: add `#![feature(extern_types)]` to the crate attributes to enable
+  = note: this compiler was built on 2026-07-14; consider upgrading it if it is out of date
+
+error[E0658]: extern types are experimental
+ --> src/tramp.rs:3:5
+  |
+3 |     pub type _IO_codecvt;
+  |     ^^^^^^^^^^^^^^^^^^^^^
+  |
+  = note: see issue #43467 <https://github.com/rust-lang/rust/issues/43467> for more information
+  = help: add `#![feature(extern_types)]` to the crate attributes to enable
+  = note: this compiler was built on 2026-07-14; consider upgrading it if it is out of date
+
+error[E0658]: extern types are experimental
+ --> src/tramp.rs:4:5
+  |
+4 |     pub type _IO_marker;
+  |     ^^^^^^^^^^^^^^^^^^^^
+  |
+  = note: see issue #43467 <https://github.com/rust-lang/rust/issues/43467> for more information
+  = help: add `#![feature(extern_types)]` to the crate attributes to enable
+  = note: this compiler was built on 2026-07-14; consider upgrading it if it is out of date
+
+error[E0308]: mismatched types
+   --> src/closures.rs:699:46
+    |
+699 | pub const SIZE_T_SIZE: ::core::ffi::c_uint = ::core::mem::size_of::<size_t>();
+    |                        -------------------   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected `u32`, found `usize`
+    |                        |
+    |                        expected because of the type of the constant
+
+error[E0308]: mismatched types
+   --> src/closures.rs:733:46
+    |
+733 | pub const MCHUNK_SIZE: ::core::ffi::c_uint = ::core::mem::size_of::<mchunk>();
+    |                        -------------------   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected `u32`, found `usize`
+    |                        |
+    |                        expected because of the type of the constant
+
+error[E0308]: mismatched types
+   --> src/closures.rs:734:49
+    |
+734 | pub const CHUNK_OVERHEAD: ::core::ffi::c_uint = ::core::mem::size_of::<size_t>();
+    |                           -------------------   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected `u32`, found `usize`
+    |                           |
+    |                           expected because of the type of the constant
+
+error[E0308]: mismatched types
+   --> src/x86/ffi64.rs:784:22
+    |
+763 |     mut rvalue: *mut ::core::ffi::c_void,
+    |                 ------------------------ expected due to this parameter type
+...
+784 |             rvalue = alloca_allocations.last_mut().unwrap().as_mut_ptr();
+    |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected `*mut c_void`, found `*mut u8`
+    |
+    = note: expected raw pointer `*mut c_void`
+               found raw pointer `*mut u8`
+
+warning: unused variable: `flags`
+   --> src/closures.rs:944:5
+    |
+944 |     mut flags: ::core::ffi::c_int,
+    |     ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_flags`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable `nfences` is assigned to, but never used
+    --> src/closures.rs:1440:9
+     |
+1440 |     let mut nfences: ::core::ffi::c_int = 0 as ::core::ffi::c_int;
+     |         ^^^^^^^^^^^
+     |
+     = note: consider using `_nfences` instead
+
+warning: unused variable: `flags`
+    --> src/closures.rs:5318:5
+     |
+5318 |     mut flags: ::core::ffi::c_int,
+     |     ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_flags`
+
+warning: unused variable: `cif`
+   --> src/java_raw_api.rs:294:5
+    |
+294 |     mut cif: *mut ffi_cif,
+    |     ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_cif`
+
+warning: unused variable: `rvalue`
+   --> src/java_raw_api.rs:295:5
+    |
+295 |     mut rvalue: *mut ::core::ffi::c_void,
+    |     ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_rvalue`
+
+warning: unused variable: `cif`
+   --> src/java_raw_api.rs:299:5
+    |
+299 |     mut cif: *mut ffi_cif,
+    |     ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_cif`
+
+warning: unused variable: `rvalue`
+   --> src/java_raw_api.rs:300:5
+    |
+300 |     mut rvalue: *mut ::core::ffi::c_void,
+    |     ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_rvalue`
+
+warning: unused variable: `isvariadic`
+   --> src/prep_cif.rs:138:5
+    |
+138 |     mut isvariadic: ::core::ffi::c_uint,
+    |     ^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_isvariadic`
+
+warning: unused variable: `nfixedargs`
+   --> src/prep_cif.rs:139:5
+    |
+139 |     mut nfixedargs: ::core::ffi::c_uint,
+    |     ^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_nfixedargs`
+
+warning: unused variable: `codeloc`
+   --> src/x86/ffi64.rs:999:5
+    |
+999 |     mut codeloc: *mut ::core::ffi::c_void,
+    |     ^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_codeloc`
+
+Some errors have detailed explanations: E0308, E0658.
+For more information about an error, try `rustc --explain E0308`.
+warning: `libffi-c2rust-x86-64-gnux32` (lib) generated 10 warnings
+error: could not compile `libffi-c2rust-x86-64-gnux32` (lib) due to 7 previous errors; 10 warnings emitted

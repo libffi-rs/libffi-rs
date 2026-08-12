@@ -1,0 +1,96 @@
+warning: unused variable: `flags`
+   --> src/closures.rs:983:5
+    |
+983 |     mut flags: ::core::ffi::c_int,
+    |     ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_flags`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable `nfences` is assigned to, but never used
+    --> src/closures.rs:1479:9
+     |
+1479 |     let mut nfences: ::core::ffi::c_int = 0 as ::core::ffi::c_int;
+     |         ^^^^^^^^^^^
+     |
+     = note: consider using `_nfences` instead
+
+warning: unused variable: `flags`
+    --> src/closures.rs:5332:5
+     |
+5332 |     mut flags: ::core::ffi::c_int,
+     |     ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_flags`
+
+warning: unnecessary `unsafe` block
+    --> src/closures.rs:5457:61
+     |
+5457 | static mut open_temp_exec_file_opts: [C2RustUnnamed_2; 9] = unsafe {
+     |                                                             ^^^^^^ unnecessary `unsafe` block
+     |
+     = note: `#[warn(unused_unsafe)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `isvariadic`
+   --> src/prep_cif.rs:141:5
+    |
+141 |     mut isvariadic: ::core::ffi::c_uint,
+    |     ^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_isvariadic`
+
+warning: unused variable: `nfixedargs`
+   --> src/prep_cif.rs:142:5
+    |
+142 |     mut nfixedargs: ::core::ffi::c_uint,
+    |     ^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_nfixedargs`
+
+warning: unnecessary `unsafe` block
+   --> src/types.rs:176:61
+    |
+176 | static mut ffi_elements_complex_float: [*mut ffi_type; 2] = unsafe {
+    |                                                             ^^^^^^ unnecessary `unsafe` block
+
+warning: unnecessary `unsafe` block
+   --> src/types.rs:182:62
+    |
+182 | static mut ffi_elements_complex_double: [*mut ffi_type; 2] = unsafe {
+    |                                                              ^^^^^^ unnecessary `unsafe` block
+
+warning: unnecessary `unsafe` block
+   --> src/types.rs:188:66
+    |
+188 | static mut ffi_elements_complex_longdouble: [*mut ffi_type; 2] = unsafe {
+    |                                                                  ^^^^^^ unnecessary `unsafe` block
+
+warning: unused unary operation that must be used
+    --> src/closures.rs:2010:29
+     |
+2010 | ...                   !(0 as ::core::ffi::c_int as size_t);
+     |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the unary operation produces a value
+     |
+     = note: `#[warn(unused_must_use)]` (part of `#[warn(unused)]`) on by default
+help: use `let _ = ...` to ignore the resulting value
+     |
+2010 |                             let _ = !(0 as ::core::ffi::c_int as size_t);
+     |                             +++++++
+
+warning: unused comparison that must be used
+    --> src/closures.rs:5650:25
+     |
+5650 |                         ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the comparison produces a value
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+5650 |                         let _ = ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         +++++++
+
+warning: unused comparison that must be used
+    --> src/closures.rs:5663:25
+     |
+5663 |                         ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the comparison produces a value
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+5663 |                         let _ = ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         +++++++
+
+warning: `libffi-c2rust-i686-gnu` (lib) generated 12 warnings (run `cargo fix --lib -p libffi-c2rust-i686-gnu` to apply 4 suggestions)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.01s

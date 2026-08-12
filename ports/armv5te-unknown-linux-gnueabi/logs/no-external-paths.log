@@ -1,0 +1,1 @@
+PASS: no remote worker/tmp/system-libffi paths in crate build inputs

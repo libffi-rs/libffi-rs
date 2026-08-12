@@ -1,0 +1,5 @@
+[target.i686-unknown-linux-musl]
+linker = "i486-linux-musl-gcc"
+
+[env]
+CC_i686_unknown_linux_musl = "i486-linux-musl-gcc"

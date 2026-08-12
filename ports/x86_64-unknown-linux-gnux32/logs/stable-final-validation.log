@@ -1,0 +1,601 @@
++ cargo clean
+     Removed 499 files, 490.2MiB total
++ cargo fmt --all -- --check
++ cargo check --target x86_64-unknown-linux-gnux32
+   Compiling find-msvc-tools v0.1.10
+   Compiling shlex v2.0.1
+   Compiling cc v1.4.2
+   Compiling libffi-c2rust-x86-64-gnux32 v0.0.0 (/home/ubuntu/work/port)
+warning: unused variable: `flags`
+   --> src/closures.rs:952:5
+    |
+952 |     mut flags: ::core::ffi::c_int,
+    |     ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_flags`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable `nfences` is assigned to, but never used
+    --> src/closures.rs:1448:9
+     |
+1448 |     let mut nfences: ::core::ffi::c_int = 0 as ::core::ffi::c_int;
+     |         ^^^^^^^^^^^
+     |
+     = note: consider using `_nfences` instead
+
+warning: unused variable: `flags`
+    --> src/closures.rs:5303:5
+     |
+5303 |     mut flags: ::core::ffi::c_int,
+     |     ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_flags`
+
+warning: unused variable: `cif`
+   --> src/java_raw_api.rs:294:5
+    |
+294 |     mut cif: *mut ffi_cif,
+    |     ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_cif`
+
+warning: unused variable: `rvalue`
+   --> src/java_raw_api.rs:295:5
+    |
+295 |     mut rvalue: *mut ::core::ffi::c_void,
+    |     ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_rvalue`
+
+warning: unused variable: `cif`
+   --> src/java_raw_api.rs:299:5
+    |
+299 |     mut cif: *mut ffi_cif,
+    |     ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_cif`
+
+warning: unused variable: `rvalue`
+   --> src/java_raw_api.rs:300:5
+    |
+300 |     mut rvalue: *mut ::core::ffi::c_void,
+    |     ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_rvalue`
+
+warning: unused variable: `isvariadic`
+   --> src/prep_cif.rs:138:5
+    |
+138 |     mut isvariadic: ::core::ffi::c_uint,
+    |     ^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_isvariadic`
+
+warning: unused variable: `nfixedargs`
+   --> src/prep_cif.rs:139:5
+    |
+139 |     mut nfixedargs: ::core::ffi::c_uint,
+    |     ^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_nfixedargs`
+
+warning: unused variable: `codeloc`
+   --> src/x86/ffi64.rs:999:5
+    |
+999 |     mut codeloc: *mut ::core::ffi::c_void,
+    |     ^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_codeloc`
+
+warning: unused unary operation that must be used
+    --> src/closures.rs:1979:29
+     |
+1979 | ...                   !(0 as ::core::ffi::c_int as size_t);
+     |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the unary operation produces a value
+     |
+     = note: `#[warn(unused_must_use)]` (part of `#[warn(unused)]`) on by default
+help: use `let _ = ...` to ignore the resulting value
+     |
+1979 |                             let _ = !(0 as ::core::ffi::c_int as size_t);
+     |                             +++++++
+
+warning: unused comparison that must be used
+    --> src/closures.rs:5621:25
+     |
+5621 |                         ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the comparison produces a value
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+5621 |                         let _ = ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         +++++++
+
+warning: unused comparison that must be used
+    --> src/closures.rs:5634:25
+     |
+5634 |                         ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the comparison produces a value
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+5634 |                         let _ = ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         +++++++
+
+warning: function pointer comparisons do not produce meaningful results since their addresses are not guaranteed to be unique
+    --> src/x86/ffi64.rs:1042:12
+     |
+1042 |         if dest == Some(ffi_closure_unix64_sse as unsafe extern "C" fn() -> ()) {
+     |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     |
+     = note: the address of the same function can vary between different codegen units
+     = note: furthermore, different functions could have the same address after being merged together
+     = note: for more information visit <https://doc.rust-lang.org/nightly/core/ptr/fn.fn_addr_eq.html>
+     = note: `#[warn(unpredictable_function_pointer_comparisons)]` on by default
+
+warning: `ffi_prep_closure_loc` redeclared with a different signature
+  --> src/prep_cif.rs:4:5
+   |
+ 4 | /     fn ffi_prep_closure_loc(
+ 5 | |         _: *mut ffi_closure,
+ 6 | |         _: *mut ffi_cif,
+ 7 | |         fun: Option<
+...  |
+16 | |         codeloc: *mut ::core::ffi::c_void,
+17 | |     ) -> ffi_status;
+   | |____________________^ this signature doesn't match the previous declaration
+   |
+  ::: src/java_raw_api.rs:2:5
+   |
+ 2 | /     fn ffi_prep_closure_loc(
+ 3 | |         _: *mut ffi_closure,
+ 4 | |         _: *mut ffi_cif,
+ 5 | |         fun: Option<
+...  |
+14 | |         codeloc: *mut ::core::ffi::c_void,
+15 | |     ) -> ffi_status;
+   | |____________________- `ffi_prep_closure_loc` previously declared here
+   |
+   = note: expected `unsafe extern "C" fn(*mut java_raw_api::ffi_closure, *mut java_raw_api::ffi_cif, Option<unsafe extern "C" fn(*mut java_raw_api::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+              found `unsafe extern "C" fn(*mut prep_cif::ffi_closure, *mut prep_cif::ffi_cif, Option<unsafe extern "C" fn(*mut prep_cif::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+   = note: `#[warn(clashing_extern_declarations)]` on by default
+
+warning: `ffi_prep_closure_loc` redeclared with a different signature
+  --> src/raw_api.rs:2:5
+   |
+ 2 | /     fn ffi_prep_closure_loc(
+ 3 | |         _: *mut ffi_closure,
+ 4 | |         _: *mut ffi_cif,
+ 5 | |         fun: Option<
+...  |
+14 | |         codeloc: *mut ::core::ffi::c_void,
+15 | |     ) -> ffi_status;
+   | |____________________^ this signature doesn't match the previous declaration
+   |
+  ::: src/java_raw_api.rs:2:5
+   |
+ 2 | /     fn ffi_prep_closure_loc(
+ 3 | |         _: *mut ffi_closure,
+ 4 | |         _: *mut ffi_cif,
+ 5 | |         fun: Option<
+...  |
+14 | |         codeloc: *mut ::core::ffi::c_void,
+15 | |     ) -> ffi_status;
+   | |____________________- `ffi_prep_closure_loc` previously declared here
+   |
+   = note: expected `unsafe extern "C" fn(*mut java_raw_api::ffi_closure, *mut java_raw_api::ffi_cif, Option<unsafe extern "C" fn(*mut java_raw_api::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+              found `unsafe extern "C" fn(*mut raw_api::ffi_closure, *mut raw_api::ffi_cif, Option<unsafe extern "C" fn(*mut raw_api::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+
+warning: `write` redeclared with a different signature
+  --> src/tramp.rs:38:5
+   |
+38 |     fn write(__fd: ::core::ffi::c_int, __buf: *const ::core::ffi::c_void, __n: size_t) -> ssize_t;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ this signature doesn't match the previous declaration
+   |
+  ::: src/closures.rs:65:5
+   |
+65 |     fn write(__fd: ::core::ffi::c_int, __buf: *const ::core::ffi::c_void, __n: size_t) -> ssize_t;
+   |     ---------------------------------------------------------------------------------------------- `write` previously declared here
+   |
+   = note: expected `unsafe extern "C" fn(i32, *const c_void, usize) -> isize`
+              found `unsafe extern "C" fn(i32, *const c_void, usize) -> i32`
+
+warning: `libffi-c2rust-x86-64-gnux32` (lib) generated 17 warnings (run `cargo fix --lib -p libffi-c2rust-x86-64-gnux32` to apply 9 suggestions)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 2.82s
++ cargo build --target x86_64-unknown-linux-gnux32
+   Compiling libffi-c2rust-x86-64-gnux32 v0.0.0 (/home/ubuntu/work/port)
+warning: unused variable: `flags`
+   --> src/closures.rs:952:5
+    |
+952 |     mut flags: ::core::ffi::c_int,
+    |     ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_flags`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable `nfences` is assigned to, but never used
+    --> src/closures.rs:1448:9
+     |
+1448 |     let mut nfences: ::core::ffi::c_int = 0 as ::core::ffi::c_int;
+     |         ^^^^^^^^^^^
+     |
+     = note: consider using `_nfences` instead
+
+warning: unused variable: `flags`
+    --> src/closures.rs:5303:5
+     |
+5303 |     mut flags: ::core::ffi::c_int,
+     |     ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_flags`
+
+warning: unused variable: `cif`
+   --> src/java_raw_api.rs:294:5
+    |
+294 |     mut cif: *mut ffi_cif,
+    |     ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_cif`
+
+warning: unused variable: `rvalue`
+   --> src/java_raw_api.rs:295:5
+    |
+295 |     mut rvalue: *mut ::core::ffi::c_void,
+    |     ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_rvalue`
+
+warning: unused variable: `cif`
+   --> src/java_raw_api.rs:299:5
+    |
+299 |     mut cif: *mut ffi_cif,
+    |     ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_cif`
+
+warning: unused variable: `rvalue`
+   --> src/java_raw_api.rs:300:5
+    |
+300 |     mut rvalue: *mut ::core::ffi::c_void,
+    |     ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_rvalue`
+
+warning: unused variable: `isvariadic`
+   --> src/prep_cif.rs:138:5
+    |
+138 |     mut isvariadic: ::core::ffi::c_uint,
+    |     ^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_isvariadic`
+
+warning: unused variable: `nfixedargs`
+   --> src/prep_cif.rs:139:5
+    |
+139 |     mut nfixedargs: ::core::ffi::c_uint,
+    |     ^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_nfixedargs`
+
+warning: unused variable: `codeloc`
+   --> src/x86/ffi64.rs:999:5
+    |
+999 |     mut codeloc: *mut ::core::ffi::c_void,
+    |     ^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_codeloc`
+
+warning: unused unary operation that must be used
+    --> src/closures.rs:1979:29
+     |
+1979 | ...                   !(0 as ::core::ffi::c_int as size_t);
+     |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the unary operation produces a value
+     |
+     = note: `#[warn(unused_must_use)]` (part of `#[warn(unused)]`) on by default
+help: use `let _ = ...` to ignore the resulting value
+     |
+1979 |                             let _ = !(0 as ::core::ffi::c_int as size_t);
+     |                             +++++++
+
+warning: unused comparison that must be used
+    --> src/closures.rs:5621:25
+     |
+5621 |                         ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the comparison produces a value
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+5621 |                         let _ = ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         +++++++
+
+warning: unused comparison that must be used
+    --> src/closures.rs:5634:25
+     |
+5634 |                         ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the comparison produces a value
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+5634 |                         let _ = ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         +++++++
+
+warning: function pointer comparisons do not produce meaningful results since their addresses are not guaranteed to be unique
+    --> src/x86/ffi64.rs:1042:12
+     |
+1042 |         if dest == Some(ffi_closure_unix64_sse as unsafe extern "C" fn() -> ()) {
+     |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     |
+     = note: the address of the same function can vary between different codegen units
+     = note: furthermore, different functions could have the same address after being merged together
+     = note: for more information visit <https://doc.rust-lang.org/nightly/core/ptr/fn.fn_addr_eq.html>
+     = note: `#[warn(unpredictable_function_pointer_comparisons)]` on by default
+
+warning: `ffi_prep_closure_loc` redeclared with a different signature
+  --> src/prep_cif.rs:4:5
+   |
+ 4 | /     fn ffi_prep_closure_loc(
+ 5 | |         _: *mut ffi_closure,
+ 6 | |         _: *mut ffi_cif,
+ 7 | |         fun: Option<
+...  |
+16 | |         codeloc: *mut ::core::ffi::c_void,
+17 | |     ) -> ffi_status;
+   | |____________________^ this signature doesn't match the previous declaration
+   |
+  ::: src/java_raw_api.rs:2:5
+   |
+ 2 | /     fn ffi_prep_closure_loc(
+ 3 | |         _: *mut ffi_closure,
+ 4 | |         _: *mut ffi_cif,
+ 5 | |         fun: Option<
+...  |
+14 | |         codeloc: *mut ::core::ffi::c_void,
+15 | |     ) -> ffi_status;
+   | |____________________- `ffi_prep_closure_loc` previously declared here
+   |
+   = note: expected `unsafe extern "C" fn(*mut java_raw_api::ffi_closure, *mut java_raw_api::ffi_cif, Option<unsafe extern "C" fn(*mut java_raw_api::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+              found `unsafe extern "C" fn(*mut prep_cif::ffi_closure, *mut prep_cif::ffi_cif, Option<unsafe extern "C" fn(*mut prep_cif::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+   = note: `#[warn(clashing_extern_declarations)]` on by default
+
+warning: `ffi_prep_closure_loc` redeclared with a different signature
+  --> src/raw_api.rs:2:5
+   |
+ 2 | /     fn ffi_prep_closure_loc(
+ 3 | |         _: *mut ffi_closure,
+ 4 | |         _: *mut ffi_cif,
+ 5 | |         fun: Option<
+...  |
+14 | |         codeloc: *mut ::core::ffi::c_void,
+15 | |     ) -> ffi_status;
+   | |____________________^ this signature doesn't match the previous declaration
+   |
+  ::: src/java_raw_api.rs:2:5
+   |
+ 2 | /     fn ffi_prep_closure_loc(
+ 3 | |         _: *mut ffi_closure,
+ 4 | |         _: *mut ffi_cif,
+ 5 | |         fun: Option<
+...  |
+14 | |         codeloc: *mut ::core::ffi::c_void,
+15 | |     ) -> ffi_status;
+   | |____________________- `ffi_prep_closure_loc` previously declared here
+   |
+   = note: expected `unsafe extern "C" fn(*mut java_raw_api::ffi_closure, *mut java_raw_api::ffi_cif, Option<unsafe extern "C" fn(*mut java_raw_api::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+              found `unsafe extern "C" fn(*mut raw_api::ffi_closure, *mut raw_api::ffi_cif, Option<unsafe extern "C" fn(*mut raw_api::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+
+warning: `write` redeclared with a different signature
+  --> src/tramp.rs:38:5
+   |
+38 |     fn write(__fd: ::core::ffi::c_int, __buf: *const ::core::ffi::c_void, __n: size_t) -> ssize_t;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ this signature doesn't match the previous declaration
+   |
+  ::: src/closures.rs:65:5
+   |
+65 |     fn write(__fd: ::core::ffi::c_int, __buf: *const ::core::ffi::c_void, __n: size_t) -> ssize_t;
+   |     ---------------------------------------------------------------------------------------------- `write` previously declared here
+   |
+   = note: expected `unsafe extern "C" fn(i32, *const c_void, usize) -> isize`
+              found `unsafe extern "C" fn(i32, *const c_void, usize) -> i32`
+
+warning: `libffi-c2rust-x86-64-gnux32` (lib) generated 17 warnings (run `cargo fix --lib -p libffi-c2rust-x86-64-gnux32` to apply 9 suggestions)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.87s
++ cargo test --target x86_64-unknown-linux-gnux32 --no-run
+warning: unused variable: `flags`
+   --> src/closures.rs:952:5
+    |
+952 |     mut flags: ::core::ffi::c_int,
+    |     ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_flags`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable `nfences` is assigned to, but never used
+    --> src/closures.rs:1448:9
+     |
+1448 |     let mut nfences: ::core::ffi::c_int = 0 as ::core::ffi::c_int;
+     |         ^^^^^^^^^^^
+     |
+     = note: consider using `_nfences` instead
+
+warning: unused variable: `flags`
+    --> src/closures.rs:5303:5
+     |
+5303 |     mut flags: ::core::ffi::c_int,
+     |     ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_flags`
+
+warning: unused variable: `cif`
+   --> src/java_raw_api.rs:294:5
+    |
+294 |     mut cif: *mut ffi_cif,
+    |     ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_cif`
+
+warning: unused variable: `rvalue`
+   --> src/java_raw_api.rs:295:5
+    |
+295 |     mut rvalue: *mut ::core::ffi::c_void,
+    |     ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_rvalue`
+
+warning: unused variable: `cif`
+   --> src/java_raw_api.rs:299:5
+    |
+299 |     mut cif: *mut ffi_cif,
+    |     ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_cif`
+
+warning: unused variable: `rvalue`
+   --> src/java_raw_api.rs:300:5
+    |
+300 |     mut rvalue: *mut ::core::ffi::c_void,
+    |     ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_rvalue`
+
+warning: unused variable: `isvariadic`
+   --> src/prep_cif.rs:138:5
+    |
+138 |     mut isvariadic: ::core::ffi::c_uint,
+    |     ^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_isvariadic`
+
+warning: unused variable: `nfixedargs`
+   --> src/prep_cif.rs:139:5
+    |
+139 |     mut nfixedargs: ::core::ffi::c_uint,
+    |     ^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_nfixedargs`
+
+warning: unused variable: `codeloc`
+   --> src/x86/ffi64.rs:999:5
+    |
+999 |     mut codeloc: *mut ::core::ffi::c_void,
+    |     ^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_codeloc`
+
+warning: unused unary operation that must be used
+    --> src/closures.rs:1979:29
+     |
+1979 | ...                   !(0 as ::core::ffi::c_int as size_t);
+     |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the unary operation produces a value
+     |
+     = note: `#[warn(unused_must_use)]` (part of `#[warn(unused)]`) on by default
+help: use `let _ = ...` to ignore the resulting value
+     |
+1979 |                             let _ = !(0 as ::core::ffi::c_int as size_t);
+     |                             +++++++
+
+warning: unused comparison that must be used
+    --> src/closures.rs:5621:25
+     |
+5621 |                         ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the comparison produces a value
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+5621 |                         let _ = ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         +++++++
+
+warning: unused comparison that must be used
+    --> src/closures.rs:5634:25
+     |
+5634 |                         ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the comparison produces a value
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+5634 |                         let _ = ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         +++++++
+
+warning: function pointer comparisons do not produce meaningful results since their addresses are not guaranteed to be unique
+    --> src/x86/ffi64.rs:1042:12
+     |
+1042 |         if dest == Some(ffi_closure_unix64_sse as unsafe extern "C" fn() -> ()) {
+     |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     |
+     = note: the address of the same function can vary between different codegen units
+     = note: furthermore, different functions could have the same address after being merged together
+     = note: for more information visit <https://doc.rust-lang.org/nightly/core/ptr/fn.fn_addr_eq.html>
+     = note: `#[warn(unpredictable_function_pointer_comparisons)]` on by default
+
+warning: `ffi_prep_closure_loc` redeclared with a different signature
+  --> src/prep_cif.rs:4:5
+   |
+ 4 | /     fn ffi_prep_closure_loc(
+ 5 | |         _: *mut ffi_closure,
+ 6 | |         _: *mut ffi_cif,
+ 7 | |         fun: Option<
+...  |
+16 | |         codeloc: *mut ::core::ffi::c_void,
+17 | |     ) -> ffi_status;
+   | |____________________^ this signature doesn't match the previous declaration
+   |
+  ::: src/java_raw_api.rs:2:5
+   |
+ 2 | /     fn ffi_prep_closure_loc(
+ 3 | |         _: *mut ffi_closure,
+ 4 | |         _: *mut ffi_cif,
+ 5 | |         fun: Option<
+...  |
+14 | |         codeloc: *mut ::core::ffi::c_void,
+15 | |     ) -> ffi_status;
+   | |____________________- `ffi_prep_closure_loc` previously declared here
+   |
+   = note: expected `unsafe extern "C" fn(*mut java_raw_api::ffi_closure, *mut java_raw_api::ffi_cif, Option<unsafe extern "C" fn(*mut java_raw_api::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+              found `unsafe extern "C" fn(*mut prep_cif::ffi_closure, *mut prep_cif::ffi_cif, Option<unsafe extern "C" fn(*mut prep_cif::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+   = note: `#[warn(clashing_extern_declarations)]` on by default
+
+warning: `ffi_prep_closure_loc` redeclared with a different signature
+  --> src/raw_api.rs:2:5
+   |
+ 2 | /     fn ffi_prep_closure_loc(
+ 3 | |         _: *mut ffi_closure,
+ 4 | |         _: *mut ffi_cif,
+ 5 | |         fun: Option<
+...  |
+14 | |         codeloc: *mut ::core::ffi::c_void,
+15 | |     ) -> ffi_status;
+   | |____________________^ this signature doesn't match the previous declaration
+   |
+  ::: src/java_raw_api.rs:2:5
+   |
+ 2 | /     fn ffi_prep_closure_loc(
+ 3 | |         _: *mut ffi_closure,
+ 4 | |         _: *mut ffi_cif,
+ 5 | |         fun: Option<
+...  |
+14 | |         codeloc: *mut ::core::ffi::c_void,
+15 | |     ) -> ffi_status;
+   | |____________________- `ffi_prep_closure_loc` previously declared here
+   |
+   = note: expected `unsafe extern "C" fn(*mut java_raw_api::ffi_closure, *mut java_raw_api::ffi_cif, Option<unsafe extern "C" fn(*mut java_raw_api::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+              found `unsafe extern "C" fn(*mut raw_api::ffi_closure, *mut raw_api::ffi_cif, Option<unsafe extern "C" fn(*mut raw_api::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+
+warning: `write` redeclared with a different signature
+  --> src/tramp.rs:38:5
+   |
+38 |     fn write(__fd: ::core::ffi::c_int, __buf: *const ::core::ffi::c_void, __n: size_t) -> ssize_t;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ this signature doesn't match the previous declaration
+   |
+  ::: src/closures.rs:65:5
+   |
+65 |     fn write(__fd: ::core::ffi::c_int, __buf: *const ::core::ffi::c_void, __n: size_t) -> ssize_t;
+   |     ---------------------------------------------------------------------------------------------- `write` previously declared here
+   |
+   = note: expected `unsafe extern "C" fn(i32, *const c_void, usize) -> isize`
+              found `unsafe extern "C" fn(i32, *const c_void, usize) -> i32`
+
+   Compiling libffi-c2rust-x86-64-gnux32 v0.0.0 (/home/ubuntu/work/port)
+warning: `libffi-c2rust-x86-64-gnux32` (lib) generated 17 warnings (run `cargo fix --lib -p libffi-c2rust-x86-64-gnux32` to apply 9 suggestions)
+warning: static `ffi_type_sint32` is never used
+  --> tests/e2e.rs:26:16
+   |
+26 |     static mut ffi_type_sint32: FfiType;
+   |                ^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: static `ffi_type_uint64` is never used
+  --> tests/e2e.rs:29:16
+   |
+29 |     static mut ffi_type_uint64: FfiType;
+   |                ^^^^^^^^^^^^^^^
+
+warning: creating a shared reference to mutable static
+   --> tests/e2e.rs:100:20
+    |
+100 |         assert_eq!(ffi_type_pointer.size, 4);
+    |                    ^^^^^^^^^^^^^^^^^^^^^ shared reference to mutable static
+    |
+    = note: shared references to mutable statics are dangerous; it's undefined behavior if the static is mutated or if a mutable reference is created for it while the shared reference lives
+    = note: for more information, see <https://doc.rust-lang.org/edition-guide/rust-2024/static-mut-references.html>
+    = note: `#[warn(static_mut_refs)]` (part of `#[warn(rust_2024_compatibility)]`) on by default
+
+warning: creating a shared reference to mutable static
+   --> tests/e2e.rs:101:20
+    |
+101 |         assert_eq!(ffi_type_pointer.alignment, 4);
+    |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^ shared reference to mutable static
+    |
+    = note: shared references to mutable statics are dangerous; it's undefined behavior if the static is mutated or if a mutable reference is created for it while the shared reference lives
+    = note: for more information, see <https://doc.rust-lang.org/edition-guide/rust-2024/static-mut-references.html>
+
+warning: creating a shared reference to mutable static
+   --> tests/e2e.rs:102:20
+    |
+102 |         assert_eq!(ffi_type_longdouble.size, 16);
+    |                    ^^^^^^^^^^^^^^^^^^^^^^^^ shared reference to mutable static
+    |
+    = note: shared references to mutable statics are dangerous; it's undefined behavior if the static is mutated or if a mutable reference is created for it while the shared reference lives
+    = note: for more information, see <https://doc.rust-lang.org/edition-guide/rust-2024/static-mut-references.html>
+
+warning: creating a shared reference to mutable static
+   --> tests/e2e.rs:103:20
+    |
+103 |         assert_eq!(ffi_type_longdouble.alignment, 16);
+    |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ shared reference to mutable static
+    |
+    = note: shared references to mutable statics are dangerous; it's undefined behavior if the static is mutated or if a mutable reference is created for it while the shared reference lives
+    = note: for more information, see <https://doc.rust-lang.org/edition-guide/rust-2024/static-mut-references.html>
+
+warning: `libffi-c2rust-x86-64-gnux32` (test "e2e") generated 6 warnings
+warning: `libffi-c2rust-x86-64-gnux32` (lib test) generated 17 warnings (17 duplicates)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.31s
+  Executable unittests lib.rs (target/x86_64-unknown-linux-gnux32/debug/deps/libffi_c2rust_x86_64_gnux32-85c5d9c0d7359169)
+  Executable tests/e2e.rs (target/x86_64-unknown-linux-gnux32/debug/deps/e2e-faceaaa124542668)

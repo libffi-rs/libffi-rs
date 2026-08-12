@@ -1,0 +1,17 @@
+893bd63954735468305c83ddd56718e3863fdacd 2026-08-11T22:25:09-07:00 minor fixes
+1f3108f20b65d4b2a35cc5fd618aa06c5ff40c1c 2026-08-11T22:00:44-07:00 test
+8e43bdfe7221e8af44e224683c5010e52cb3c61d 2026-08-11T21:59:25-07:00 start on cleanup
+25ac1998f65299682b3f67f678c604ffd3d4b400 2026-08-11T21:57:15-07:00 fix compile
+23efc98b537fedc2d0a8c313747283aeecc33587 2026-08-11T21:50:25-07:00 initial c2rust
+a647fd7eff70593cc6dfd18e3f0a3822427452c8 2026-08-11T21:43:00-07:00 setup some miri testing
+533274e46d0ebad21934efc40aae49c273363771 2026-08-11T10:20:43-07:00 support struct offset retrieval
+078cd6892bc94ba9d70e2d84d4a101e5dd0f1c59 2026-08-11T10:24:33-07:00 fix complex feature
+
+reviewed: libffi/build.rs
+86857797088fc2ee906ec858c74cf144050ed115d089d9501e3302c442c8903c  libffi/build.rs
+reviewed: libffi-sys-rs build scripts
+2c67f8576780f5aec42f530ae732f91607c6bab26ec07f5ca035852ada97dfce  libffi-sys-rs/build/build.rs
+3169bee593e6b785327d119b7c7e9aa2b3fe7fdb4f4bcd7570aa55df73ac5abd  libffi-sys-rs/build/common.rs
+b7ae23acf01ec1398bc8eb88f2a9f743e3d1b8462cd2a70ec7a876781d234328  libffi-sys-rs/build/msvc.rs
+86d31e750676ce779edb44f7e51c253dff1b7ee33fa4dc305576f5cf1b5feeb1  libffi-sys-rs/build/not_msvc.rs
+

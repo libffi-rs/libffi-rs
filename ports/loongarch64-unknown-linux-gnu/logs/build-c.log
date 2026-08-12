@@ -1,0 +1,107 @@
+MAKE x86_64-pc-linux-gnu : 0 * all-all
+make[1]: Entering directory '/home/ubuntu/work-loongarch64/libffi-build/loongarch64-unknown-linux-gnu'
+make  all-recursive
+make[2]: Entering directory '/home/ubuntu/work-loongarch64/libffi-build/loongarch64-unknown-linux-gnu'
+Making all in include
+make[3]: Entering directory '/home/ubuntu/work-loongarch64/libffi-build/loongarch64-unknown-linux-gnu/include'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/ubuntu/work-loongarch64/libffi-build/loongarch64-unknown-linux-gnu/include'
+Making all in testsuite
+make[3]: Entering directory '/home/ubuntu/work-loongarch64/libffi-build/loongarch64-unknown-linux-gnu/testsuite'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/ubuntu/work-loongarch64/libffi-build/loongarch64-unknown-linux-gnu/testsuite'
+Making all in man
+make[3]: Entering directory '/home/ubuntu/work-loongarch64/libffi-build/loongarch64-unknown-linux-gnu/man'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/ubuntu/work-loongarch64/libffi-build/loongarch64-unknown-linux-gnu/man'
+make[3]: Entering directory '/home/ubuntu/work-loongarch64/libffi-build/loongarch64-unknown-linux-gnu'
+depbase=`echo src/prep_cif.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile loongarch64-unknown-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src   -Wall -O2 -g -fexceptions -mcmodel=medium -MT src/prep_cif.lo -MD -MP -MF $depbase.Tpo -c -o src/prep_cif.lo ../src/prep_cif.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+depbase=`echo src/types.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile loongarch64-unknown-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src   -Wall -O2 -g -fexceptions -mcmodel=medium -MT src/types.lo -MD -MP -MF $depbase.Tpo -c -o src/types.lo ../src/types.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+libtool: compile:  loongarch64-unknown-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wall -O2 -g -fexceptions -mcmodel=medium -MT src/prep_cif.lo -MD -MP -MF src/.deps/prep_cif.Tpo -c ../src/prep_cif.c  -fPIC -DPIC -o src/prep_cif.o
+libtool: compile:  loongarch64-unknown-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wall -O2 -g -fexceptions -mcmodel=medium -MT src/types.lo -MD -MP -MF src/.deps/types.Tpo -c ../src/types.c  -fPIC -DPIC -o src/types.o
+depbase=`echo src/raw_api.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile loongarch64-unknown-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src   -Wall -O2 -g -fexceptions -mcmodel=medium -MT src/raw_api.lo -MD -MP -MF $depbase.Tpo -c -o src/raw_api.lo ../src/raw_api.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+depbase=`echo src/java_raw_api.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile loongarch64-unknown-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src   -Wall -O2 -g -fexceptions -mcmodel=medium -MT src/java_raw_api.lo -MD -MP -MF $depbase.Tpo -c -o src/java_raw_api.lo ../src/java_raw_api.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+libtool: compile:  loongarch64-unknown-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wall -O2 -g -fexceptions -mcmodel=medium -MT src/raw_api.lo -MD -MP -MF src/.deps/raw_api.Tpo -c ../src/raw_api.c  -fPIC -DPIC -o src/raw_api.o
+libtool: compile:  loongarch64-unknown-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wall -O2 -g -fexceptions -mcmodel=medium -MT src/java_raw_api.lo -MD -MP -MF src/.deps/java_raw_api.Tpo -c ../src/java_raw_api.c  -fPIC -DPIC -o src/java_raw_api.o
+../src/java_raw_api.c: In function 'ffi_java_raw_call':
+../src/java_raw_api.c:317:3: warning: 'ffi_java_raw_to_ptrarray' is deprecated [-Wdeprecated-declarations]
+  317 |   ffi_java_raw_to_ptrarray (cif, raw, avalue);
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~
+../src/java_raw_api.c:76:1: note: declared here
+   76 | ffi_java_raw_to_ptrarray (ffi_cif *cif, ffi_java_raw *raw, void **args)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~
+../src/java_raw_api.c: In function 'ffi_java_translate_args':
+../src/java_raw_api.c:328:3: warning: 'ffi_java_raw_size' is deprecated [-Wdeprecated-declarations]
+  328 |   ffi_java_raw *raw = (ffi_java_raw*)alloca (ffi_java_raw_size (cif));
+      |   ^~~~~~~~~~~~
+../src/java_raw_api.c:45:1: note: declared here
+   45 | ffi_java_raw_size (ffi_cif *cif)
+      | ^~~~~~~~~~~~~~~~~
+../src/java_raw_api.c:331:3: warning: 'ffi_java_ptrarray_to_raw' is deprecated [-Wdeprecated-declarations]
+  331 |   ffi_java_ptrarray_to_raw (cif, avalue, raw);
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~
+../src/java_raw_api.c:157:1: note: declared here
+  157 | ffi_java_ptrarray_to_raw (ffi_cif *cif, void **args, ffi_java_raw *raw)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~
+../src/java_raw_api.c: In function 'ffi_prep_java_raw_closure':
+../src/java_raw_api.c:369:3: warning: 'ffi_prep_java_raw_closure_loc' is deprecated [-Wdeprecated-declarations]
+  369 |   return ffi_prep_java_raw_closure_loc (cl, cif, fun, user_data, cl);
+      |   ^~~~~~
+../src/java_raw_api.c:337:1: note: declared here
+  337 | ffi_prep_java_raw_closure_loc (ffi_java_raw_closure* cl,
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+depbase=`echo src/closures.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile loongarch64-unknown-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src   -Wall -O2 -g -fexceptions -mcmodel=medium -MT src/closures.lo -MD -MP -MF $depbase.Tpo -c -o src/closures.lo ../src/closures.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+depbase=`echo src/tramp.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile loongarch64-unknown-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src   -Wall -O2 -g -fexceptions -mcmodel=medium -MT src/tramp.lo -MD -MP -MF $depbase.Tpo -c -o src/tramp.lo ../src/tramp.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+libtool: compile:  loongarch64-unknown-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wall -O2 -g -fexceptions -mcmodel=medium -MT src/closures.lo -MD -MP -MF src/.deps/closures.Tpo -c ../src/closures.c  -fPIC -DPIC -o src/closures.o
+libtool: compile:  loongarch64-unknown-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wall -O2 -g -fexceptions -mcmodel=medium -MT src/tramp.lo -MD -MP -MF src/.deps/tramp.Tpo -c ../src/tramp.c  -fPIC -DPIC -o src/tramp.o
+depbase=`echo src/loongarch/ffi.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile loongarch64-unknown-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src   -Wall -O2 -g -fexceptions -mcmodel=medium -MT src/loongarch/ffi.lo -MD -MP -MF $depbase.Tpo -c -o src/loongarch/ffi.lo ../src/loongarch/ffi.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+libtool: compile:  loongarch64-unknown-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wall -O2 -g -fexceptions -mcmodel=medium -MT src/loongarch/ffi.lo -MD -MP -MF src/loongarch/.deps/ffi.Tpo -c ../src/loongarch/ffi.c  -fPIC -DPIC -o src/loongarch/ffi.o
+depbase=`echo src/loongarch/sysv.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile loongarch64-unknown-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src  '-I. -I../include -Iinclude -I../src' -O2 -g -MT src/loongarch/sysv.lo -MD -MP -MF $depbase.Tpo -c -o src/loongarch/sysv.lo ../src/loongarch/sysv.S &&\
+mv -f $depbase.Tpo $depbase.Plo
+libtool: compile:  loongarch64-unknown-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src "-I. -I../include -Iinclude -I../src" -O2 -g -MT src/loongarch/sysv.lo -MD -MP -MF src/loongarch/.deps/sysv.Tpo -c ../src/loongarch/sysv.S  -fPIC -DPIC -o src/loongarch/sysv.o
+/bin/bash ./libtool  --tag=CC   --mode=link loongarch64-unknown-linux-gnu-gcc  -Wall -O2 -g -fexceptions -mcmodel=medium   -o libffi_convenience.la  src/prep_cif.lo src/types.lo src/raw_api.lo src/java_raw_api.lo src/closures.lo src/tramp.lo   src/loongarch/ffi.lo src/loongarch/sysv.lo 
+/bin/bash ./libtool  --tag=CC   --mode=link loongarch64-unknown-linux-gnu-gcc  -Wall -O2 -g -fexceptions -mcmodel=medium -no-undefined -version-info `grep -v '^#' ../libtool-version`     -o libffi.la -rpath /home/ubuntu/work-loongarch64/libffi-install/lib src/prep_cif.lo src/types.lo src/raw_api.lo src/java_raw_api.lo src/closures.lo src/tramp.lo  src/loongarch/ffi.lo src/loongarch/sysv.lo 
+libtool: link: loongarch64-unknown-linux-gnu-ar cr .libs/libffi_convenience.a  src/prep_cif.o src/types.o src/raw_api.o src/java_raw_api.o src/closures.o src/tramp.o src/loongarch/ffi.o src/loongarch/sysv.o
+libtool: link: loongarch64-unknown-linux-gnu-ar cr .libs/libffi.a  src/prep_cif.o src/types.o src/raw_api.o src/java_raw_api.o src/closures.o src/tramp.o src/loongarch/ffi.o src/loongarch/sysv.o
+libtool: link: loongarch64-unknown-linux-gnu-ranlib .libs/libffi_convenience.a
+libtool: link: loongarch64-unknown-linux-gnu-ranlib .libs/libffi.a
+libtool: link: ( cd ".libs" && rm -f "libffi_convenience.la" && ln -s "../libffi_convenience.la" "libffi_convenience.la" )
+libtool: link: ( cd ".libs" && rm -f "libffi.la" && ln -s "../libffi.la" "libffi.la" )
+make[3]: Leaving directory '/home/ubuntu/work-loongarch64/libffi-build/loongarch64-unknown-linux-gnu'
+make[2]: Leaving directory '/home/ubuntu/work-loongarch64/libffi-build/loongarch64-unknown-linux-gnu'
+make[1]: Leaving directory '/home/ubuntu/work-loongarch64/libffi-build/loongarch64-unknown-linux-gnu'
+MAKE x86_64-pc-linux-gnu : 0 * all-configured
+make[1]: Entering directory '/home/ubuntu/work-loongarch64/libffi-build/loongarch64-unknown-linux-gnu'
+make  all-recursive
+make[2]: Entering directory '/home/ubuntu/work-loongarch64/libffi-build/loongarch64-unknown-linux-gnu'
+Making all in include
+make[3]: Entering directory '/home/ubuntu/work-loongarch64/libffi-build/loongarch64-unknown-linux-gnu/include'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/ubuntu/work-loongarch64/libffi-build/loongarch64-unknown-linux-gnu/include'
+Making all in testsuite
+make[3]: Entering directory '/home/ubuntu/work-loongarch64/libffi-build/loongarch64-unknown-linux-gnu/testsuite'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/ubuntu/work-loongarch64/libffi-build/loongarch64-unknown-linux-gnu/testsuite'
+Making all in man
+make[3]: Entering directory '/home/ubuntu/work-loongarch64/libffi-build/loongarch64-unknown-linux-gnu/man'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/ubuntu/work-loongarch64/libffi-build/loongarch64-unknown-linux-gnu/man'
+make[3]: Entering directory '/home/ubuntu/work-loongarch64/libffi-build/loongarch64-unknown-linux-gnu'
+make[3]: Leaving directory '/home/ubuntu/work-loongarch64/libffi-build/loongarch64-unknown-linux-gnu'
+make[2]: Leaving directory '/home/ubuntu/work-loongarch64/libffi-build/loongarch64-unknown-linux-gnu'
+make[1]: Leaving directory '/home/ubuntu/work-loongarch64/libffi-build/loongarch64-unknown-linux-gnu'

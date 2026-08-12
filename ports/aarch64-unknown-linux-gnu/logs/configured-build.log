@@ -1,0 +1,70 @@
+make  all-recursive
+make[1]: Entering directory '/home/ubuntu/work/build'
+Making all in include
+make[2]: Entering directory '/home/ubuntu/work/build/include'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/home/ubuntu/work/build/include'
+Making all in testsuite
+make[2]: Entering directory '/home/ubuntu/work/build/testsuite'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/home/ubuntu/work/build/testsuite'
+Making all in man
+make[2]: Entering directory '/home/ubuntu/work/build/man'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/home/ubuntu/work/build/man'
+make[2]: Entering directory '/home/ubuntu/work/build'
+depbase=`echo src/prep_cif.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile clang -DHAVE_CONFIG_H -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi  -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src   -Wall -O0 -g -fPIC -fexceptions -MT src/prep_cif.lo -MD -MP -MF $depbase.Tpo -c -o src/prep_cif.lo /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/prep_cif.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+depbase=`echo src/types.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile clang -DHAVE_CONFIG_H -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi  -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src   -Wall -O0 -g -fPIC -fexceptions -MT src/types.lo -MD -MP -MF $depbase.Tpo -c -o src/types.lo /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/types.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+libtool: compile:  clang -DHAVE_CONFIG_H -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src -Wall -O0 -g -fPIC -fexceptions -MT src/prep_cif.lo -MD -MP -MF src/.deps/prep_cif.Tpo -c /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/prep_cif.c  -fPIC -DPIC -o src/prep_cif.o
+libtool: compile:  clang -DHAVE_CONFIG_H -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src -Wall -O0 -g -fPIC -fexceptions -MT src/types.lo -MD -MP -MF src/.deps/types.Tpo -c /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/types.c  -fPIC -DPIC -o src/types.o
+depbase=`echo src/raw_api.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile clang -DHAVE_CONFIG_H -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi  -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src   -Wall -O0 -g -fPIC -fexceptions -MT src/raw_api.lo -MD -MP -MF $depbase.Tpo -c -o src/raw_api.lo /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/raw_api.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+depbase=`echo src/java_raw_api.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile clang -DHAVE_CONFIG_H -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi  -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src   -Wall -O0 -g -fPIC -fexceptions -MT src/java_raw_api.lo -MD -MP -MF $depbase.Tpo -c -o src/java_raw_api.lo /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/java_raw_api.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+libtool: compile:  clang -DHAVE_CONFIG_H -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src -Wall -O0 -g -fPIC -fexceptions -MT src/raw_api.lo -MD -MP -MF src/.deps/raw_api.Tpo -c /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/raw_api.c  -fPIC -DPIC -o src/raw_api.o
+libtool: compile:  clang -DHAVE_CONFIG_H -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src -Wall -O0 -g -fPIC -fexceptions -MT src/java_raw_api.lo -MD -MP -MF src/.deps/java_raw_api.Tpo -c /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/java_raw_api.c  -fPIC -DPIC -o src/java_raw_api.o
+/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/java_raw_api.c:328:46: warning: 'ffi_java_raw_size' is deprecated [-Wdeprecated-declarations]
+  328 |   ffi_java_raw *raw = (ffi_java_raw*)alloca (ffi_java_raw_size (cif));
+      |                                              ^
+include/ffi.h:322:56: note: 'ffi_java_raw_size' has been explicitly marked deprecated here
+  322 | size_t ffi_java_raw_size (ffi_cif *cif) __attribute__((deprecated));
+      |                                                        ^
+/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/java_raw_api.c:331:3: warning: 'ffi_java_ptrarray_to_raw' is deprecated [-Wdeprecated-declarations]
+  331 |   ffi_java_ptrarray_to_raw (cif, avalue, raw);
+      |   ^
+include/ffi.h:318:93: note: 'ffi_java_ptrarray_to_raw' has been explicitly marked deprecated here
+  318 | void ffi_java_ptrarray_to_raw (ffi_cif *cif, void **args, ffi_java_raw *raw) __attribute__((deprecated));
+      |                                                                                             ^
+2 warnings generated.
+depbase=`echo src/closures.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile clang -DHAVE_CONFIG_H -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi  -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src   -Wall -O0 -g -fPIC -fexceptions -MT src/closures.lo -MD -MP -MF $depbase.Tpo -c -o src/closures.lo /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/closures.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+depbase=`echo src/tramp.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile clang -DHAVE_CONFIG_H -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi  -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src   -Wall -O0 -g -fPIC -fexceptions -MT src/tramp.lo -MD -MP -MF $depbase.Tpo -c -o src/tramp.lo /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/tramp.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+libtool: compile:  clang -DHAVE_CONFIG_H -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src -Wall -O0 -g -fPIC -fexceptions -MT src/closures.lo -MD -MP -MF src/.deps/closures.Tpo -c /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/closures.c  -fPIC -DPIC -o src/closures.o
+libtool: compile:  clang -DHAVE_CONFIG_H -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src -Wall -O0 -g -fPIC -fexceptions -MT src/tramp.lo -MD -MP -MF src/.deps/tramp.Tpo -c /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/tramp.c  -fPIC -DPIC -o src/tramp.o
+depbase=`echo src/aarch64/ffi.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile clang -DHAVE_CONFIG_H -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi  -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src   -Wall -O0 -g -fPIC -fexceptions -MT src/aarch64/ffi.lo -MD -MP -MF $depbase.Tpo -c -o src/aarch64/ffi.lo /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/aarch64/ffi.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+depbase=`echo src/aarch64/sysv.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile clang -DHAVE_CONFIG_H -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi  -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src  '-I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src' -O0 -g -fPIC -MT src/aarch64/sysv.lo -MD -MP -MF $depbase.Tpo -c -o src/aarch64/sysv.lo /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/aarch64/sysv.S &&\
+mv -f $depbase.Tpo $depbase.Plo
+libtool: compile:  clang -DHAVE_CONFIG_H -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src -Wall -O0 -g -fPIC -fexceptions -MT src/aarch64/ffi.lo -MD -MP -MF src/aarch64/.deps/ffi.Tpo -c /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/aarch64/ffi.c  -fPIC -DPIC -o src/aarch64/ffi.o
+libtool: compile:  clang -DHAVE_CONFIG_H -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi -I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src "-I. -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src" -O0 -g -fPIC -MT src/aarch64/sysv.lo -MD -MP -MF src/aarch64/.deps/sysv.Tpo -c /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/aarch64/sysv.S  -fPIC -DPIC -o src/aarch64/sysv.o
+/bin/bash ./libtool  --tag=CC   --mode=link clang  -Wall -O0 -g -fPIC -fexceptions   -o libffi_convenience.la  src/prep_cif.lo src/types.lo src/raw_api.lo src/java_raw_api.lo src/closures.lo src/tramp.lo   src/aarch64/ffi.lo src/aarch64/sysv.lo 
+/bin/bash ./libtool  --tag=CC   --mode=link clang  -Wall -O0 -g -fPIC -fexceptions -no-undefined -version-info `grep -v '^#' /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/libtool-version`     -o libffi.la -rpath /usr/local/lib src/prep_cif.lo src/types.lo src/raw_api.lo src/java_raw_api.lo src/closures.lo src/tramp.lo  src/aarch64/ffi.lo src/aarch64/sysv.lo 
+libtool: link: ar cr .libs/libffi_convenience.a  src/prep_cif.o src/types.o src/raw_api.o src/java_raw_api.o src/closures.o src/tramp.o src/aarch64/ffi.o src/aarch64/sysv.o
+libtool: link: ar cr .libs/libffi.a  src/prep_cif.o src/types.o src/raw_api.o src/java_raw_api.o src/closures.o src/tramp.o src/aarch64/ffi.o src/aarch64/sysv.o
+libtool: link: ranlib .libs/libffi_convenience.a
+libtool: link: ranlib .libs/libffi.a
+libtool: link: ( cd ".libs" && rm -f "libffi_convenience.la" && ln -s "../libffi_convenience.la" "libffi_convenience.la" )
+libtool: link: ( cd ".libs" && rm -f "libffi.la" && ln -s "../libffi.la" "libffi.la" )
+make[2]: Leaving directory '/home/ubuntu/work/build'
+make[1]: Leaving directory '/home/ubuntu/work/build'

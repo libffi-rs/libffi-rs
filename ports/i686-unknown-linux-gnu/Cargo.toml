@@ -1,0 +1,16 @@
+[package]
+name = "libffi-c2rust-i686-gnu"
+version = "0.0.0"
+edition = "2021"
+publish = false
+autobins = false
+build = "build.rs"
+[lib]
+name = "libffi_c2rust_i686_gnu"
+path = "lib.rs"
+crate-type = ["staticlib", "rlib"]
+[dependencies]
+[build-dependencies]
+cc = "1"
+
+[workspace]

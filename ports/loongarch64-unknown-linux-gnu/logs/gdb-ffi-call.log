@@ -1,0 +1,56 @@
+warning: Missing auto-load script at offset 0 in section .debug_gdb_scripts
+of file /home/ubuntu/work-loongarch64/port/target/loongarch64-unknown-linux-gnu/debug/deps/e2e-b200333e5c7a166a.
+Use `info auto-load python-scripts [REGEXP]' to list them.
+Undefined item: "loongarch64".
+warning: Architecture rejected target-supplied description
+Reading /lib64/ld-linux-loongarch-lp64d.so.1 from remote target...
+warning: File transfers from remote targets can be slow. Use "set sysroot" to access files locally instead.
+Reading /lib64/ld-linux-loongarch-lp64d.so.1 from remote target...
+warning: BFD: warning: system-supplied DSO at 0x555555dbc000 has a corrupt string table index
+0x0000555555d7df5c in ?? () from target:/lib64/ld-linux-loongarch-lp64d.so.1
+Reading /usr/lib64/libgcc_s.so.1 from remote target...
+Reading /usr/lib64/libc.so.6 from remote target...
+Reading /usr/lib/debug/.build-id/74/1555c8af60a64814d1276ef3aedd4d4a30c627.debug from remote target...
+[New Thread 17107.17115]
+
+Thread 2 received signal SIGSEGV, Segmentation fault.
+[Switching to Thread 17107.17115]
+0x0000000000000000 in ?? ()
+#0  0x0000000000000000 in ?? ()
+#1  0x0000000000000000 in ?? ()
+Backtrace stopped: frame did not save the PC
+r0             0x0                 0
+r1             0x0                 0x0
+r2             0x55555636a840      0x55555636a840
+r3             0x555558001230      0x555558001230
+r4             0x555558000fb8      93825036980152
+r5             0x8                 8
+r6             0x0                 0
+r7             0x555558000cd8      93825036979416
+r8             0x0                 0
+r9             0x0                 0
+r10            0x0                 0
+r11            0x0                 0
+r12            0x555558000dd0      93825036979664
+r13            0x7b9d35048480      135915129570432
+r14            0x0                 0
+r15            0x555558000030      93825036976176
+r16            0x555558000dd0      93825036979664
+r17            0x1faf5e0           33224160
+r18            0x555558000e30      93825036979760
+r19            0x555556050000      93825003749376
+r20            0x60                96
+r21            0x0                 0
+r22            0x555556368f90      0x555556368f90
+r23            0x555556369548      93825006998856
+r24            0x555556067180      93825003843968
+r25            0x1                 1
+r26            0xffffffffffffffff  18446744073709551615
+r27            0xffffffffffffffff  18446744073709551615
+r28            0x555555dafcc0      93825000996032
+r29            0x555555d55398      93825000625048
+r30            0x0                 0
+r31            0x8000000000000000  9223372036854775808
+orig_a0        0x0                 0
+pc             0x0                 0x0
+badv           0x0                 0x0

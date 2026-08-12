@@ -1,0 +1,12 @@
+
+running 7 tests
+test configured_i686_layout_and_types_are_exact ... ok
+test executable_closure_round_trip ... ok
+test ffi_call_floating_point ... ok
+test ffi_call_integer ... ok
+test ffi_call_stack_arguments ... ok
+test ffi_call_struct_by_value_and_return ... ok
+test ffi_call_x87_long_double ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+

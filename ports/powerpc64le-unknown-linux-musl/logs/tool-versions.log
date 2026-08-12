@@ -1,0 +1,6 @@
+C2Rust 0.22.1
+rustc 1.97.1 (8bab26f4f 2026-07-14)
+cargo 1.97.1 (c980f4866 2026-06-30)
+powerpc64le-linux-musl-gcc (GCC) 11.2.1 20211120
+qemu-ppc64le version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.18)
+Linux ip-172-31-34-16 6.17.0-1019-aws #19~24.04.1-Ubuntu SMP Tue Jun 23 18:53:06 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux

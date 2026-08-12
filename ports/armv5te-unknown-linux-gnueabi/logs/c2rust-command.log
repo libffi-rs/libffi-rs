@@ -1,0 +1,4 @@
+C2Rust 0.22.1 successful command:
+c2rust transpile compile_commands.json --emit-modules --overwrite-existing --preserve-unused-functions -o c2rust -- --target=arm-linux-gnueabi
+
+The compile database contains the seven configured C units. sysv.S is deliberately retained and built as assembly.

@@ -1,0 +1,174 @@
+Transpiling prep_cif.c
+error: 'rustfmt' is not installed for the toolchain 'stable-x86_64-unknown-linux-gnu'.
+help: run `rustup component add rustfmt` to install it
+
+Stack backtrace:
+   0: anyhow::kind::Adhoc::new
+   1: anyhow::__private::format_err.3718
+   2: rustup::toolchain::distributable::DistributableToolchain::recursion_error
+   3: rustup::toolchain::Toolchain::create_command
+   4: rustup::toolchain::Toolchain::command
+   5: rustup::cli::proxy_mode::main::{{closure}}::{{closure}}
+   6: rustup_init::run_rustup_inner::{{closure}}::{{closure}}
+   7: rustup_init::run_rustup::{{closure}}::{{closure}}
+   8: rustup_init::main::{{closure}}
+   9: tokio::runtime::runtime::Runtime::block_on
+  10: rustup_init::main
+  11: std::sys::backtrace::__rust_begin_short_backtrace
+  12: main
+  13: <unknown>
+  14: __libc_start_main
+  15: <unknown>
+[33mwarning:[0m rustfmt failed, code may not be well-formatted
+Transpiling types.c
+error: 'rustfmt' is not installed for the toolchain 'stable-x86_64-unknown-linux-gnu'.
+help: run `rustup component add rustfmt` to install it
+
+Stack backtrace:
+   0: anyhow::kind::Adhoc::new
+   1: anyhow::__private::format_err.3718
+   2: rustup::toolchain::distributable::DistributableToolchain::recursion_error
+   3: rustup::toolchain::Toolchain::create_command
+   4: rustup::toolchain::Toolchain::command
+   5: rustup::cli::proxy_mode::main::{{closure}}::{{closure}}
+   6: rustup_init::run_rustup_inner::{{closure}}::{{closure}}
+   7: rustup_init::run_rustup::{{closure}}::{{closure}}
+   8: rustup_init::main::{{closure}}
+   9: tokio::runtime::runtime::Runtime::block_on
+  10: rustup_init::main
+  11: std::sys::backtrace::__rust_begin_short_backtrace
+  12: main
+  13: <unknown>
+  14: __libc_start_main
+  15: <unknown>
+[33mwarning:[0m rustfmt failed, code may not be well-formatted
+Transpiling raw_api.c
+error: 'rustfmt' is not installed for the toolchain 'stable-x86_64-unknown-linux-gnu'.
+help: run `rustup component add rustfmt` to install it
+
+Stack backtrace:
+   0: anyhow::kind::Adhoc::new
+   1: anyhow::__private::format_err.3718
+   2: rustup::toolchain::distributable::DistributableToolchain::recursion_error
+   3: rustup::toolchain::Toolchain::create_command
+   4: rustup::toolchain::Toolchain::command
+   5: rustup::cli::proxy_mode::main::{{closure}}::{{closure}}
+   6: rustup_init::run_rustup_inner::{{closure}}::{{closure}}
+   7: rustup_init::run_rustup::{{closure}}::{{closure}}
+   8: rustup_init::main::{{closure}}
+   9: tokio::runtime::runtime::Runtime::block_on
+  10: rustup_init::main
+  11: std::sys::backtrace::__rust_begin_short_backtrace
+  12: main
+  13: <unknown>
+  14: __libc_start_main
+  15: <unknown>
+[33mwarning:[0m rustfmt failed, code may not be well-formatted
+../src/java_raw_api.c:328:46: warning: 'ffi_java_raw_size' is deprecated [-Wdeprecated-declarations]
+  ffi_java_raw *raw = (ffi_java_raw*)alloca (ffi_java_raw_size (cif));
+                                             ^
+include/ffi.h:322:56: note: 'ffi_java_raw_size' has been explicitly marked deprecated here
+size_t ffi_java_raw_size (ffi_cif *cif) __attribute__((deprecated));
+                                                       ^
+../src/java_raw_api.c:331:3: warning: 'ffi_java_ptrarray_to_raw' is deprecated [-Wdeprecated-declarations]
+  ffi_java_ptrarray_to_raw (cif, avalue, raw);
+  ^
+include/ffi.h:318:93: note: 'ffi_java_ptrarray_to_raw' has been explicitly marked deprecated here
+void ffi_java_ptrarray_to_raw (ffi_cif *cif, void **args, ffi_java_raw *raw) __attribute__((deprecated));
+                                                                                            ^
+2 warnings generated.
+Transpiling java_raw_api.c
+error: 'rustfmt' is not installed for the toolchain 'stable-x86_64-unknown-linux-gnu'.
+help: run `rustup component add rustfmt` to install it
+
+Stack backtrace:
+   0: anyhow::kind::Adhoc::new
+   1: anyhow::__private::format_err.3718
+   2: rustup::toolchain::distributable::DistributableToolchain::recursion_error
+   3: rustup::toolchain::Toolchain::create_command
+   4: rustup::toolchain::Toolchain::command
+   5: rustup::cli::proxy_mode::main::{{closure}}::{{closure}}
+   6: rustup_init::run_rustup_inner::{{closure}}::{{closure}}
+   7: rustup_init::run_rustup::{{closure}}::{{closure}}
+   8: rustup_init::main::{{closure}}
+   9: tokio::runtime::runtime::Runtime::block_on
+  10: rustup_init::main
+  11: std::sys::backtrace::__rust_begin_short_backtrace
+  12: main
+  13: <unknown>
+  14: __libc_start_main
+  15: <unknown>
+[33mwarning:[0m rustfmt failed, code may not be well-formatted
+Transpiling closures.c
+error: 'rustfmt' is not installed for the toolchain 'stable-x86_64-unknown-linux-gnu'.
+help: run `rustup component add rustfmt` to install it
+
+Stack backtrace:
+   0: anyhow::kind::Adhoc::new
+   1: anyhow::__private::format_err.3718
+   2: rustup::toolchain::distributable::DistributableToolchain::recursion_error
+   3: rustup::toolchain::Toolchain::create_command
+   4: rustup::toolchain::Toolchain::command
+   5: rustup::cli::proxy_mode::main::{{closure}}::{{closure}}
+   6: rustup_init::run_rustup_inner::{{closure}}::{{closure}}
+   7: rustup_init::run_rustup::{{closure}}::{{closure}}
+   8: rustup_init::main::{{closure}}
+   9: tokio::runtime::runtime::Runtime::block_on
+  10: rustup_init::main
+  11: std::sys::backtrace::__rust_begin_short_backtrace
+  12: main
+  13: <unknown>
+  14: __libc_start_main
+  15: <unknown>
+[33mwarning:[0m rustfmt failed, code may not be well-formatted
+Transpiling tramp.c
+error: 'rustfmt' is not installed for the toolchain 'stable-x86_64-unknown-linux-gnu'.
+help: run `rustup component add rustfmt` to install it
+
+Stack backtrace:
+   0: anyhow::kind::Adhoc::new
+   1: anyhow::__private::format_err.3718
+   2: rustup::toolchain::distributable::DistributableToolchain::recursion_error
+   3: rustup::toolchain::Toolchain::create_command
+   4: rustup::toolchain::Toolchain::command
+   5: rustup::cli::proxy_mode::main::{{closure}}::{{closure}}
+   6: rustup_init::run_rustup_inner::{{closure}}::{{closure}}
+   7: rustup_init::run_rustup::{{closure}}::{{closure}}
+   8: rustup_init::main::{{closure}}
+   9: tokio::runtime::runtime::Runtime::block_on
+  10: rustup_init::main
+  11: std::sys::backtrace::__rust_begin_short_backtrace
+  12: main
+  13: <unknown>
+  14: __libc_start_main
+  15: <unknown>
+[33mwarning:[0m rustfmt failed, code may not be well-formatted
+Transpiling ffi.c
+[31merror:[0m Failed to translate ffi_prep_closure_loc: Unimplemented builtin __builtin___clear_cache
+--> /home/ubuntu/work/libffi-build/src/riscv/ffi.c:493:5
+
+error: 'rustfmt' is not installed for the toolchain 'stable-x86_64-unknown-linux-gnu'.
+help: run `rustup component add rustfmt` to install it
+
+Stack backtrace:
+   0: anyhow::kind::Adhoc::new
+   1: anyhow::__private::format_err.3718
+   2: rustup::toolchain::distributable::DistributableToolchain::recursion_error
+   3: rustup::toolchain::Toolchain::create_command
+   4: rustup::toolchain::Toolchain::command
+   5: rustup::cli::proxy_mode::main::{{closure}}::{{closure}}
+   6: rustup_init::run_rustup_inner::{{closure}}::{{closure}}
+   7: rustup_init::run_rustup::{{closure}}::{{closure}}
+   8: rustup_init::main::{{closure}}
+   9: tokio::runtime::runtime::Runtime::block_on
+  10: rustup_init::main
+  11: std::sys::backtrace::__rust_begin_short_backtrace
+  12: main
+  13: <unknown>
+  14: __libc_start_main
+  15: <unknown>
+[33mwarning:[0m rustfmt failed, code may not be well-formatted
+info: syncing channel updates for nightly-2023-04-15-x86_64-unknown-linux-gnu
+info: latest update on 2023-04-15 for version 1.70.0-nightly (84dd17b56 2023-04-14)
+info: downloading 4 components
+C2RUST_STATUS=0

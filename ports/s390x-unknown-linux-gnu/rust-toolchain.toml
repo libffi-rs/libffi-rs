@@ -1,0 +1,4 @@
+[toolchain]
+channel = "stable"
+profile = "minimal"
+targets = ["s390x-unknown-linux-gnu"]

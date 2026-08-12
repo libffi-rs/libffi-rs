@@ -1,0 +1,140 @@
+   Compiling libffi-c2rust-powerpc64-linux-gnu v0.0.0 (/home/ubuntu/libffi-port/port)
+warning: unused variable: `ntotalargs`
+   --> src/powerpc/ffi_linux64.rs:494:5
+    |
+494 |     mut ntotalargs: ::core::ffi::c_uint,
+    |     ^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_ntotalargs`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `flags`
+   --> src/closures.rs:972:5
+    |
+972 |     mut flags: ::core::ffi::c_int,
+    |     ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_flags`
+
+warning: variable `nfences` is assigned to, but never used
+    --> src/closures.rs:1469:9
+     |
+1469 |     let mut nfences: ::core::ffi::c_int = 0 as ::core::ffi::c_int;
+     |         ^^^^^^^^^^^
+     |
+     = note: consider using `_nfences` instead
+
+warning: unused variable: `flags`
+    --> src/closures.rs:5327:5
+     |
+5327 |     mut flags: ::core::ffi::c_int,
+     |     ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_flags`
+
+warning: unnecessary `unsafe` block
+    --> src/closures.rs:5452:61
+     |
+5452 | static mut open_temp_exec_file_opts: [C2RustUnnamed_0; 9] = unsafe {
+     |                                                             ^^^^^^ unnecessary `unsafe` block
+     |
+     = note: `#[warn(unused_unsafe)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused unary operation that must be used
+    --> src/closures.rs:2001:29
+     |
+2001 | ...                   !(0 as ::core::ffi::c_int as size_t);
+     |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the unary operation produces a value
+     |
+     = note: `#[warn(unused_must_use)]` (part of `#[warn(unused)]`) on by default
+help: use `let _ = ...` to ignore the resulting value
+     |
+2001 |                             let _ = !(0 as ::core::ffi::c_int as size_t);
+     |                             +++++++
+
+warning: unused comparison that must be used
+    --> src/closures.rs:5644:25
+     |
+5644 |                         ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the comparison produces a value
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+5644 |                         let _ = ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         +++++++
+
+warning: unused comparison that must be used
+    --> src/closures.rs:5657:25
+     |
+5657 |                         ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the comparison produces a value
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+5657 |                         let _ = ftruncate(execfd, offset as __off_t) != 0 as ::core::ffi::c_int;
+     |                         +++++++
+
+warning: `ffi_prep_closure_loc` redeclared with a different signature
+  --> src/prep_cif.rs:4:5
+   |
+ 4 | /     fn ffi_prep_closure_loc(
+ 5 | |         _: *mut ffi_closure,
+ 6 | |         _: *mut ffi_cif,
+ 7 | |         fun: Option<
+...  |
+16 | |         codeloc: *mut ::core::ffi::c_void,
+17 | |     ) -> ffi_status;
+   | |____________________^ this signature doesn't match the previous declaration
+   |
+  ::: src/java_raw_api.rs:2:5
+   |
+ 2 | /     fn ffi_prep_closure_loc(
+ 3 | |         _: *mut ffi_closure,
+ 4 | |         _: *mut ffi_cif,
+ 5 | |         fun: Option<
+...  |
+14 | |         codeloc: *mut ::core::ffi::c_void,
+15 | |     ) -> ffi_status;
+   | |____________________- `ffi_prep_closure_loc` previously declared here
+   |
+   = note: expected `unsafe extern "C" fn(*mut java_raw_api::ffi_closure, *mut java_raw_api::ffi_cif, Option<unsafe extern "C" fn(*mut java_raw_api::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+              found `unsafe extern "C" fn(*mut prep_cif::ffi_closure, *mut prep_cif::ffi_cif, Option<unsafe extern "C" fn(*mut prep_cif::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+   = note: `#[warn(clashing_extern_declarations)]` on by default
+
+warning: `ffi_prep_closure_loc` redeclared with a different signature
+  --> src/raw_api.rs:2:5
+   |
+ 2 | /     fn ffi_prep_closure_loc(
+ 3 | |         _: *mut ffi_closure,
+ 4 | |         _: *mut ffi_cif,
+ 5 | |         fun: Option<
+...  |
+14 | |         codeloc: *mut ::core::ffi::c_void,
+15 | |     ) -> ffi_status;
+   | |____________________^ this signature doesn't match the previous declaration
+   |
+  ::: src/java_raw_api.rs:2:5
+   |
+ 2 | /     fn ffi_prep_closure_loc(
+ 3 | |         _: *mut ffi_closure,
+ 4 | |         _: *mut ffi_cif,
+ 5 | |         fun: Option<
+...  |
+14 | |         codeloc: *mut ::core::ffi::c_void,
+15 | |     ) -> ffi_status;
+   | |____________________- `ffi_prep_closure_loc` previously declared here
+   |
+   = note: expected `unsafe extern "C" fn(*mut java_raw_api::ffi_closure, *mut java_raw_api::ffi_cif, Option<unsafe extern "C" fn(*mut java_raw_api::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+              found `unsafe extern "C" fn(*mut raw_api::ffi_closure, *mut raw_api::ffi_cif, Option<unsafe extern "C" fn(*mut raw_api::ffi_cif, *mut c_void, *mut *mut c_void, *mut c_void)>, *mut c_void, *mut c_void) -> u32`
+
+warning: `write` redeclared with a different signature
+  --> src/tramp.rs:38:5
+   |
+38 |     fn write(__fd: ::core::ffi::c_int, __buf: *const ::core::ffi::c_void, __n: size_t) -> ssize_t;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ this signature doesn't match the previous declaration
+   |
+  ::: src/closures.rs:45:5
+   |
+45 |     fn write(__fd: ::core::ffi::c_int, __buf: *const ::core::ffi::c_void, __n: size_t) -> ssize_t;
+   |     ---------------------------------------------------------------------------------------------- `write` previously declared here
+   |
+   = note: expected `unsafe extern "C" fn(i32, *const c_void, usize) -> isize`
+              found `unsafe extern "C" fn(i32, *const c_void, usize) -> i64`
+
+warning: `libffi-c2rust-powerpc64-linux-gnu` (lib) generated 11 warnings (run `cargo fix --lib -p libffi-c2rust-powerpc64-linux-gnu` to apply 3 suggestions)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.04s

@@ -1,0 +1,101 @@
+MAKE x86_64-pc-linux-gnu : 0 * all-all
+make[1]: Entering directory '/home/ubuntu/work/configured/src/x86_64-pc-linux-gnu'
+make  all-recursive
+make[2]: Entering directory '/home/ubuntu/work/configured/src/x86_64-pc-linux-gnu'
+Making all in include
+make[3]: Entering directory '/home/ubuntu/work/configured/src/x86_64-pc-linux-gnu/include'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/ubuntu/work/configured/src/x86_64-pc-linux-gnu/include'
+Making all in testsuite
+make[3]: Entering directory '/home/ubuntu/work/configured/src/x86_64-pc-linux-gnu/testsuite'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/ubuntu/work/configured/src/x86_64-pc-linux-gnu/testsuite'
+Making all in man
+make[3]: Entering directory '/home/ubuntu/work/configured/src/x86_64-pc-linux-gnu/man'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/ubuntu/work/configured/src/x86_64-pc-linux-gnu/man'
+make[3]: Entering directory '/home/ubuntu/work/configured/src/x86_64-pc-linux-gnu'
+depbase=`echo src/prep_cif.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile clang -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src   -Wall -O0 -g -fexceptions -MT src/prep_cif.lo -MD -MP -MF $depbase.Tpo -c -o src/prep_cif.lo ../src/prep_cif.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+depbase=`echo src/types.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile clang -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src   -Wall -O0 -g -fexceptions -MT src/types.lo -MD -MP -MF $depbase.Tpo -c -o src/types.lo ../src/types.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+libtool: compile:  clang -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wall -O0 -g -fexceptions -MT src/types.lo -MD -MP -MF src/.deps/types.Tpo -c ../src/types.c  -fPIC -DPIC -o src/types.o
+libtool: compile:  clang -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wall -O0 -g -fexceptions -MT src/prep_cif.lo -MD -MP -MF src/.deps/prep_cif.Tpo -c ../src/prep_cif.c  -fPIC -DPIC -o src/prep_cif.o
+depbase=`echo src/raw_api.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile clang -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src   -Wall -O0 -g -fexceptions -MT src/raw_api.lo -MD -MP -MF $depbase.Tpo -c -o src/raw_api.lo ../src/raw_api.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+depbase=`echo src/java_raw_api.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile clang -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src   -Wall -O0 -g -fexceptions -MT src/java_raw_api.lo -MD -MP -MF $depbase.Tpo -c -o src/java_raw_api.lo ../src/java_raw_api.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+libtool: compile:  clang -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wall -O0 -g -fexceptions -MT src/java_raw_api.lo -MD -MP -MF src/.deps/java_raw_api.Tpo -c ../src/java_raw_api.c  -fPIC -DPIC -o src/java_raw_api.o
+libtool: compile:  clang -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wall -O0 -g -fexceptions -MT src/raw_api.lo -MD -MP -MF src/.deps/raw_api.Tpo -c ../src/raw_api.c  -fPIC -DPIC -o src/raw_api.o
+../src/java_raw_api.c:328:46: warning: 'ffi_java_raw_size' is deprecated [-Wdeprecated-declarations]
+  328 |   ffi_java_raw *raw = (ffi_java_raw*)alloca (ffi_java_raw_size (cif));
+      |                                              ^
+include/ffi.h:322:56: note: 'ffi_java_raw_size' has been explicitly marked deprecated here
+  322 | size_t ffi_java_raw_size (ffi_cif *cif) __attribute__((deprecated));
+      |                                                        ^
+../src/java_raw_api.c:331:3: warning: 'ffi_java_ptrarray_to_raw' is deprecated [-Wdeprecated-declarations]
+  331 |   ffi_java_ptrarray_to_raw (cif, avalue, raw);
+      |   ^
+include/ffi.h:318:93: note: 'ffi_java_ptrarray_to_raw' has been explicitly marked deprecated here
+  318 | void ffi_java_ptrarray_to_raw (ffi_cif *cif, void **args, ffi_java_raw *raw) __attribute__((deprecated));
+      |                                                                                             ^
+2 warnings generated.
+depbase=`echo src/closures.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile clang -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src   -Wall -O0 -g -fexceptions -MT src/closures.lo -MD -MP -MF $depbase.Tpo -c -o src/closures.lo ../src/closures.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+depbase=`echo src/tramp.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile clang -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src   -Wall -O0 -g -fexceptions -MT src/tramp.lo -MD -MP -MF $depbase.Tpo -c -o src/tramp.lo ../src/tramp.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+libtool: compile:  clang -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wall -O0 -g -fexceptions -MT src/closures.lo -MD -MP -MF src/.deps/closures.Tpo -c ../src/closures.c  -fPIC -DPIC -o src/closures.o
+libtool: compile:  clang -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wall -O0 -g -fexceptions -MT src/tramp.lo -MD -MP -MF src/.deps/tramp.Tpo -c ../src/tramp.c  -fPIC -DPIC -o src/tramp.o
+depbase=`echo src/x86/ffi64.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile clang -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src   -Wall -O0 -g -fexceptions -MT src/x86/ffi64.lo -MD -MP -MF $depbase.Tpo -c -o src/x86/ffi64.lo ../src/x86/ffi64.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+depbase=`echo src/x86/unix64.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile clang -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src  '-I. -I../include -Iinclude -I../src' -O0 -g -MT src/x86/unix64.lo -MD -MP -MF $depbase.Tpo -c -o src/x86/unix64.lo ../src/x86/unix64.S &&\
+mv -f $depbase.Tpo $depbase.Plo
+libtool: compile:  clang -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wall -O0 -g -fexceptions -MT src/x86/ffi64.lo -MD -MP -MF src/x86/.deps/ffi64.Tpo -c ../src/x86/ffi64.c  -fPIC -DPIC -o src/x86/ffi64.o
+libtool: compile:  clang -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src "-I. -I../include -Iinclude -I../src" -O0 -g -MT src/x86/unix64.lo -MD -MP -MF src/x86/.deps/unix64.Tpo -c ../src/x86/unix64.S  -fPIC -DPIC -o src/x86/unix64.o
+depbase=`echo src/x86/ffiw64.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile clang -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src   -Wall -O0 -g -fexceptions -MT src/x86/ffiw64.lo -MD -MP -MF $depbase.Tpo -c -o src/x86/ffiw64.lo ../src/x86/ffiw64.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+depbase=`echo src/x86/win64.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile clang -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src  '-I. -I../include -Iinclude -I../src' -O0 -g -MT src/x86/win64.lo -MD -MP -MF $depbase.Tpo -c -o src/x86/win64.lo ../src/x86/win64.S &&\
+mv -f $depbase.Tpo $depbase.Plo
+libtool: compile:  clang -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wall -O0 -g -fexceptions -MT src/x86/ffiw64.lo -MD -MP -MF src/x86/.deps/ffiw64.Tpo -c ../src/x86/ffiw64.c  -fPIC -DPIC -o src/x86/ffiw64.o
+libtool: compile:  clang -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src "-I. -I../include -Iinclude -I../src" -O0 -g -MT src/x86/win64.lo -MD -MP -MF src/x86/.deps/win64.Tpo -c ../src/x86/win64.S  -fPIC -DPIC -o src/x86/win64.o
+/bin/bash ./libtool  --tag=CC   --mode=link clang  -Wall -O0 -g -fexceptions   -o libffi_convenience.la  src/prep_cif.lo src/types.lo src/raw_api.lo src/java_raw_api.lo src/closures.lo src/tramp.lo   src/x86/ffi64.lo src/x86/unix64.lo src/x86/ffiw64.lo src/x86/win64.lo 
+/bin/bash ./libtool  --tag=CC   --mode=link clang  -Wall -O0 -g -fexceptions -no-undefined -version-info `grep -v '^#' ../libtool-version`     -o libffi.la -rpath /home/ubuntu/work/configured/install/lib src/prep_cif.lo src/types.lo src/raw_api.lo src/java_raw_api.lo src/closures.lo src/tramp.lo  src/x86/ffi64.lo src/x86/unix64.lo src/x86/ffiw64.lo src/x86/win64.lo 
+libtool: link: ar cr .libs/libffi_convenience.a  src/prep_cif.o src/types.o src/raw_api.o src/java_raw_api.o src/closures.o src/tramp.o src/x86/ffi64.o src/x86/unix64.o src/x86/ffiw64.o src/x86/win64.o
+libtool: link: ar cr .libs/libffi.a  src/prep_cif.o src/types.o src/raw_api.o src/java_raw_api.o src/closures.o src/tramp.o src/x86/ffi64.o src/x86/unix64.o src/x86/ffiw64.o src/x86/win64.o
+libtool: link: ranlib .libs/libffi_convenience.a
+libtool: link: ranlib .libs/libffi.a
+libtool: link: ( cd ".libs" && rm -f "libffi_convenience.la" && ln -s "../libffi_convenience.la" "libffi_convenience.la" )
+libtool: link: ( cd ".libs" && rm -f "libffi.la" && ln -s "../libffi.la" "libffi.la" )
+make[3]: Leaving directory '/home/ubuntu/work/configured/src/x86_64-pc-linux-gnu'
+make[2]: Leaving directory '/home/ubuntu/work/configured/src/x86_64-pc-linux-gnu'
+make[1]: Leaving directory '/home/ubuntu/work/configured/src/x86_64-pc-linux-gnu'
+MAKE x86_64-pc-linux-gnu : 0 * all-configured
+make[1]: Entering directory '/home/ubuntu/work/configured/src/x86_64-pc-linux-gnu'
+make  all-recursive
+make[2]: Entering directory '/home/ubuntu/work/configured/src/x86_64-pc-linux-gnu'
+Making all in include
+make[3]: Entering directory '/home/ubuntu/work/configured/src/x86_64-pc-linux-gnu/include'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/ubuntu/work/configured/src/x86_64-pc-linux-gnu/include'
+Making all in testsuite
+make[3]: Entering directory '/home/ubuntu/work/configured/src/x86_64-pc-linux-gnu/testsuite'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/ubuntu/work/configured/src/x86_64-pc-linux-gnu/testsuite'
+Making all in man
+make[3]: Entering directory '/home/ubuntu/work/configured/src/x86_64-pc-linux-gnu/man'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/ubuntu/work/configured/src/x86_64-pc-linux-gnu/man'
+make[3]: Entering directory '/home/ubuntu/work/configured/src/x86_64-pc-linux-gnu'
+make[3]: Leaving directory '/home/ubuntu/work/configured/src/x86_64-pc-linux-gnu'
+make[2]: Leaving directory '/home/ubuntu/work/configured/src/x86_64-pc-linux-gnu'
+make[1]: Leaving directory '/home/ubuntu/work/configured/src/x86_64-pc-linux-gnu'

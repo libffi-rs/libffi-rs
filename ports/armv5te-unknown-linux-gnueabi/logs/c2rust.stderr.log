@@ -1,0 +1,44 @@
++ c2rust transpile /home/ubuntu/work/armv5-port/compile_commands.json --emit-modules --overwrite-existing --preserve-unused-functions -o /home/ubuntu/work/armv5-port/c2rust -- --target=arm-linux-gnueabi
+error: 'rustfmt' is not installed for the toolchain 'stable-x86_64-unknown-linux-gnu'.
+help: run `rustup component add rustfmt` to install it
+[33mwarning:[0m rustfmt failed, code may not be well-formatted
+[31merror:[0m Failed to translate ffi_type_complex_float: Unsupported type Complex(CTypeId(110))
+
+[31merror:[0m Failed to translate ffi_type_complex_double: Unsupported type Complex(CTypeId(950))
+
+[31merror:[0m Failed to translate ffi_type_complex_longdouble: Unsupported type Complex(CTypeId(54))
+
+error: 'rustfmt' is not installed for the toolchain 'stable-x86_64-unknown-linux-gnu'.
+help: run `rustup component add rustfmt` to install it
+[33mwarning:[0m rustfmt failed, code may not be well-formatted
+error: 'rustfmt' is not installed for the toolchain 'stable-x86_64-unknown-linux-gnu'.
+help: run `rustup component add rustfmt` to install it
+[33mwarning:[0m rustfmt failed, code may not be well-formatted
+/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/java_raw_api.c:328:46: warning: 'ffi_java_raw_size' is deprecated [-Wdeprecated-declarations]
+  328 |   ffi_java_raw *raw = (ffi_java_raw*)alloca (ffi_java_raw_size (cif));
+      |                                              ^
+include/ffi.h:322:56: note: 'ffi_java_raw_size' has been explicitly marked deprecated here
+  322 | size_t ffi_java_raw_size (ffi_cif *cif) __attribute__((deprecated));
+      |                                                        ^
+/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/java_raw_api.c:331:3: warning: 'ffi_java_ptrarray_to_raw' is deprecated [-Wdeprecated-declarations]
+  331 |   ffi_java_ptrarray_to_raw (cif, avalue, raw);
+      |   ^
+include/ffi.h:318:93: note: 'ffi_java_ptrarray_to_raw' has been explicitly marked deprecated here
+  318 | void ffi_java_ptrarray_to_raw (ffi_cif *cif, void **args, ffi_java_raw *raw) __attribute__((deprecated));
+      |                                                                                             ^
+2 warnings generated.
+error: 'rustfmt' is not installed for the toolchain 'stable-x86_64-unknown-linux-gnu'.
+help: run `rustup component add rustfmt` to install it
+[33mwarning:[0m rustfmt failed, code may not be well-formatted
+error: 'rustfmt' is not installed for the toolchain 'stable-x86_64-unknown-linux-gnu'.
+help: run `rustup component add rustfmt` to install it
+[33mwarning:[0m rustfmt failed, code may not be well-formatted
+error: 'rustfmt' is not installed for the toolchain 'stable-x86_64-unknown-linux-gnu'.
+help: run `rustup component add rustfmt` to install it
+[33mwarning:[0m rustfmt failed, code may not be well-formatted
+[31merror:[0m Failed to translate ffi_prep_closure_loc: Unimplemented builtin __clear_cache
+--> /home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/arm/ffi.c:656:3
+
+error: 'rustfmt' is not installed for the toolchain 'stable-x86_64-unknown-linux-gnu'.
+help: run `rustup component add rustfmt` to install it
+[33mwarning:[0m rustfmt failed, code may not be well-formatted

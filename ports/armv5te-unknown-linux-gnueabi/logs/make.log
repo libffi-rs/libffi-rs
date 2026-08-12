@@ -1,0 +1,84 @@
+make  all-recursive
+make[1]: Entering directory '/home/ubuntu/work/armv5-port/configured'
+Making all in include
+make[2]: Entering directory '/home/ubuntu/work/armv5-port/configured/include'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/home/ubuntu/work/armv5-port/configured/include'
+Making all in testsuite
+make[2]: Entering directory '/home/ubuntu/work/armv5-port/configured/testsuite'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/home/ubuntu/work/armv5-port/configured/testsuite'
+Making all in man
+make[2]: Entering directory '/home/ubuntu/work/armv5-port/configured/man'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/home/ubuntu/work/armv5-port/configured/man'
+make[2]: Entering directory '/home/ubuntu/work/armv5-port/configured'
+depbase=`echo src/prep_cif.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile arm-linux-gnueabi-gcc -DHAVE_CONFIG_H -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi  -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src   -Wall -march=armv5te -mfloat-abi=soft -O2 -g0 -fPIC -fexceptions -MT src/prep_cif.lo -MD -MP -MF $depbase.Tpo -c -o src/prep_cif.lo /home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/prep_cif.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+depbase=`echo src/types.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile arm-linux-gnueabi-gcc -DHAVE_CONFIG_H -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi  -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src   -Wall -march=armv5te -mfloat-abi=soft -O2 -g0 -fPIC -fexceptions -MT src/types.lo -MD -MP -MF $depbase.Tpo -c -o src/types.lo /home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/types.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+libtool: compile:  arm-linux-gnueabi-gcc -DHAVE_CONFIG_H -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src -Wall -march=armv5te -mfloat-abi=soft -O2 -g0 -fPIC -fexceptions -MT src/prep_cif.lo -MD -MP -MF src/.deps/prep_cif.Tpo -c /home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/prep_cif.c  -fPIC -DPIC -o src/prep_cif.o
+libtool: compile:  arm-linux-gnueabi-gcc -DHAVE_CONFIG_H -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src -Wall -march=armv5te -mfloat-abi=soft -O2 -g0 -fPIC -fexceptions -MT src/types.lo -MD -MP -MF src/.deps/types.Tpo -c /home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/types.c  -fPIC -DPIC -o src/types.o
+depbase=`echo src/raw_api.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile arm-linux-gnueabi-gcc -DHAVE_CONFIG_H -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi  -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src   -Wall -march=armv5te -mfloat-abi=soft -O2 -g0 -fPIC -fexceptions -MT src/raw_api.lo -MD -MP -MF $depbase.Tpo -c -o src/raw_api.lo /home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/raw_api.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+depbase=`echo src/java_raw_api.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile arm-linux-gnueabi-gcc -DHAVE_CONFIG_H -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi  -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src   -Wall -march=armv5te -mfloat-abi=soft -O2 -g0 -fPIC -fexceptions -MT src/java_raw_api.lo -MD -MP -MF $depbase.Tpo -c -o src/java_raw_api.lo /home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/java_raw_api.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+libtool: compile:  arm-linux-gnueabi-gcc -DHAVE_CONFIG_H -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src -Wall -march=armv5te -mfloat-abi=soft -O2 -g0 -fPIC -fexceptions -MT src/raw_api.lo -MD -MP -MF src/.deps/raw_api.Tpo -c /home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/raw_api.c  -fPIC -DPIC -o src/raw_api.o
+libtool: compile:  arm-linux-gnueabi-gcc -DHAVE_CONFIG_H -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src -Wall -march=armv5te -mfloat-abi=soft -O2 -g0 -fPIC -fexceptions -MT src/java_raw_api.lo -MD -MP -MF src/.deps/java_raw_api.Tpo -c /home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/java_raw_api.c  -fPIC -DPIC -o src/java_raw_api.o
+/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/java_raw_api.c: In function 'ffi_java_raw_call':
+/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/java_raw_api.c:317:3: warning: 'ffi_java_raw_to_ptrarray' is deprecated [-Wdeprecated-declarations]
+  317 |   ffi_java_raw_to_ptrarray (cif, raw, avalue);
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~
+/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/java_raw_api.c:76:1: note: declared here
+   76 | ffi_java_raw_to_ptrarray (ffi_cif *cif, ffi_java_raw *raw, void **args)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~
+/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/java_raw_api.c: In function 'ffi_java_translate_args':
+/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/java_raw_api.c:328:3: warning: 'ffi_java_raw_size' is deprecated [-Wdeprecated-declarations]
+  328 |   ffi_java_raw *raw = (ffi_java_raw*)alloca (ffi_java_raw_size (cif));
+      |   ^~~~~~~~~~~~
+/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/java_raw_api.c:45:1: note: declared here
+   45 | ffi_java_raw_size (ffi_cif *cif)
+      | ^~~~~~~~~~~~~~~~~
+/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/java_raw_api.c:331:3: warning: 'ffi_java_ptrarray_to_raw' is deprecated [-Wdeprecated-declarations]
+  331 |   ffi_java_ptrarray_to_raw (cif, avalue, raw);
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~
+/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/java_raw_api.c:157:1: note: declared here
+  157 | ffi_java_ptrarray_to_raw (ffi_cif *cif, void **args, ffi_java_raw *raw)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~
+/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/java_raw_api.c: In function 'ffi_prep_java_raw_closure':
+/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/java_raw_api.c:369:3: warning: 'ffi_prep_java_raw_closure_loc' is deprecated [-Wdeprecated-declarations]
+  369 |   return ffi_prep_java_raw_closure_loc (cl, cif, fun, user_data, cl);
+      |   ^~~~~~
+/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/java_raw_api.c:337:1: note: declared here
+  337 | ffi_prep_java_raw_closure_loc (ffi_java_raw_closure* cl,
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+depbase=`echo src/closures.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile arm-linux-gnueabi-gcc -DHAVE_CONFIG_H -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi  -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src   -Wall -march=armv5te -mfloat-abi=soft -O2 -g0 -fPIC -fexceptions -MT src/closures.lo -MD -MP -MF $depbase.Tpo -c -o src/closures.lo /home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/closures.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+depbase=`echo src/tramp.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile arm-linux-gnueabi-gcc -DHAVE_CONFIG_H -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi  -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src   -Wall -march=armv5te -mfloat-abi=soft -O2 -g0 -fPIC -fexceptions -MT src/tramp.lo -MD -MP -MF $depbase.Tpo -c -o src/tramp.lo /home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/tramp.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+libtool: compile:  arm-linux-gnueabi-gcc -DHAVE_CONFIG_H -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src -Wall -march=armv5te -mfloat-abi=soft -O2 -g0 -fPIC -fexceptions -MT src/closures.lo -MD -MP -MF src/.deps/closures.Tpo -c /home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/closures.c  -fPIC -DPIC -o src/closures.o
+libtool: compile:  arm-linux-gnueabi-gcc -DHAVE_CONFIG_H -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src -Wall -march=armv5te -mfloat-abi=soft -O2 -g0 -fPIC -fexceptions -MT src/tramp.lo -MD -MP -MF src/.deps/tramp.Tpo -c /home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/tramp.c  -fPIC -DPIC -o src/tramp.o
+depbase=`echo src/arm/ffi.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile arm-linux-gnueabi-gcc -DHAVE_CONFIG_H -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi  -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src   -Wall -march=armv5te -mfloat-abi=soft -O2 -g0 -fPIC -fexceptions -MT src/arm/ffi.lo -MD -MP -MF $depbase.Tpo -c -o src/arm/ffi.lo /home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/arm/ffi.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+libtool: compile:  arm-linux-gnueabi-gcc -DHAVE_CONFIG_H -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src -Wall -march=armv5te -mfloat-abi=soft -O2 -g0 -fPIC -fexceptions -MT src/arm/ffi.lo -MD -MP -MF src/arm/.deps/ffi.Tpo -c /home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/arm/ffi.c  -fPIC -DPIC -o src/arm/ffi.o
+depbase=`echo src/arm/sysv.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile arm-linux-gnueabi-gcc -DHAVE_CONFIG_H -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi  -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src  '-I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src' -march=armv5te -mfloat-abi=soft -O2 -g0 -fPIC -MT src/arm/sysv.lo -MD -MP -MF $depbase.Tpo -c -o src/arm/sysv.lo /home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/arm/sysv.S &&\
+mv -f $depbase.Tpo $depbase.Plo
+libtool: compile:  arm-linux-gnueabi-gcc -DHAVE_CONFIG_H -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi -I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src "-I. -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/include -Iinclude -I/home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src" -march=armv5te -mfloat-abi=soft -O2 -g0 -fPIC -MT src/arm/sysv.lo -MD -MP -MF src/arm/.deps/sysv.Tpo -c /home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/src/arm/sysv.S  -fPIC -DPIC -o src/arm/sysv.o
+/bin/bash ./libtool  --tag=CC   --mode=link arm-linux-gnueabi-gcc  -Wall -march=armv5te -mfloat-abi=soft -O2 -g0 -fPIC -fexceptions   -o libffi_convenience.la  src/prep_cif.lo src/types.lo src/raw_api.lo src/java_raw_api.lo src/closures.lo src/tramp.lo   src/arm/ffi.lo src/arm/sysv.lo 
+/bin/bash ./libtool  --tag=CC   --mode=link arm-linux-gnueabi-gcc  -Wall -march=armv5te -mfloat-abi=soft -O2 -g0 -fPIC -fexceptions -no-undefined -version-info `grep -v '^#' /home/ubuntu/work/libffi-rs/libffi-sys-rs/libffi/libtool-version`     -o libffi.la -rpath /home/ubuntu/work/armv5-port/install/lib src/prep_cif.lo src/types.lo src/raw_api.lo src/java_raw_api.lo src/closures.lo src/tramp.lo  src/arm/ffi.lo src/arm/sysv.lo 
+libtool: link: arm-linux-gnueabi-ar cr .libs/libffi_convenience.a  src/prep_cif.o src/types.o src/raw_api.o src/java_raw_api.o src/closures.o src/tramp.o src/arm/ffi.o src/arm/sysv.o
+libtool: link: arm-linux-gnueabi-ar cr .libs/libffi.a  src/prep_cif.o src/types.o src/raw_api.o src/java_raw_api.o src/closures.o src/tramp.o src/arm/ffi.o src/arm/sysv.o
+libtool: link: arm-linux-gnueabi-ranlib .libs/libffi_convenience.a
+libtool: link: arm-linux-gnueabi-ranlib .libs/libffi.a
+libtool: link: ( cd ".libs" && rm -f "libffi_convenience.la" && ln -s "../libffi_convenience.la" "libffi_convenience.la" )
+libtool: link: ( cd ".libs" && rm -f "libffi.la" && ln -s "../libffi.la" "libffi.la" )
+make[2]: Leaving directory '/home/ubuntu/work/armv5-port/configured'
+make[1]: Leaving directory '/home/ubuntu/work/armv5-port/configured'

@@ -1,0 +1,9 @@
+warning: c2rust: Encountered unsupported BuiltinType kind 100 for type __vector_quad
+warning: c2rust: Encountered unsupported BuiltinType kind 101 for type __vector_pair
+2 warnings generated.
+Transpiling ffi_linux64.c
+
+thread 'main' (16830) panicked at /home/ubuntu/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/c2rust-transpile-0.22.1/src/c_ast/conversion.rs:950:22:
+Type conversion not implemented for TagTypeUnknown expecting 3
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+RC=101

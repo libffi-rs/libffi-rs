@@ -1,0 +1,19 @@
+Required definitions (PPC64 ELFv1 function descriptors appear as D; code entries as T with a leading dot):
+0000000000000000 D ffi_call_LINUX64
+0000000000000000 D ffi_closure_LINUX64
+0000000000000000 D ffi_type_complex_double
+0000000000000000 D ffi_type_complex_float
+0000000000000000 D ffi_type_complex_longdouble
+0000000000000000 D ffi_type_double
+0000000000000000 D ffi_type_longdouble
+0000000000000000 D ffi_type_sint64
+0000000000000000 D ffi_type_uint8
+0000000000000000 D ffi_type_void
+0000000000000018 D ffi_call
+0000000000000030 D ffi_call_go
+0000000000000030 D ffi_prep_cif
+0000000000000030 D trampoline_code_table
+0000000000000060 D ffi_prep_cif_var
+0000000000000078 D ffi_prep_closure_loc
+0000000000000390 D ffi_closure_alloc
+00000000000003a8 D ffi_closure_free

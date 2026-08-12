@@ -1,0 +1,21 @@
+test_binary=target/powerpc64-unknown-linux-gnu/debug/deps/e2e-d92f17edfb294ad7
+target/powerpc64-unknown-linux-gnu/debug/deps/e2e-d92f17edfb294ad7: ELF 64-bit MSB pie executable, 64-bit PowerPC or cisco 7500, Power ELF V1 ABI, version 1 (SYSV), dynamically linked, interpreter /lib64/ld64.so.1, BuildID[sha1]=7caf2302b3b0b90d046cc973702b75de4c2ad989, for GNU/Linux 3.2.0, with debug_info, not stripped
+--- ELF NEEDED entries ---
+ 0x0000000000000001 (NEEDED)             Shared library: [libgcc_s.so.1]
+ 0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]
+ 0x0000000000000001 (NEEDED)             Shared library: [ld64.so.1]
+--- libffi NEEDED check ---
+PASS: no libffi DT_NEEDED entry
+--- ffi symbols are defined in executable ---
+0000000000196300 D ffi_prep_cif
+0000000000196600 D ffi_closure_alloc
+0000000000196678 D ffi_call
+00000000001966c0 D ffi_prep_closure_loc
+00000000001a0180 D ffi_type_longdouble
+--- qemu direct executable check ---
+
+running 1 test
+test executable_closure_trampoline_calls_rust_callback ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.07s
+

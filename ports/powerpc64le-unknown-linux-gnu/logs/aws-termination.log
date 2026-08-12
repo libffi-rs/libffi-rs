@@ -1,0 +1,25 @@
+$ aws ec2 terminate-instances --region us-east-1 --instance-ids i-0e2738df8255e6108
+{
+    "TerminatingInstances": [
+        {
+            "InstanceId": "i-0e2738df8255e6108",
+            "CurrentState": {
+                "Code": 48,
+                "Name": "terminated"
+            },
+            "PreviousState": {
+                "Code": 48,
+                "Name": "terminated"
+            }
+        }
+    ]
+}
+$ aws ec2 wait instance-terminated ...
+$ aws ec2 describe-instances ...
+{
+    "InstanceId": "i-0e2738df8255e6108",
+    "State": {
+        "Code": 48,
+        "Name": "terminated"
+    }
+}

@@ -1,0 +1,34 @@
+source commit:
+893bd63954735468305c83ddd56718e3863fdacd
+
+recent commits read:
+893bd63954735468305c83ddd56718e3863fdacd minor fixes
+1f3108f20b65d4b2a35cc5fd618aa06c5ff40c1c test
+8e43bdfe7221e8af44e224683c5010e52cb3c61d start on cleanup
+25ac1998f65299682b3f67f678c604ffd3d4b400 fix compile
+23efc98b537fedc2d0a8c313747283aeecc33587 initial c2rust
+a647fd7eff70593cc6dfd18e3f0a3822427452c8 setup some miri testing
+533274e46d0ebad21934efc40aae49c273363771 support struct offset retrieval
+078cd6892bc94ba9d70e2d84d4a101e5dd0f1c59 fix complex feature
+
+configured facts:
+FFI_EXEC_TRAMPOLINE_TABLE = 0
+HAVE_LONG_DOUBLE = 1
+HAVE_LONG_DOUBLE_VARIANT = 0
+TARGET = X86
+TARGETDIR = x86
+#define FFI_EXEC_STATIC_TRAMP 1
+#define HAVE_LONG_DOUBLE 1
+/* #undef HAVE_LONG_DOUBLE_VARIANT */
+#define SIZEOF_LONG_DOUBLE 12
+#define SIZEOF_SIZE_T 4
+
+selected units:
+/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/closures.c
+/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/java_raw_api.c
+/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/prep_cif.c
+/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/raw_api.c
+/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/tramp.c
+/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/types.c
+/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/x86/ffi.c
+/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/x86/sysv.S

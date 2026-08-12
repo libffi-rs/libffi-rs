@@ -1,0 +1,58 @@
+Transpiling prep_cif.c
+Transpiling types.c
+[31merror:[0m Failed to translate ffi_type_complex_float: Unsupported type Complex(CTypeId(116))
+
+[31merror:[0m Failed to translate ffi_type_complex_double: Unsupported type Complex(CTypeId(965))
+
+[31merror:[0m Failed to translate ffi_type_complex_longdouble: Unsupported type Complex(CTypeId(67))
+
+Transpiling raw_api.c
+generation/libffi/src/java_raw_api.c:328:46: warning: 'ffi_java_raw_size' is deprecated [-Wdeprecated-declarations]
+  328 |   ffi_java_raw *raw = (ffi_java_raw*)alloca (ffi_java_raw_size (cif));
+      |                                              ^
+generation/libffi/x86_64-unknown-linux-gnux32/include/ffi.h:322:56: note: 'ffi_java_raw_size' has been explicitly marked deprecated here
+  322 | size_t ffi_java_raw_size (ffi_cif *cif) __attribute__((deprecated));
+      |                                                        ^
+generation/libffi/src/java_raw_api.c:331:3: warning: 'ffi_java_ptrarray_to_raw' is deprecated [-Wdeprecated-declarations]
+  331 |   ffi_java_ptrarray_to_raw (cif, avalue, raw);
+      |   ^
+generation/libffi/x86_64-unknown-linux-gnux32/include/ffi.h:318:93: note: 'ffi_java_ptrarray_to_raw' has been explicitly marked deprecated here
+  318 | void ffi_java_ptrarray_to_raw (ffi_cif *cif, void **args, ffi_java_raw *raw) __attribute__((deprecated));
+      |                                                                                             ^
+2 warnings generated.
+Transpiling java_raw_api.c
+Transpiling tramp.c
+generation/libffi/src/closures.c:570:10: fatal error: 'dlmalloc.c' file not found
+  570 | #include "dlmalloc.c"
+      |          ^~~~~~~~~~~~
+1 error generated.
+Error while processing /home/ubuntu/work/port/generation/libffi/src/closures.c.
+Transpiling closures.c
+[33mwarning:[0m Missing child 110626771115040 of node AstNode { tag: TagImplicitCastExpr, children: [Some(110626771115040)], loc: SrcSpan { fileid: 8, begin_line: 881, begin_column: 3, end_line: 881, end_column: 71 }, type_id: Some(110626766030592), rvalue: RValue, macro_expansions: [], macro_expansion_text: None, extras: [Text("LValueToRValue")] }
+Exported Clang AST was invalid. Check warnings above for unimplemented features.
+--> /home/ubuntu/work/port/generation/libffi/src/closures.c:881:3
+ [-Wclang-ast]
+[33mwarning:[0m Missing child 110626765002128 of node AstNode { tag: TagIfStmt, children: [Some(110626765002128), Some(110626765002688), None], loc: SrcSpan { fileid: 8, begin_line: 957, begin_column: 3, end_line: 962, end_column: 6 }, type_id: None, rvalue: LValue, macro_expansions: [], macro_expansion_text: None, extras: [] }
+Exported Clang AST was invalid. Check warnings above for unimplemented features.
+--> /home/ubuntu/work/port/generation/libffi/src/closures.c:957:3
+ [-Wclang-ast]
+[33mwarning:[0m Missing child 110626765007432 of node AstNode { tag: TagIfStmt, children: [Some(110626765007432), Some(110626765008048), Some(110626765008128)], loc: SrcSpan { fileid: 8, begin_line: 1027, begin_column: 3, end_line: 1034, end_column: 16 }, type_id: None, rvalue: LValue, macro_expansions: [], macro_expansion_text: None, extras: [] }
+Exported Clang AST was invalid. Check warnings above for unimplemented features.
+--> /home/ubuntu/work/port/generation/libffi/src/closures.c:1027:3
+ [-Wclang-ast]
+[33mwarning:[0m Missing child 110626764999488 of node AstNode { tag: TagIfStmt, children: [Some(110626764999488), Some(110626764999616), None], loc: SrcSpan { fileid: 8, begin_line: 927, begin_column: 7, end_line: 929, end_column: 12 }, type_id: None, rvalue: LValue, macro_expansions: [], macro_expansion_text: None, extras: [] }
+Exported Clang AST was invalid. Check warnings above for unimplemented features.
+--> /home/ubuntu/work/port/generation/libffi/src/closures.c:927:7
+ [-Wclang-ast]
+[33mwarning:[0m Missing child 110626771113296 of node AstNode { tag: TagIfStmt, children: [Some(110626771113296), Some(110626771114080), None], loc: SrcSpan { fileid: 8, begin_line: 869, begin_column: 3, end_line: 879, end_column: 6 }, type_id: None, rvalue: LValue, macro_expansions: [], macro_expansion_text: None, extras: [] }
+Exported Clang AST was invalid. Check warnings above for unimplemented features.
+--> /home/ubuntu/work/port/generation/libffi/src/closures.c:869:3
+ [-Wclang-ast]
+[33mwarning:[0m Missing child 110626771111336 of node AstNode { tag: TagIfStmt, children: [Some(110626771111336), Some(110626771112200), Some(110626771112648)], loc: SrcSpan { fileid: 8, begin_line: 847, begin_column: 3, end_line: 865, end_column: 37 }, type_id: None, rvalue: LValue, macro_expansions: [], macro_expansion_text: None, extras: [] }
+Exported Clang AST was invalid. Check warnings above for unimplemented features.
+--> /home/ubuntu/work/port/generation/libffi/src/closures.c:847:3
+ [-Wclang-ast]
+
+thread 'main' (17948) panicked at /home/ubuntu/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/c2rust-transpile-0.22.1/src/c_ast/conversion.rs:950:22:
+Type conversion not implemented for TagTypeUnknown expecting 3
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

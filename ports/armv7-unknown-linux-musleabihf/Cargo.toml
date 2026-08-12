@@ -1,0 +1,13 @@
+[package]
+name = "libffi-c2rust-armv7-musl"
+version = "0.1.0"
+edition = "2021"
+publish = false
+build = "build.rs"
+
+[lib]
+path = "lib.rs"
+crate-type = ["rlib", "staticlib"]
+
+[build-dependencies]
+cc = "1"

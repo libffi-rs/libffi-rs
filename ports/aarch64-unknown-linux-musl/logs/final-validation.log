@@ -1,0 +1,99 @@
+=== identity ===
+Wed Aug 12 06:24:44 UTC 2026
+Linux ip-172-31-17-82 6.17.0-1019-aws #19~24.04.1-Ubuntu SMP Tue Jun 23 18:34:05 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux
+source HEAD: 893bd63954735468305c83ddd56718e3863fdacd
+rustc 1.97.1 (8bab26f4f 2026-07-14)
+binary: rustc
+commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452
+commit-date: 2026-07-14
+host: aarch64-unknown-linux-gnu
+release: 1.97.1
+LLVM version: 22.1.6
+cargo 1.97.1 (c980f4866 2026-06-30)
+aarch64-linux-gnu-gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+
+=== cargo fmt --all -- --check ===
+
+=== cargo check --target aarch64-unknown-linux-musl ===
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.01s
+
+=== cargo build --release --target aarch64-unknown-linux-musl ===
+    Finished `release` profile [optimized] target(s) in 0.01s
+
+=== required symbols in release staticlib ===
+target/aarch64-unknown-linux-musl/release/liblibffi_c2rust_aarch64_musl.a: current ar archive
+0000000000000000 D ffi_type_complex_double
+0000000000000000 D ffi_type_complex_float
+0000000000000000 D ffi_type_complex_longdouble
+0000000000000000 D ffi_type_double
+0000000000000000 D ffi_type_float
+0000000000000000 D ffi_type_longdouble
+0000000000000000 D ffi_type_sint32
+0000000000000000 D ffi_type_uint8
+0000000000000000 D ffi_type_void
+0000000000000000 T ffi_call
+0000000000000000 T ffi_call_SYSV
+0000000000000000 T ffi_closure_alloc
+0000000000000000 T ffi_closure_free
+0000000000000000 T ffi_prep_cif
+0000000000000000 T ffi_prep_closure_loc
+0000000000000290 T ffi_closure_SYSV_V
+00000000000002b0 T ffi_closure_SYSV
+all required symbols defined
+
+=== cargo test on target ===
+   Compiling libffi-c2rust-aarch64-musl v0.0.0 (/home/ubuntu/libffi-rs/port-aarch64-musl)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.41s
+     Running unittests lib.rs (target/aarch64-unknown-linux-musl/debug/deps/libffi_c2rust_aarch64_musl-3966d9518841f327)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/e2e.rs (target/aarch64-unknown-linux-musl/debug/deps/e2e-a508461ce9aaae07)
+
+running 10 tests
+test closure_round_trip ... ok
+test long_double_descriptors_match_aarch64_musl ... ok
+test many2_test ... ok
+test many_test ... ok
+test negint_test ... ok
+test reports_libffi_version ... ok
+test return_dbl_test ... ok
+test struct1_test ... ok
+test struct_by_value_3f_test ... ok
+test target_abi_layout ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+   Doc-tests libffi_c2rust_aarch64_musl
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+=== static executable and direct execution ===
+target/aarch64-unknown-linux-musl/debug/deps/e2e-a508461ce9aaae07: ELF 64-bit LSB executable, ARM aarch64, version 1 (SYSV), statically linked, with debug_info, not stripped
+readelf: no DT_NEEDED entries
+	not a dynamic executable
+
+running 10 tests
+test closure_round_trip ... ok
+test long_double_descriptors_match_aarch64_musl ... ok
+test many2_test ... ok
+test many_test ... ok
+test negint_test ... ok
+test reports_libffi_version ... ok
+test return_dbl_test ... ok
+test struct1_test ... ok
+test struct_by_value_3f_test ... ok
+test target_abi_layout ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+=== build isolation ===
+no system-libffi link/probe directives
+
+VALIDATION_OK

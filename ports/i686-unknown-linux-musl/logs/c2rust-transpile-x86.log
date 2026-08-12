@@ -1,0 +1,5 @@
+Transpiling ffi.c
+[37minfo:[0m Could not expand macro alloca: Cannot yet refer to declarations in a const expr
+--> /home/ubuntu/work/translation-input/x86/ffi.c:760:27
+
+

@@ -1,0 +1,36 @@
+$ cargo fmt --check
+$ cargo check --target riscv64gc-unknown-linux-gnu
+   Compiling libffi-c2rust-riscv64gc v0.0.0 (/port)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.62s
+$ cargo build --target riscv64gc-unknown-linux-gnu
+   Compiling libffi-c2rust-riscv64gc v0.0.0 (/port)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.62s
+$ ./test-qemu.sh
+   Compiling libffi-c2rust-riscv64gc v0.0.0 (/port)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.89s
+     Running unittests lib.rs (target/riscv64gc-unknown-linux-gnu/debug/deps/libffi_c2rust_riscv64gc-92d5977bc0f47609)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/e2e.rs (target/riscv64gc-unknown-linux-gnu/debug/deps/e2e-a0ec8830892fbba0)
+
+running 8 tests
+test reports_libffi_version ... ok
+test negint_test ... ok
+test many2_test ... ok
+test struct_by_value_3f_test ... ok
+test many_test ... ok
+test struct1_test ... ok
+test return_dbl_test ... ok
+test closure_test ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+   Doc-tests libffi_c2rust_riscv64gc
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

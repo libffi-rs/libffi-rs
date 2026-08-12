@@ -1,0 +1,14 @@
+binary=target/sparc64-unknown-linux-gnu/debug/deps/e2e-0745c3ddc88cbf43
+target/sparc64-unknown-linux-gnu/debug/deps/e2e-0745c3ddc88cbf43: ELF 64-bit MSB pie executable, SPARC V9, total store ordering, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux.so.2, BuildID[sha1]=ab282457ad325916746c0c99038e6d2d14bfea60, for GNU/Linux 3.2.0, with debug_info, not stripped
+# dynamic NEEDED (must not contain libffi)
+ 0x0000000000000001 (NEEDED)             Shared library: [libgcc_s.so.1]
+ 0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]
+ 0x0000000000000001 (NEEDED)             Shared library: [ld-linux.so.2]
+# ffi definitions in binary (not undefined)
+00000000000358f4 T ffi_call
+0000000000059758 T ffi_closure_alloc
+000000000003222c T ffi_prep_cif
+0000000000037e0c T ffi_prep_closure_loc
+0000000000301208 D ffi_type_double
+# any libffi path/string
+NONE

@@ -1,0 +1,26 @@
+target/riscv64gc-unknown-linux-gnu/debug/liblibffi_c2rust_riscv64gc.a: current ar archive
+$ riscv64-linux-gnu-nm -g --defined-only target/riscv64gc-unknown-linux-gnu/debug/liblibffi_c2rust_riscv64gc.a
+ffi_call
+ffi_call_asm
+ffi_call_go
+ffi_closure_alloc
+ffi_closure_asm
+ffi_closure_free
+ffi_closure_inner
+ffi_get_version_number
+ffi_go_closure_asm
+ffi_prep_cif
+ffi_prep_cif_var
+ffi_prep_closure_loc
+ffi_type_double
+ffi_type_longdouble
+ffi_type_pointer
+ffi_type_sint32
+ffi_type_void
+$ riscv64-linux-gnu-readelf -d target/riscv64gc-unknown-linux-gnu/debug/deps/e2e-c6160f9853be0cd6 | grep NEEDED
+ 0x0000000000000001 (NEEDED)             Shared library: [libgcc_s.so.1]
+ 0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]
+ 0x0000000000000001 (NEEDED)             Shared library: [ld-linux-riscv64-lp64d.so.1]
+$ riscv64-linux-gnu-readelf -Ws target/riscv64gc-unknown-linux-gnu/debug/deps/e2e-c6160f9853be0cd6 | grep ffi_call
+  7656: 0000000000040074    80 FUNC    LOCAL  DEFAULT   12 ffi_closure_asm
+  8246: 000000000003e878    28 FUNC    GLOBAL DEFAULT   12 ffi_call

@@ -1,0 +1,54 @@
+Making install in include
+make[1]: Entering directory '/home/ubuntu/work/libffi-i686-musl-build/include'
+make[2]: Entering directory '/home/ubuntu/work/libffi-i686-musl-build/include'
+make[2]: Nothing to be done for 'install-exec-am'.
+ /usr/bin/mkdir -p '/home/ubuntu/work/libffi-install/include'
+ /usr/bin/install -c -m 644 ffi.h ffitarget.h '/home/ubuntu/work/libffi-install/include'
+make[2]: Leaving directory '/home/ubuntu/work/libffi-i686-musl-build/include'
+make[1]: Leaving directory '/home/ubuntu/work/libffi-i686-musl-build/include'
+Making install in testsuite
+make[1]: Entering directory '/home/ubuntu/work/libffi-i686-musl-build/testsuite'
+make[2]: Entering directory '/home/ubuntu/work/libffi-i686-musl-build/testsuite'
+make[2]: Nothing to be done for 'install-exec-am'.
+make[2]: Nothing to be done for 'install-data-am'.
+make[2]: Leaving directory '/home/ubuntu/work/libffi-i686-musl-build/testsuite'
+make[1]: Leaving directory '/home/ubuntu/work/libffi-i686-musl-build/testsuite'
+Making install in man
+make[1]: Entering directory '/home/ubuntu/work/libffi-i686-musl-build/man'
+make[2]: Entering directory '/home/ubuntu/work/libffi-i686-musl-build/man'
+make[2]: Nothing to be done for 'install-exec-am'.
+ /usr/bin/mkdir -p '/home/ubuntu/work/libffi-install/share/man/man3'
+ /usr/bin/install -c -m 644 /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/man/ffi.3 /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/man/ffi_call.3 /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/man/ffi_prep_cif.3 /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/man/ffi_prep_cif_var.3 '/home/ubuntu/work/libffi-install/share/man/man3'
+make[2]: Leaving directory '/home/ubuntu/work/libffi-i686-musl-build/man'
+make[1]: Leaving directory '/home/ubuntu/work/libffi-i686-musl-build/man'
+make[1]: Entering directory '/home/ubuntu/work/libffi-i686-musl-build'
+make[2]: Entering directory '/home/ubuntu/work/libffi-i686-musl-build'
+ /usr/bin/mkdir -p '/home/ubuntu/work/libffi-install/lib'
+ /bin/bash ./libtool   --mode=install /usr/bin/install -c   libffi.la '/home/ubuntu/work/libffi-install/lib'
+libtool: install: /usr/bin/install -c .libs/libffi.lai /home/ubuntu/work/libffi-install/lib/libffi.la
+libtool: install: /usr/bin/install -c .libs/libffi.a /home/ubuntu/work/libffi-install/lib/libffi.a
+libtool: install: chmod 644 /home/ubuntu/work/libffi-install/lib/libffi.a
+libtool: install: ranlib /home/ubuntu/work/libffi-install/lib/libffi.a
+libtool: finish: PATH="/home/ubuntu/toolchains/i486-linux-musl-cross/bin:/home/ubuntu/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/sbin" ldconfig -n /home/ubuntu/work/libffi-install/lib
+----------------------------------------------------------------------
+Libraries have been installed in:
+   /home/ubuntu/work/libffi-install/lib
+
+If you ever happen to want to link against installed libraries
+in a given directory, LIBDIR, you must either use libtool, and
+specify the full pathname of the library, or use the '-LLIBDIR'
+flag during linking and do at least one of the following:
+   - add LIBDIR to the 'LD_LIBRARY_PATH' environment variable
+     during execution
+   - add LIBDIR to the 'LD_RUN_PATH' environment variable
+     during linking
+   - use the '-Wl,-rpath -Wl,LIBDIR' linker flag
+   - have your system administrator add LIBDIR to '/etc/ld.so.conf'
+
+See any operating system documentation about shared libraries for
+more information, such as the ld(1) and ld.so(8) manual pages.
+----------------------------------------------------------------------
+ /usr/bin/mkdir -p '/home/ubuntu/work/libffi-install/lib/pkgconfig'
+ /usr/bin/install -c -m 644 libffi.pc '/home/ubuntu/work/libffi-install/lib/pkgconfig'
+make[2]: Leaving directory '/home/ubuntu/work/libffi-i686-musl-build'
+make[1]: Leaving directory '/home/ubuntu/work/libffi-i686-musl-build'

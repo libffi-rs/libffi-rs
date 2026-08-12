@@ -1,0 +1,418 @@
+    Updating crates.io index
+     Locking 9 packages to latest compatible versions
+      Adding proc-macro2 v1.0.103 (available: v1.0.107)
+      Adding quote v1.0.40 (available: v1.0.47)
+      Adding syn v2.0.106 (available: v2.0.119)
+      Adding unicode-ident v1.0.22 (available: v1.0.24)
+ Downloading crates ...
+  Downloaded shlex v2.0.1
+  Downloaded find-msvc-tools v0.1.10
+  Downloaded cc v1.4.2
+   Compiling proc-macro2 v1.0.103
+   Compiling unicode-ident v1.0.22
+   Compiling find-msvc-tools v0.1.10
+   Compiling shlex v2.0.1
+   Compiling cc v1.4.2
+   Compiling quote v1.0.40
+   Compiling syn v2.0.106
+   Compiling libffi-loongarch64-c2rust v0.1.0 (/home/ubuntu/work-loongarch64/port)
+   Compiling c2rust-bitfields-derive v0.22.1
+    Checking c2rust-bitfields v0.22.1
+error: incorrect `type` inside `extern` block
+ --> src/closures.rs:3:14
+  |
+2 | extern "C" {
+  | ---------- `extern` blocks define existing foreign types and types inside of them cannot have a body
+3 |     pub type _IO_wide_data = ::core::ffi::c_void;
+  |              ^^^^^^^^^^^^^   ------------------- the invalid body
+  |              |
+  |              cannot have a body
+  |
+  = note: for more information, visit https://doc.rust-lang.org/std/keyword.extern.html
+
+error: incorrect `type` inside `extern` block
+ --> src/closures.rs:4:14
+  |
+2 | extern "C" {
+  | ---------- `extern` blocks define existing foreign types and types inside of them cannot have a body
+3 |     pub type _IO_wide_data = ::core::ffi::c_void;
+4 |     pub type _IO_codecvt = ::core::ffi::c_void;
+  |              ^^^^^^^^^^^   ------------------- the invalid body
+  |              |
+  |              cannot have a body
+  |
+  = note: for more information, visit https://doc.rust-lang.org/std/keyword.extern.html
+
+error: incorrect `type` inside `extern` block
+ --> src/closures.rs:5:14
+  |
+2 | extern "C" {
+  | ---------- `extern` blocks define existing foreign types and types inside of them cannot have a body
+...
+5 |     pub type _IO_marker = ::core::ffi::c_void;
+  |              ^^^^^^^^^^   ------------------- the invalid body
+  |              |
+  |              cannot have a body
+  |
+  = note: for more information, visit https://doc.rust-lang.org/std/keyword.extern.html
+
+error: incorrect `type` inside `extern` block
+ --> src/tramp.rs:3:14
+  |
+2 | extern "C" {
+  | ---------- `extern` blocks define existing foreign types and types inside of them cannot have a body
+3 |     pub type _IO_wide_data = ::core::ffi::c_void;
+  |              ^^^^^^^^^^^^^   ------------------- the invalid body
+  |              |
+  |              cannot have a body
+  |
+  = note: for more information, visit https://doc.rust-lang.org/std/keyword.extern.html
+
+error: incorrect `type` inside `extern` block
+ --> src/tramp.rs:4:14
+  |
+2 | extern "C" {
+  | ---------- `extern` blocks define existing foreign types and types inside of them cannot have a body
+3 |     pub type _IO_wide_data = ::core::ffi::c_void;
+4 |     pub type _IO_codecvt = ::core::ffi::c_void;
+  |              ^^^^^^^^^^^   ------------------- the invalid body
+  |              |
+  |              cannot have a body
+  |
+  = note: for more information, visit https://doc.rust-lang.org/std/keyword.extern.html
+
+error: incorrect `type` inside `extern` block
+ --> src/tramp.rs:5:14
+  |
+2 | extern "C" {
+  | ---------- `extern` blocks define existing foreign types and types inside of them cannot have a body
+...
+5 |     pub type _IO_marker = ::core::ffi::c_void;
+  |              ^^^^^^^^^^   ------------------- the invalid body
+  |              |
+  |              cannot have a body
+  |
+  = note: for more information, visit https://doc.rust-lang.org/std/keyword.extern.html
+
+error: cannot find derive macro `BitfieldStruct` in this scope
+   --> src/closures.rs:278:23
+    |
+278 | #[derive(Copy, Clone, BitfieldStruct)]
+    |                       ^^^^^^^^^^^^^^
+
+error: cannot find attribute `bitfield` in this scope
+   --> src/closures.rs:296:7
+    |
+296 |     #[bitfield(name = "_flags2", ty = "::core::ffi::c_int", bits = "0..=23")]
+    |       ^^^^^^^^
+    |
+    = note: `bitfield` is an attribute that can be used by the derive macro `BitfieldStruct`, you might be missing a `derive` attribute
+
+error: cannot find derive macro `BitfieldStruct` in this scope
+  --> src/tramp.rs:66:23
+   |
+66 | #[derive(Copy, Clone, BitfieldStruct)]
+   |                       ^^^^^^^^^^^^^^
+
+error: cannot find attribute `bitfield` in this scope
+  --> src/tramp.rs:84:7
+   |
+84 |     #[bitfield(name = "_flags2", ty = "::core::ffi::c_int", bits = "0..=23")]
+   |       ^^^^^^^^
+   |
+   = note: `bitfield` is an attribute that can be used by the derive macro `BitfieldStruct`, you might be missing a `derive` attribute
+
+error[E0425]: cannot find function `atomic_load_relaxed` in module `::core::intrinsics`
+   --> src/closures.rs:740:31
+    |
+740 |     while ::core::intrinsics::atomic_load_relaxed(sl) != 0 as ::core::ffi::c_int
+    |                               ^^^^^^^^^^^^^^^^^^^ not found in `::core::intrinsics`
+
+error[E0425]: cannot find function `atomic_xchg_acquire` in module `::core::intrinsics`
+   --> src/closures.rs:741:32
+    |
+741 |         || ::core::intrinsics::atomic_xchg_acquire(sl, 1 as ::core::ffi::c_int) != 0
+    |                                ^^^^^^^^^^^^^^^^^^^ not found in `::core::intrinsics`
+
+error[E0425]: cannot find function `atomic_xchg_acquire` in module `::core::intrinsics`
+   --> src/closures.rs:847:28
+    |
+847 |     if ::core::intrinsics::atomic_xchg_acquire(
+    |                            ^^^^^^^^^^^^^^^^^^^ not found in `::core::intrinsics`
+
+error[E0425]: cannot find function `atomic_store_release` in module `::core::intrinsics`
+   --> src/closures.rs:889:29
+    |
+889 |         ::core::intrinsics::atomic_store_release(&raw mut mparams.magic, magic);
+    |                             ^^^^^^^^^^^^^^^^^^^^ not found in `::core::intrinsics`
+
+error[E0425]: cannot find function `atomic_store_release` in module `::core::intrinsics`
+   --> src/closures.rs:891:25
+    |
+891 |     ::core::intrinsics::atomic_store_release(&raw mut malloc_global_mutex, 0);
+    |                         ^^^^^^^^^^^^^^^^^^^^ not found in `::core::intrinsics`
+
+error[E0425]: cannot find function `atomic_load_acquire` in module `::core::intrinsics`
+    --> src/closures.rs:1713:26
+     |
+1713 |     (::core::intrinsics::atomic_load_acquire(&raw mut mparams.magic) != 0 as size_t
+     |                          ^^^^^^^^^^^^^^^^^^^ not found in `::core::intrinsics`
+
+error[E0425]: cannot find function `atomic_xchg_acquire` in module `::core::intrinsics`
+    --> src/closures.rs:1819:32
+     |
+1819 |         if ::core::intrinsics::atomic_xchg_acquire(
+     |                                ^^^^^^^^^^^^^^^^^^^ not found in `::core::intrinsics`
+
+error[E0425]: cannot find function `atomic_store_release` in module `::core::intrinsics`
+    --> src/closures.rs:2079:29
+     |
+2079 |         ::core::intrinsics::atomic_store_release(&raw mut malloc_global_mutex, 0);
+     |                             ^^^^^^^^^^^^^^^^^^^^ not found in `::core::intrinsics`
+
+error[E0425]: cannot find function `atomic_xchg_acquire` in module `::core::intrinsics`
+    --> src/closures.rs:2100:36
+     |
+2100 |             if ::core::intrinsics::atomic_xchg_acquire(
+     |                                    ^^^^^^^^^^^^^^^^^^^ not found in `::core::intrinsics`
+
+error[E0425]: cannot find function `atomic_store_release` in module `::core::intrinsics`
+    --> src/closures.rs:2111:33
+     |
+2111 |             ::core::intrinsics::atomic_store_release(&raw mut malloc_global_mutex, 0);
+     |                                 ^^^^^^^^^^^^^^^^^^^^ not found in `::core::intrinsics`
+
+error[E0425]: cannot find function `atomic_load_acquire` in module `::core::intrinsics`
+    --> src/closures.rs:2657:26
+     |
+2657 |     (::core::intrinsics::atomic_load_acquire(&raw mut mparams.magic) != 0 as size_t
+     |                          ^^^^^^^^^^^^^^^^^^^ not found in `::core::intrinsics`
+
+error[E0425]: cannot find function `atomic_load_acquire` in module `::core::intrinsics`
+    --> src/closures.rs:3837:26
+     |
+3837 |     (::core::intrinsics::atomic_load_acquire(&raw mut mparams.magic) != 0 as size_t
+     |                          ^^^^^^^^^^^^^^^^^^^ not found in `::core::intrinsics`
+
+error[E0425]: cannot find function `atomic_xchg_acquire` in module `::core::intrinsics`
+    --> src/closures.rs:3840:32
+     |
+3840 |         if ::core::intrinsics::atomic_xchg_acquire(
+     |                                ^^^^^^^^^^^^^^^^^^^ not found in `::core::intrinsics`
+
+error[E0425]: cannot find function `atomic_store_release` in module `::core::intrinsics`
+    --> src/closures.rs:4063:33
+     |
+4063 |             ::core::intrinsics::atomic_store_release(&raw mut _gm_.mutex, 0);
+     |                                 ^^^^^^^^^^^^^^^^^^^^ not found in `::core::intrinsics`
+
+error[E0425]: cannot find function `atomic_xchg_acquire` in module `::core::intrinsics`
+    --> src/closures.rs:4076:36
+     |
+4076 |             if ::core::intrinsics::atomic_xchg_acquire(
+     |                                    ^^^^^^^^^^^^^^^^^^^ not found in `::core::intrinsics`
+
+error[E0425]: cannot find function `atomic_store_release` in module `::core::intrinsics`
+    --> src/closures.rs:4683:57
+     |
+4683 | ...                   ::core::intrinsics::atomic_store_release(
+     |                                           ^^^^^^^^^^^^^^^^^^^^ not found in `::core::intrinsics`
+
+error[E0425]: cannot find function `atomic_xchg_acquire` in module `::core::intrinsics`
+    --> src/closures.rs:5013:40
+     |
+5013 |                 if ::core::intrinsics::atomic_xchg_acquire(
+     |                                        ^^^^^^^^^^^^^^^^^^^ not found in `::core::intrinsics`
+
+error[E0425]: cannot find function `atomic_store_release` in module `::core::intrinsics`
+    --> src/closures.rs:5087:37
+     |
+5087 |                 ::core::intrinsics::atomic_store_release(&raw mut (*m).mutex, 0);
+     |                                     ^^^^^^^^^^^^^^^^^^^^ not found in `::core::intrinsics`
+
+error[E0425]: cannot find function `atomic_xchg_acquire` in module `::core::intrinsics`
+    --> src/closures.rs:5100:32
+     |
+5100 |         if ::core::intrinsics::atomic_xchg_acquire(
+     |                                ^^^^^^^^^^^^^^^^^^^ not found in `::core::intrinsics`
+
+error[E0425]: cannot find function `atomic_store_release` in module `::core::intrinsics`
+    --> src/closures.rs:5167:33
+     |
+5167 |             ::core::intrinsics::atomic_store_release(&raw mut (*m).mutex, 0);
+     |                                 ^^^^^^^^^^^^^^^^^^^^ not found in `::core::intrinsics`
+
+error[E0425]: cannot find function `atomic_xchg_acquire` in module `::core::intrinsics`
+    --> src/closures.rs:5195:40
+     |
+5195 |                 if ::core::intrinsics::atomic_xchg_acquire(
+     |                                        ^^^^^^^^^^^^^^^^^^^ not found in `::core::intrinsics`
+
+error[E0425]: cannot find function `atomic_store_release` in module `::core::intrinsics`
+    --> src/closures.rs:5215:41
+     |
+5215 |                     ::core::intrinsics::atomic_store_release(&raw mut (*m).mutex, 0);
+     |                                         ^^^^^^^^^^^^^^^^^^^^ not found in `::core::intrinsics`
+
+error[E0658]: extern types are experimental
+ --> src/closures.rs:3:5
+  |
+3 |     pub type _IO_wide_data = ::core::ffi::c_void;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  = note: see issue #43467 <https://github.com/rust-lang/rust/issues/43467> for more information
+
+error[E0658]: extern types are experimental
+ --> src/closures.rs:4:5
+  |
+4 |     pub type _IO_codecvt = ::core::ffi::c_void;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  = note: see issue #43467 <https://github.com/rust-lang/rust/issues/43467> for more information
+
+error[E0658]: extern types are experimental
+ --> src/closures.rs:5:5
+  |
+5 |     pub type _IO_marker = ::core::ffi::c_void;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  = note: see issue #43467 <https://github.com/rust-lang/rust/issues/43467> for more information
+
+error[E0658]: extern types are experimental
+ --> src/tramp.rs:3:5
+  |
+3 |     pub type _IO_wide_data = ::core::ffi::c_void;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  = note: see issue #43467 <https://github.com/rust-lang/rust/issues/43467> for more information
+
+error[E0658]: extern types are experimental
+ --> src/tramp.rs:4:5
+  |
+4 |     pub type _IO_codecvt = ::core::ffi::c_void;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  = note: see issue #43467 <https://github.com/rust-lang/rust/issues/43467> for more information
+
+error[E0658]: extern types are experimental
+ --> src/tramp.rs:5:5
+  |
+5 |     pub type _IO_marker = ::core::ffi::c_void;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  = note: see issue #43467 <https://github.com/rust-lang/rust/issues/43467> for more information
+
+warning: unused import: `::c2rust_bitfields`
+ --> src/closures.rs:1:5
+  |
+1 | use ::c2rust_bitfields;
+  |     ^^^^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `::c2rust_bitfields`
+ --> src/tramp.rs:1:5
+  |
+1 | use ::c2rust_bitfields;
+  |     ^^^^^^^^^^^^^^^^^^
+
+error[E0308]: mismatched types
+   --> src/loongarch/ffi.rs:833:18
+    |
+806 |     let mut rvalue: *mut ::core::ffi::c_void = ::core::ptr::null_mut::<
+    |                     ------------------------ expected due to this type
+...
+833 |         rvalue = alloca_allocations.last_mut().unwrap().as_mut_ptr();
+    |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected `*mut c_void`, found `*mut u8`
+    |
+    = note: expected raw pointer `*mut c_void`
+               found raw pointer `*mut u8`
+
+error[E0308]: mismatched types
+   --> src/closures.rs:715:47
+    |
+715 | pub const SIZE_T_SIZE: ::core::ffi::c_ulong = ::core::mem::size_of::<size_t>();
+    |                        --------------------   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected `u64`, found `usize`
+    |                        |
+    |                        expected because of the type of the constant
+
+error[E0308]: mismatched types
+   --> src/closures.rs:752:47
+    |
+752 | pub const MCHUNK_SIZE: ::core::ffi::c_ulong = ::core::mem::size_of::<mchunk>();
+    |                        --------------------   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected `u64`, found `usize`
+    |                        |
+    |                        expected because of the type of the constant
+
+error[E0308]: mismatched types
+   --> src/closures.rs:753:50
+    |
+753 | pub const CHUNK_OVERHEAD: ::core::ffi::c_ulong = ::core::mem::size_of::<size_t>();
+    |                           --------------------   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected `u64`, found `usize`
+    |                           |
+    |                           expected because of the type of the constant
+
+warning: unused variable: `ntotalargs`
+   --> src/loongarch/ffi.rs:599:5
+    |
+599 |     mut ntotalargs: ::core::ffi::c_uint,
+    |     ^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_ntotalargs`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `flags`
+   --> src/closures.rs:979:5
+    |
+979 |     mut flags: ::core::ffi::c_int,
+    |     ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_flags`
+
+warning: variable `nfences` is assigned to, but never used
+    --> src/closures.rs:1505:9
+     |
+1505 |     let mut nfences: ::core::ffi::c_int = 0 as ::core::ffi::c_int;
+     |         ^^^^^^^^^^^
+     |
+     = note: consider using `_nfences` instead
+
+warning: unused variable: `flags`
+    --> src/closures.rs:5314:5
+     |
+5314 |     mut flags: ::core::ffi::c_int,
+     |     ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_flags`
+
+warning: unnecessary `unsafe` block
+    --> src/closures.rs:5445:61
+     |
+5445 | static mut open_temp_exec_file_opts: [C2RustUnnamed_0; 9] = unsafe {
+     |                                                             ^^^^^^ unnecessary `unsafe` block
+     |
+     = note: `#[warn(unused_unsafe)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `cif`
+   --> src/java_raw_api.rs:286:5
+    |
+286 |     mut cif: *mut ffi_cif,
+    |     ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_cif`
+
+warning: unused variable: `rvalue`
+   --> src/java_raw_api.rs:287:5
+    |
+287 |     mut rvalue: *mut ::core::ffi::c_void,
+    |     ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_rvalue`
+
+warning: unused variable: `cif`
+   --> src/java_raw_api.rs:290:5
+    |
+290 |     mut cif: *mut ffi_cif,
+    |     ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_cif`
+
+warning: unused variable: `rvalue`
+   --> src/java_raw_api.rs:291:5
+    |
+291 |     mut rvalue: *mut ::core::ffi::c_void,
+    |     ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_rvalue`
+
+Some errors have detailed explanations: E0308, E0425, E0658.
+For more information about an error, try `rustc --explain E0308`.
+warning: `libffi-loongarch64-c2rust` (lib) generated 11 warnings
+error: could not compile `libffi-loongarch64-c2rust` (lib) due to 42 previous errors; 11 warnings emitted

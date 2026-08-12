@@ -1,0 +1,136 @@
+Transpiling types.c
+[31merror:[0m Failed to translate ffi_type_complex_float: Unsupported type Complex(CTypeId(105))
+
+[31merror:[0m Failed to translate ffi_type_complex_double: Unsupported type Complex(CTypeId(945))
+
+[31merror:[0m Failed to translate ffi_type_complex_longdouble: Unsupported type Complex(CTypeId(54))
+
+Transpiling prep_cif.c
+[37minfo:[0m Could not expand macro ffi_type_sint: Cannot yet refer to declarations in a const expr
+--> /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/prep_cif.c:233:21
+
+
+[37minfo:[0m Could not expand macro ffi_type_sint: Cannot yet refer to declarations in a const expr
+--> /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/prep_cif.c:233:21
+
+
+Transpiling raw_api.c
+/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/java_raw_api.c:328:46: warning: 'ffi_java_raw_size' is deprecated [-Wdeprecated-declarations]
+  328 |   ffi_java_raw *raw = (ffi_java_raw*)alloca (ffi_java_raw_size (cif));
+      |                                              ^
+include/ffi.h:322:56: note: 'ffi_java_raw_size' has been explicitly marked deprecated here
+  322 | size_t ffi_java_raw_size (ffi_cif *cif) __attribute__((deprecated));
+      |                                                        ^
+/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/java_raw_api.c:331:3: warning: 'ffi_java_ptrarray_to_raw' is deprecated [-Wdeprecated-declarations]
+  331 |   ffi_java_ptrarray_to_raw (cif, avalue, raw);
+      |   ^
+include/ffi.h:318:93: note: 'ffi_java_ptrarray_to_raw' has been explicitly marked deprecated here
+  318 | void ffi_java_ptrarray_to_raw (ffi_cif *cif, void **args, ffi_java_raw *raw) __attribute__((deprecated));
+      |                                                                                             ^
+2 warnings generated.
+Transpiling java_raw_api.c
+Transpiling closures.c
+[37minfo:[0m Could not expand macro gm: Cannot yet refer to declarations in a const expr
+--> /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/dlmalloc.c:4933:39
+
+
+[37minfo:[0m Could not expand macro munmap_0: Cannot yet refer to declarations in a const expr
+--> /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/dlmalloc.c:4428:13
+
+
+[37minfo:[0m Could not expand macro fm: Cannot yet refer to declarations in a const expr
+--> /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/dlmalloc.c:4933:39
+
+
+[37minfo:[0m Could not expand macro gm: Cannot yet refer to declarations in a const expr
+--> /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/dlmalloc.c:4933:39
+
+
+[37minfo:[0m Could not expand macro fm: Cannot yet refer to declarations in a const expr
+--> /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/dlmalloc.c:4933:39
+
+
+[37minfo:[0m Could not expand macro TOP_FOOT_SIZE: Constants cannot contain ternary expressions in Rust
+--> /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/dlmalloc.c:4418:61
+--> /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/dlmalloc.c:4418:61
+--> /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/dlmalloc.c:4418:61
+
+
+[37minfo:[0m Could not expand macro munmap_0: Cannot yet refer to declarations in a const expr
+--> /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/dlmalloc.c:4428:13
+
+
+[37minfo:[0m Could not expand macro TOP_FOOT_SIZE: Constants cannot contain ternary expressions in Rust
+--> /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/dlmalloc.c:4418:61
+--> /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/dlmalloc.c:4418:61
+--> /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/dlmalloc.c:4418:61
+
+
+[37minfo:[0m Could not expand macro malloc_getpagesize: non-const expr CExprId(4978)
+
+
+[37minfo:[0m Could not expand macro _SC_PAGESIZE_0: Cannot yet refer to declarations in a const expr
+--> /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/dlmalloc.c:3263:42
+
+
+[37minfo:[0m Could not expand macro _SC_PAGE_SIZE: Cannot yet refer to declarations in a const expr
+--> /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/dlmalloc.c:3263:42
+
+
+[37minfo:[0m Could not expand macro DEFAULT_GRANULARITY: non-const expr CExprId(4973)
+
+
+[37minfo:[0m Could not expand macro _SC_PAGESIZE_0: Cannot yet refer to declarations in a const expr
+--> /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/dlmalloc.c:3263:42
+
+
+[37minfo:[0m Could not expand macro _SC_PAGE_SIZE: Cannot yet refer to declarations in a const expr
+--> /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/dlmalloc.c:3263:42
+
+
+[37minfo:[0m Could not expand macro malloc_getpagesize: non-const expr CExprId(4978)
+
+
+[37minfo:[0m Could not expand macro DEFAULT_GRANULARITY: non-const expr CExprId(4973)
+
+
+[37minfo:[0m Could not expand macro SYS_ALLOC_PADDING: Constants cannot contain ternary expressions in Rust
+--> /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/dlmalloc.c:4274:26
+--> /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/dlmalloc.c:4274:26
+--> /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/dlmalloc.c:4274:26
+--> /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/dlmalloc.c:4274:26
+
+
+[37minfo:[0m Could not expand macro mmap_0: Cannot yet refer to declarations in a const expr
+--> /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/dlmalloc.c:4299:24
+
+
+[37minfo:[0m Could not expand macro ABORT: non-const expr CExprId(7501)
+
+
+[37minfo:[0m Could not expand macro errno: non-const expr CExprId(6273)
+
+
+[37minfo:[0m Could not expand macro errno: non-const expr CExprId(6273)
+
+
+[37minfo:[0m Could not expand macro ABORT: non-const expr CExprId(7501)
+
+
+[37minfo:[0m Could not expand macro mmap_0: Cannot yet refer to declarations in a const expr
+--> /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/dlmalloc.c:4299:24
+
+
+[37minfo:[0m Could not expand macro SYS_ALLOC_PADDING: Constants cannot contain ternary expressions in Rust
+--> /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/dlmalloc.c:4274:26
+--> /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/dlmalloc.c:4274:26
+--> /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/dlmalloc.c:4274:26
+--> /home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/dlmalloc.c:4274:26
+
+
+Transpiling tramp.c
+Transpiling ffi.c
+Transpiling ffi64.c
+[31merror:[0m Failed to translate ffi_flush_icache: Cannot translate inline assembly for unfamiliar architecture
+
+C2RUST_STATUS=0

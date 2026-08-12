@@ -1,0 +1,178 @@
+[
+  {
+    "directory": "/home/ubuntu/work/configured",
+    "file": "/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/prep_cif.c",
+    "arguments": [
+      "sparc64-linux-gnu-gcc",
+      "-DHAVE_CONFIG_H",
+      "-I/home/ubuntu/work/configured",
+      "-I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi",
+      "-I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include",
+      "-I/home/ubuntu/work/configured/include",
+      "-I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src",
+      "-Wall",
+      "-O2",
+      "-g",
+      "-fPIC",
+      "-fexceptions",
+      "-c",
+      "/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/prep_cif.c",
+      "-o",
+      "/home/ubuntu/work/configured/src/prep_cif.o"
+    ]
+  },
+  {
+    "directory": "/home/ubuntu/work/configured",
+    "file": "/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/types.c",
+    "arguments": [
+      "sparc64-linux-gnu-gcc",
+      "-DHAVE_CONFIG_H",
+      "-I/home/ubuntu/work/configured",
+      "-I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi",
+      "-I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include",
+      "-I/home/ubuntu/work/configured/include",
+      "-I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src",
+      "-Wall",
+      "-O2",
+      "-g",
+      "-fPIC",
+      "-fexceptions",
+      "-c",
+      "/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/types.c",
+      "-o",
+      "/home/ubuntu/work/configured/src/types.o"
+    ]
+  },
+  {
+    "directory": "/home/ubuntu/work/configured",
+    "file": "/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/raw_api.c",
+    "arguments": [
+      "sparc64-linux-gnu-gcc",
+      "-DHAVE_CONFIG_H",
+      "-I/home/ubuntu/work/configured",
+      "-I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi",
+      "-I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include",
+      "-I/home/ubuntu/work/configured/include",
+      "-I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src",
+      "-Wall",
+      "-O2",
+      "-g",
+      "-fPIC",
+      "-fexceptions",
+      "-c",
+      "/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/raw_api.c",
+      "-o",
+      "/home/ubuntu/work/configured/src/raw_api.o"
+    ]
+  },
+  {
+    "directory": "/home/ubuntu/work/configured",
+    "file": "/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/java_raw_api.c",
+    "arguments": [
+      "sparc64-linux-gnu-gcc",
+      "-DHAVE_CONFIG_H",
+      "-I/home/ubuntu/work/configured",
+      "-I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi",
+      "-I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include",
+      "-I/home/ubuntu/work/configured/include",
+      "-I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src",
+      "-Wall",
+      "-O2",
+      "-g",
+      "-fPIC",
+      "-fexceptions",
+      "-c",
+      "/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/java_raw_api.c",
+      "-o",
+      "/home/ubuntu/work/configured/src/java_raw_api.o"
+    ]
+  },
+  {
+    "directory": "/home/ubuntu/work/configured",
+    "file": "/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/closures.c",
+    "arguments": [
+      "sparc64-linux-gnu-gcc",
+      "-DHAVE_CONFIG_H",
+      "-I/home/ubuntu/work/configured",
+      "-I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi",
+      "-I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include",
+      "-I/home/ubuntu/work/configured/include",
+      "-I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src",
+      "-Wall",
+      "-O2",
+      "-g",
+      "-fPIC",
+      "-fexceptions",
+      "-c",
+      "/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/closures.c",
+      "-o",
+      "/home/ubuntu/work/configured/src/closures.o"
+    ]
+  },
+  {
+    "directory": "/home/ubuntu/work/configured",
+    "file": "/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/tramp.c",
+    "arguments": [
+      "sparc64-linux-gnu-gcc",
+      "-DHAVE_CONFIG_H",
+      "-I/home/ubuntu/work/configured",
+      "-I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi",
+      "-I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include",
+      "-I/home/ubuntu/work/configured/include",
+      "-I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src",
+      "-Wall",
+      "-O2",
+      "-g",
+      "-fPIC",
+      "-fexceptions",
+      "-c",
+      "/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/tramp.c",
+      "-o",
+      "/home/ubuntu/work/configured/src/tramp.o"
+    ]
+  },
+  {
+    "directory": "/home/ubuntu/work/configured",
+    "file": "/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/sparc/ffi.c",
+    "arguments": [
+      "sparc64-linux-gnu-gcc",
+      "-DHAVE_CONFIG_H",
+      "-I/home/ubuntu/work/configured",
+      "-I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi",
+      "-I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include",
+      "-I/home/ubuntu/work/configured/include",
+      "-I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src",
+      "-Wall",
+      "-O2",
+      "-g",
+      "-fPIC",
+      "-fexceptions",
+      "-c",
+      "/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/sparc/ffi.c",
+      "-o",
+      "/home/ubuntu/work/configured/src/sparc/ffi.o"
+    ]
+  },
+  {
+    "directory": "/home/ubuntu/work/configured",
+    "file": "/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/sparc/ffi64.c",
+    "arguments": [
+      "sparc64-linux-gnu-gcc",
+      "-DHAVE_CONFIG_H",
+      "-I/home/ubuntu/work/configured",
+      "-I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi",
+      "-I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include",
+      "-I/home/ubuntu/work/configured/include",
+      "-I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src",
+      "-Wall",
+      "-O2",
+      "-g",
+      "-fPIC",
+      "-fexceptions",
+      "-c",
+      "/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src/sparc/ffi64.c",
+      "-o",
+      "/home/ubuntu/work/configured/src/sparc/ffi64.o"
+    ]
+  }
+]

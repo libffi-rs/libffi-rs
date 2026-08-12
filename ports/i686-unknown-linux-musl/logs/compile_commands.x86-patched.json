@@ -1,0 +1,28 @@
+[
+  {
+    "arguments": [
+      "/home/ubuntu/toolchains/i486-linux-musl-cross/bin/i486-linux-musl-gcc",
+      "-DHAVE_CONFIG_H",
+      "-I.",
+      "-I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi",
+      "-I.",
+      "-I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/include",
+      "-Iinclude",
+      "-I/home/ubuntu/libffi-rs/libffi-sys-rs/libffi/src",
+      "-Wall",
+      "-march=i686",
+      "-O2",
+      "-fPIC",
+      "-fexceptions",
+      "-c",
+      "-fPIC",
+      "-DPIC",
+      "-o",
+      "src/x86/ffi.o",
+      "/home/ubuntu/work/translation-input/x86/ffi.c"
+    ],
+    "directory": "/home/ubuntu/work/libffi-i686-musl-build",
+    "file": "/home/ubuntu/work/translation-input/x86/ffi.c",
+    "output": "/home/ubuntu/work/libffi-i686-musl-build/src/x86/ffi.o"
+  }
+]

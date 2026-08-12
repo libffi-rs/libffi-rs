@@ -1,0 +1,14 @@
+[package]
+name = "libffi-c2rust-powerpc64le-linux-gnu"
+version = "0.0.0"
+edition = "2021"
+publish = false
+autobins = false
+
+[lib]
+name = "libffi_c2rust_powerpc64le"
+path = "lib.rs"
+crate-type = ["staticlib", "rlib"]
+
+[build-dependencies]
+cc = "1"

@@ -1,0 +1,12 @@
+archive=target/riscv64gc-unknown-linux-musl/release/liblibffi_riscv64_musl_port.a
+target/riscv64gc-unknown-linux-musl/release/liblibffi_riscv64_musl_port.a: current ar archive
+0000000000000000 D ffi_type_longdouble
+0000000000000000 D ffi_type_sint32
+0000000000000000 D ffi_type_void
+0000000000000000 T ffi_call
+0000000000000000 T ffi_call_go
+0000000000000000 T ffi_closure_alloc
+0000000000000000 T ffi_closure_free
+0000000000000000 T ffi_prep_cif
+0000000000000000 T ffi_prep_cif_var
+0000000000000000 T ffi_prep_closure_loc
