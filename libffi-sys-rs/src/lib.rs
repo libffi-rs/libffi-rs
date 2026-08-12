@@ -682,6 +682,7 @@ mod test {
     }
 
     #[test]
+    #[cfg_attr(miri, ignore = "Miri cannot access libffi's extern type statics")]
     fn test_function_sign_extension() {
         unsafe {
             let mut cif: ffi_cif = Default::default();
@@ -716,6 +717,7 @@ mod test {
     }
 
     #[test]
+    #[cfg_attr(miri, ignore = "Miri cannot access libffi's extern type statics")]
     fn test_function_with_two_arguments() {
         unsafe {
             let mut cif: ffi_cif = Default::default();

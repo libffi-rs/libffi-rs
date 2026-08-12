@@ -890,6 +890,7 @@ mod test {
     }
 
     #[test]
+    #[cfg_attr(miri, ignore = "Miri cannot access libffi's extern type statics")]
     fn test_get_struct_offsets() {
         #[allow(unused_unsafe)]
         let mut elements = unsafe {
@@ -996,6 +997,10 @@ mod test {
 
     /// Test to ensure that values returned from functions called through libffi are correct.
     #[test]
+    #[cfg_attr(
+        miri,
+        ignore = "Miri cannot call Rust function pointers through libffi"
+    )]
     fn test_return_values() {
         // Test a function returning nothing.
         {
@@ -1110,6 +1115,10 @@ mod test {
     }
 
     #[test]
+    #[cfg_attr(
+        miri,
+        ignore = "Miri cannot call Rust function pointers through libffi"
+    )]
     fn test_return_into() {
         // Test a function returning nothing.
         {
@@ -1235,6 +1244,10 @@ mod test {
     }
 
     #[test]
+    #[cfg_attr(
+        miri,
+        ignore = "Miri cannot call Rust function pointers through libffi"
+    )]
     fn test_return_into_no_oob_write() {
         // Workaround for Rust < 1.88, which don't have a Default impl for
         // pointers..

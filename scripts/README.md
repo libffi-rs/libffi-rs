@@ -1,3 +1,22 @@
+# miri.sh
+
+First install libffi on your system.
+
+Then install nightly Miri:
+
+```sh
+rustup +nightly component add miri
+```
+
+Then run:
+
+```sh
+scripts/miri.sh
+```
+
+Miri cannot currently access libffi's extern statics, invoke libffi-generated
+closures, or call back into interpreted Rust through libffi.
+
 # qemutests.sh
 
 This script uses QEMU to run tests on the following CPU architectures:

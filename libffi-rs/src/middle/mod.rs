@@ -549,6 +549,10 @@ mod test {
     use std::ffi::CStr;
 
     #[test]
+    #[cfg_attr(
+        miri,
+        ignore = "Miri cannot call Rust function pointers through libffi"
+    )]
     fn call() {
         let cif = Cif::new(alloc::vec![Type::i64(), Type::i64()], Type::i64());
         let f = |m: i64, n: i64| -> i64 {
@@ -561,6 +565,10 @@ mod test {
     }
 
     #[test]
+    #[cfg_attr(
+        miri,
+        ignore = "Miri cannot call Rust function pointers through libffi"
+    )]
     fn call_return_into() {
         let cif = Cif::new(alloc::vec![Type::i64(), Type::i64()], Type::i64());
 
@@ -582,6 +590,7 @@ mod test {
     }
 
     #[test]
+    #[cfg_attr(miri, ignore = "Miri cannot execute libffi-generated closures")]
     fn closure() {
         let cif = Cif::new(alloc::vec![Type::u64()], Type::u64());
         let env: u64 = 5;
@@ -604,6 +613,7 @@ mod test {
     }
 
     #[test]
+    #[cfg_attr(miri, ignore = "Miri cannot execute libffi-generated closures")]
     fn rust_lambda() {
         let cif = Cif::new(std::vec![Type::u64(), Type::u64()], Type::u64());
         let env = |x: u64, y: u64| x + y;
@@ -683,6 +693,10 @@ mod test {
 
     /// Test variadic functions by calling `snprintf`
     #[test]
+    #[cfg_attr(
+        miri,
+        ignore = "Miri cannot pass foreign function pointers through libffi"
+    )]
     fn call_snprintf() {
         extern "C" {
             fn snprintf(s: *mut c_char, n: usize, format: *const c_char, ...) -> i32;

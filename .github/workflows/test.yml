@@ -7,6 +7,20 @@ env:
   RUST_BACKTRACE: 1
 
 jobs:
+  miri:
+    runs-on: ubuntu-24.04
+    name: Miri
+    steps:
+      - uses: actions/checkout@v6
+      - name: Install libffi
+        run: sudo apt-get update && sudo apt-get install -y libffi-dev
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: nightly
+          components: miri
+      - name: Run tests under Miri
+        run: scripts/miri.sh
+
   windows-msvc:
     strategy:
       fail-fast: false
@@ -119,7 +133,7 @@ jobs:
             curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
           run: |
             . "$HOME/.cargo/env"
-            cargo test --workspace 
+            cargo test --workspace
 
   qemu:
     runs-on: ubuntu-latest

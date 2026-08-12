@@ -556,6 +556,7 @@ mod test {
     use super::*;
 
     #[test]
+    #[cfg_attr(miri, ignore = "Miri cannot execute libffi-generated closures")]
     fn new_with_cif() {
         let x: u64 = 1;
         let f = |y: u64, z: u64| x + y + z;
@@ -568,6 +569,7 @@ mod test {
     }
 
     #[test]
+    #[cfg_attr(miri, ignore = "Miri cannot execute libffi-generated closures")]
     fn new_with_cif_mut() {
         let mut x: u64 = 0;
         let mut f = |y: u64| {
@@ -587,6 +589,7 @@ mod test {
     }
 
     #[test]
+    #[cfg_attr(miri, ignore = "Miri cannot execute libffi-generated closures")]
     fn new() {
         let x: u64 = 1;
         let f = |y: u64, z: u64| x + y + z;
@@ -597,6 +600,7 @@ mod test {
     }
 
     #[test]
+    #[cfg_attr(miri, ignore = "Miri cannot execute libffi-generated closures")]
     fn new_mut() {
         let mut x: u64 = 0;
         let mut f = |y: u32| {
