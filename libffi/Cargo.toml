@@ -1,0 +1,18 @@
+[workspace]
+members = [
+]
+[package]
+name = "libffi"
+authors = ["C2Rust"]
+version = "0.0.0"
+publish = false
+edition = "2021"
+autobins = false
+
+[lib]
+name = "libffi"
+path = "lib.rs"
+crate-type = ["staticlib", "rlib"]
+[dependencies]
+f128 = "0.2"
+
