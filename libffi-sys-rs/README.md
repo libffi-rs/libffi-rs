@@ -44,7 +44,7 @@ features = ["system"]
 
 to your `Cargo.toml` instead.
 
-This crate supports Rust version 1.32 and later.
+This crate supports Rust version 1.78 and later.
 
 [the `libffi` crate]: https://crates.io/crates/libffi/
 [libffi]: https://sourceware.org/libffi/
