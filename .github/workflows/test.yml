@@ -108,7 +108,7 @@ jobs:
           - "--no-default-features"
           - "--features std"
           - "--features std,system"
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runner }}
     name: ${{ matrix.runner }} ${{ matrix.toolchain }} ${{ matrix.features }}
     steps:
       - uses: actions/checkout@v6
