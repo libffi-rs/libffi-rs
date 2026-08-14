@@ -18,7 +18,7 @@ This repository is a Cargo workspace containing both `libffi` and `libffi-sys`.
 
 ## Usage
 
-Building `libffi` will build `lifbffi-sys`, which will in turn build the
+Building `libffi` will build `libffi-sys`, which will in turn build the
 libffi C library [from github](https://github.com/libffi/libffi), which
 requires that you have a working make, C compiler, automake, and
 autoconf first. It’s [on crates.io](https://crates.io/crates/libffi), so
