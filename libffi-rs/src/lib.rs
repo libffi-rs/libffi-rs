@@ -31,7 +31,7 @@
 //! feature in your `Cargo.toml`:
 //!
 //! ```toml
-//! [features]
+//! [dependencies]
 //! libffi = { version = "5.1.1", features = ["system"] }
 //! ```
 //!
