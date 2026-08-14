@@ -62,7 +62,7 @@ fn main() {
     let closure = Closure2::new(&f);
     let fun = closure.code_ptr();
 
-    assert_eq!(18, fun(6, 7));
+    assert_eq!(18, fun.call(6, 7));
 }
 ```
 
