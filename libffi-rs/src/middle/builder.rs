@@ -141,11 +141,11 @@ impl Builder {
     /// Attempts to build an immutable closure.
     ///
     /// This is the fallible counterpart to [`Builder::into_closure`].
-    pub fn try_into_closure<'a, U, R>(
+    pub fn try_into_closure<U, R>(
         self,
         callback: super::Callback<U, R>,
-        userdata: &'a U,
-    ) -> crate::low::Result<super::Closure<'a>> {
+        userdata: &U,
+    ) -> crate::low::Result<super::Closure<'_>> {
         super::Closure::try_new(self.try_into_cif()?, callback, userdata)
     }
 
@@ -172,11 +172,11 @@ impl Builder {
     /// Attempts to build a mutable closure.
     ///
     /// This is the fallible counterpart to [`Builder::into_closure_mut`].
-    pub fn try_into_closure_mut<'a, U, R>(
+    pub fn try_into_closure_mut<U, R>(
         self,
         callback: super::CallbackMut<U, R>,
-        userdata: &'a mut U,
-    ) -> crate::low::Result<super::Closure<'a>> {
+        userdata: &mut U,
+    ) -> crate::low::Result<super::Closure> {
         super::Closure::try_new_mut(self.try_into_cif()?, callback, userdata)
     }
 
