@@ -125,6 +125,10 @@ pub const N_V_ARG_REG: core::ffi::c_int = 8 as core::ffi::c_int;
 pub const FFI_TYPE_LONGDOUBLE: core::ffi::c_int = 4;
 pub const PAGE_MAX_SHIFT: core::ffi::c_int = 14 as core::ffi::c_int;
 pub const PAGE_MAX_SIZE: core::ffi::c_int = (1 as core::ffi::c_int) << PAGE_MAX_SHIFT;
+
+/// A subroutine of is_vfp_type.  Given a structure type, return the type code
+/// of the first non-structure element.  Recurse for structure elements.
+/// Return -1 if the structure is in fact empty, i.e. no nested elements
 unsafe fn is_hfa0(mut ty: *const ffi_type) -> core::ffi::c_int {
     let mut elements: *mut *mut ffi_type = (*ty).elements as *mut *mut ffi_type;
     let mut i: core::ffi::c_int = 0;
@@ -145,6 +149,9 @@ unsafe fn is_hfa0(mut ty: *const ffi_type) -> core::ffi::c_int {
     }
     return ret;
 }
+
+/// A subroutine of is_vfp_type.  Given a structure type, return true if all
+/// of the non-structure elements are the same as CANDIDATE.
 unsafe fn is_hfa1(
     mut ty: *const ffi_type,
     mut candidate: core::ffi::c_int,
