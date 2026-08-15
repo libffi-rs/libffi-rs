@@ -1,3 +1,5 @@
+pub use super::ffi::{_ffi_type, ffi_cif, ffi_type};
+
 pub type __int128_t = i128;
 pub type __uint128_t = u128;
 pub type ffi_abi = ::core::ffi::c_uint;
@@ -8,26 +10,6 @@ pub const FFI_SYSV: ffi_abi = 1;
 pub const FFI_FIRST_ABI: ffi_abi = 0;
 pub type __darwin_size_t = usize;
 pub type size_t = __darwin_size_t;
-#[derive(Copy, Clone)]
-#[repr(C)]
-pub struct _ffi_type {
-    pub size: size_t,
-    pub alignment: ::core::ffi::c_ushort,
-    pub type_0: ::core::ffi::c_ushort,
-    pub elements: *mut *mut _ffi_type,
-}
-pub type ffi_type = _ffi_type;
-#[derive(Copy, Clone)]
-#[repr(C)]
-pub struct ffi_cif {
-    pub abi: ffi_abi,
-    pub nargs: ::core::ffi::c_uint,
-    pub arg_types: *mut *mut ffi_type,
-    pub rtype: *mut ffi_type,
-    pub bytes: ::core::ffi::c_uint,
-    pub flags: ::core::ffi::c_uint,
-    pub aarch64_nfixedargs: ::core::ffi::c_uint,
-}
 #[derive(Copy, Clone)]
 #[repr(C)]
 pub struct ffi_closure {

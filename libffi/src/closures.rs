@@ -1,3 +1,5 @@
+pub use super::ffi::{_ffi_type, ffi_cif, ffi_type};
+
 extern "C" {
     fn vm_allocate(
         target_task: vm_map_t,
@@ -57,26 +59,6 @@ pub struct _opaque_pthread_mutex_t {
 pub type __darwin_pthread_mutex_t = _opaque_pthread_mutex_t;
 pub type uintptr_t = usize;
 pub type size_t = __darwin_size_t;
-#[derive(Copy, Clone)]
-#[repr(C)]
-pub struct _ffi_type {
-    pub size: size_t,
-    pub alignment: ::core::ffi::c_ushort,
-    pub type_0: ::core::ffi::c_ushort,
-    pub elements: *mut *mut _ffi_type,
-}
-pub type ffi_type = _ffi_type;
-#[derive(Copy, Clone)]
-#[repr(C)]
-pub struct ffi_cif {
-    pub abi: ffi_abi,
-    pub nargs: ::core::ffi::c_uint,
-    pub arg_types: *mut *mut ffi_type,
-    pub rtype: *mut ffi_type,
-    pub bytes: ::core::ffi::c_uint,
-    pub flags: ::core::ffi::c_uint,
-    pub aarch64_nfixedargs: ::core::ffi::c_uint,
-}
 #[derive(Copy, Clone)]
 #[repr(C)]
 pub struct ffi_closure {

@@ -1,5 +1,7 @@
 use core::{arch::asm, ptr::copy_nonoverlapping};
 
+pub use super::super::ffi::{_ffi_type, ffi_cif, ffi_type};
+
 extern "C" {
     fn abort() -> !;
     fn ffi_call_SYSV(
@@ -27,31 +29,11 @@ pub const FFI_LAST_ABI: ffi_abi = 3;
 pub const FFI_WIN64: ffi_abi = 2;
 pub const FFI_SYSV: ffi_abi = 1;
 pub const FFI_FIRST_ABI: ffi_abi = 0;
-#[derive(Copy, Clone)]
-#[repr(C)]
-pub struct _ffi_type {
-    pub size: size_t,
-    pub alignment: core::ffi::c_ushort,
-    pub type_0: core::ffi::c_ushort,
-    pub elements: *mut *mut _ffi_type,
-}
-pub type ffi_type = _ffi_type;
 pub type ffi_status = core::ffi::c_uint;
 pub const FFI_BAD_ARGTYPE: ffi_status = 3;
 pub const FFI_BAD_ABI: ffi_status = 2;
 pub const FFI_BAD_TYPEDEF: ffi_status = 1;
 pub const FFI_OK: ffi_status = 0;
-#[derive(Copy, Clone)]
-#[repr(C)]
-pub struct ffi_cif {
-    pub abi: ffi_abi,
-    pub nargs: core::ffi::c_uint,
-    pub arg_types: *mut *mut ffi_type,
-    pub rtype: *mut ffi_type,
-    pub bytes: core::ffi::c_uint,
-    pub flags: core::ffi::c_uint,
-    pub aarch64_nfixedargs: core::ffi::c_uint,
-}
 #[derive(Copy, Clone)]
 #[repr(C)]
 pub struct ffi_closure {

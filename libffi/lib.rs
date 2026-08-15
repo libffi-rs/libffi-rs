@@ -6,6 +6,7 @@
 #![allow(unused_mut)]
 
 pub mod src {
+    pub mod ffi;
     pub mod aarch64 {
         pub mod ffi;
     } // mod aarch64
