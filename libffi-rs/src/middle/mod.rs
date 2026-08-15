@@ -12,7 +12,7 @@ use crate::low;
 pub use crate::low::{ffi_abi as FfiAbi, ffi_abi_FFI_DEFAULT_ABI, Callback, CallbackMut, CodePtr};
 use alloc::boxed::Box;
 use core::any::Any;
-use core::ffi::c_void;
+use core::ffi::{c_uint, c_void};
 use core::marker::PhantomData;
 use core::ptr::{null_mut, NonNull};
 
@@ -163,7 +163,19 @@ impl Cif {
         I: IntoIterator<Item = Type>,
         I::IntoIter: ExactSizeIterator<Item = Type>,
     {
-        Self::new_with_abi(args, result, ffi_abi_FFI_DEFAULT_ABI)
+        Self::try_new(args, result).expect("low::prep_cif")
+    }
+
+    /// Attempts to create a new [CIF](Cif) for the given argument and result
+    /// types with the default ABI.
+    ///
+    /// This is the fallible counterpart to [`Cif::new`].
+    pub fn try_new<I>(args: I, result: Type) -> low::Result<Self>
+    where
+        I: IntoIterator<Item = Type>,
+        I::IntoIter: ExactSizeIterator<Item = Type>,
+    {
+        Self::try_new_with_abi(args, result, ffi_abi_FFI_DEFAULT_ABI)
     }
 
     /// Creates a new [CIF](Cif) for the given argument and result
@@ -176,17 +188,37 @@ impl Cif {
         I: IntoIterator<Item = Type>,
         I::IntoIter: ExactSizeIterator<Item = Type>,
     {
+        Self::try_new_with_abi(args, result, abi).expect("low::prep_cif")
+    }
+
+    /// Attempts to create a new [CIF](Cif) for the given argument and result
+    /// types with the specified ABI.
+    ///
+    /// This is the fallible counterpart to [`Cif::new_with_abi`].
+    pub fn try_new_with_abi<I>(args: I, result: Type, abi: FfiAbi) -> low::Result<Self>
+    where
+        I: IntoIterator<Item = Type>,
+        I::IntoIter: ExactSizeIterator<Item = Type>,
+    {
         let args = args.into_iter();
         let nargs = args.len();
+        let nargs = c_uint::try_from(nargs).map_err(|_| low::Error::ArgType)?;
         let args = types::TypeArray::new(args);
         let mut cif = low::ffi_cif::default();
 
-        unsafe { low::prep_cif(&mut cif, abi, nargs, result.as_raw_ptr(), args.as_raw_ptr()) }
-            .expect("low::prep_cif");
+        unsafe {
+            low::prep_cif(
+                &mut cif,
+                abi,
+                nargs as usize,
+                result.as_raw_ptr(),
+                args.as_raw_ptr(),
+            )?;
+        }
 
         // Note that cif retains references to args and result,
         // which is why we hold onto them here.
-        Self { cif, args, result }
+        Ok(Self { cif, args, result })
     }
 
     /// Creates a new variadic [CIF](Cif) for the given argument and result
@@ -201,7 +233,19 @@ impl Cif {
         I: IntoIterator<Item = Type>,
         I::IntoIter: ExactSizeIterator<Item = Type>,
     {
-        Self::new_variadic_with_abi(args, fixed_args, result, ffi_abi_FFI_DEFAULT_ABI)
+        Self::try_new_variadic(args, fixed_args, result).expect("low::prep_cif_var")
+    }
+
+    /// Attempts to create a new variadic [CIF](Cif) for the given argument and
+    /// result types with the default ABI.
+    ///
+    /// This is the fallible counterpart to [`Cif::new_variadic`].
+    pub fn try_new_variadic<I>(args: I, fixed_args: usize, result: Type) -> low::Result<Self>
+    where
+        I: IntoIterator<Item = Type>,
+        I::IntoIter: ExactSizeIterator<Item = Type>,
+    {
+        Self::try_new_variadic_with_abi(args, fixed_args, result, ffi_abi_FFI_DEFAULT_ABI)
     }
 
     /// Creates a new variadic [CIF](Cif) for the given argument and result
@@ -214,8 +258,32 @@ impl Cif {
         I: IntoIterator<Item = Type>,
         I::IntoIter: ExactSizeIterator<Item = Type>,
     {
+        Self::try_new_variadic_with_abi(args, fixed_args, result, abi).expect("low::prep_cif_var")
+    }
+
+    /// Attempts to create a new variadic [CIF](Cif) for the given argument and
+    /// result types with the specified ABI.
+    ///
+    /// This is the fallible counterpart to [`Cif::new_variadic_with_abi`].
+    pub fn try_new_variadic_with_abi<I>(
+        args: I,
+        fixed_args: usize,
+        result: Type,
+        abi: FfiAbi,
+    ) -> low::Result<Self>
+    where
+        I: IntoIterator<Item = Type>,
+        I::IntoIter: ExactSizeIterator<Item = Type>,
+    {
         let args = args.into_iter();
         let nargs = args.len();
+        if fixed_args > nargs
+            || c_uint::try_from(fixed_args).is_err()
+            || c_uint::try_from(nargs).is_err()
+        {
+            return Err(low::Error::ArgType);
+        }
+
         let args = types::TypeArray::new(args);
         let mut cif: low::ffi_cif = Default::default();
 
@@ -227,13 +295,12 @@ impl Cif {
                 nargs,
                 result.as_raw_ptr(),
                 args.as_raw_ptr(),
-            )
+            )?;
         }
-        .expect("low::prep_cif_var");
 
         // Note that cif retains references to args and result,
         // which is why we hold onto them here.
-        Self { cif, args, result }
+        Ok(Self { cif, args, result })
     }
 
     /// Calls a function with the given arguments.
@@ -374,9 +441,16 @@ impl<'a> Closure<'a> {
     ///
     /// The new closure.
     pub fn new<U, R>(cif: Cif, callback: Callback<U, R>, userdata: &'a U) -> Self {
+        Self::try_new(cif, callback, userdata).expect("low::prep_closure")
+    }
+
+    /// Attempts to create a new closure with immutable userdata.
+    ///
+    /// This is the fallible counterpart to [`Closure::new`].
+    pub fn try_new<U, R>(cif: Cif, callback: Callback<U, R>, userdata: &'a U) -> low::Result<Self> {
         let cif = Box::new(cif);
-        let (alloc, code) = low::closure_alloc();
-        let alloc = ClosureAlloc(NonNull::new(alloc).unwrap());
+        let (alloc, code) = low::try_closure_alloc().ok_or(low::Error::Allocation)?;
+        let alloc = ClosureAlloc(NonNull::new(alloc).ok_or(low::Error::Allocation)?);
 
         unsafe {
             low::prep_closure(
@@ -385,16 +459,15 @@ impl<'a> Closure<'a> {
                 callback,
                 userdata as *const U,
                 code,
-            )
-            .unwrap();
+            )?;
         }
 
-        Closure {
+        Ok(Closure {
             _cif: cif,
             _alloc: alloc,
             code,
             _marker: PhantomData,
-        }
+        })
     }
 
     /// Creates a new closure with mutable userdata.
@@ -411,9 +484,20 @@ impl<'a> Closure<'a> {
     ///
     /// The new closure.
     pub fn new_mut<U, R>(cif: Cif, callback: CallbackMut<U, R>, userdata: &'a mut U) -> Self {
+        Self::try_new_mut(cif, callback, userdata).expect("low::prep_closure_mut")
+    }
+
+    /// Attempts to create a new closure with mutable userdata.
+    ///
+    /// This is the fallible counterpart to [`Closure::new_mut`].
+    pub fn try_new_mut<U, R>(
+        cif: Cif,
+        callback: CallbackMut<U, R>,
+        userdata: &'a mut U,
+    ) -> low::Result<Self> {
         let cif = Box::new(cif);
-        let (alloc, code) = low::closure_alloc();
-        let alloc = ClosureAlloc(NonNull::new(alloc).unwrap());
+        let (alloc, code) = low::try_closure_alloc().ok_or(low::Error::Allocation)?;
+        let alloc = ClosureAlloc(NonNull::new(alloc).ok_or(low::Error::Allocation)?);
 
         unsafe {
             low::prep_closure_mut(
@@ -422,16 +506,15 @@ impl<'a> Closure<'a> {
                 callback,
                 userdata as *mut U,
                 code,
-            )
-            .unwrap();
+            )?;
         }
 
-        Closure {
+        Ok(Closure {
             _cif: cif,
             _alloc: alloc,
             code,
             _marker: PhantomData,
-        }
+        })
     }
 
     /// Obtains the callable code pointer for a closure.
@@ -489,31 +572,41 @@ impl ClosureOnce {
     ///
     /// The new closure.
     pub fn new<U: Any, R>(cif: Cif, callback: CallbackOnce<U, R>, userdata: U) -> Self {
-        let _cif = Box::new(cif);
-        let _userdata = Box::new(Some(userdata)) as Box<dyn Any>;
-        let (alloc, code) = low::closure_alloc();
-        let alloc = ClosureAlloc(NonNull::new(alloc).unwrap());
+        Self::try_new(cif, callback, userdata).expect("low::prep_closure_mut")
+    }
+
+    /// Attempts to create a new closure with owned userdata.
+    ///
+    /// This is the fallible counterpart to [`ClosureOnce::new`].
+    pub fn try_new<U: Any, R>(
+        cif: Cif,
+        callback: CallbackOnce<U, R>,
+        userdata: U,
+    ) -> low::Result<Self> {
+        let cif = Box::new(cif);
+        let userdata = Box::new(Some(userdata)) as Box<dyn Any>;
+        let (alloc, code) = low::try_closure_alloc().ok_or(low::Error::Allocation)?;
+        let alloc = ClosureAlloc(NonNull::new(alloc).ok_or(low::Error::Allocation)?);
 
         {
-            let borrow = _userdata.downcast_ref::<Option<U>>().unwrap();
+            let borrow = userdata.downcast_ref::<Option<U>>().unwrap();
             unsafe {
                 low::prep_closure_mut(
                     alloc.0.as_ptr(),
-                    _cif.as_raw_ptr(),
+                    cif.as_raw_ptr(),
                     callback,
                     borrow as *const _ as *mut _,
                     code,
-                )
-                .unwrap();
+                )?;
             }
         }
 
-        Self {
+        Ok(Self {
             _alloc: alloc,
             code,
-            _cif,
-            _userdata,
-        }
+            _cif: cif,
+            _userdata: userdata,
+        })
     }
 
     /// Obtains the callable code pointer for a closure.
@@ -587,6 +680,35 @@ mod test {
 
     extern "C" fn add_it(n: i64, m: i64) -> i64 {
         n + m
+    }
+
+    #[test]
+    fn try_cif_constructors() {
+        let cif = Cif::try_new([Type::i64(), Type::i64()], Type::i64()).unwrap();
+        assert_eq!(cif.cif.nargs, 2);
+
+        let cif = Builder::new()
+            .args([Type::i64(), Type::i64()])
+            .res(Type::i64())
+            .try_into_cif()
+            .unwrap();
+        assert_eq!(cif.cif.nargs, 2);
+
+        assert!(matches!(
+            Cif::try_new_variadic([Type::i64()], 2, Type::i64()),
+            Err(low::Error::ArgType)
+        ));
+    }
+
+    #[test]
+    #[cfg_attr(miri, ignore = "Miri cannot execute libffi-generated closures")]
+    fn try_closure() {
+        let cif = Cif::try_new([Type::u64()], Type::u64()).unwrap();
+        let env = 5;
+        let closure = Closure::try_new(cif, callback, &env).unwrap();
+        let fun: &extern "C" fn(u64) -> u64 = unsafe { closure.instantiate_code_ptr() };
+
+        assert_eq!(11, fun(6));
     }
 
     #[test]

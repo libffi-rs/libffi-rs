@@ -108,7 +108,14 @@ impl Builder {
 
     /// Builds a CIF.
     pub fn into_cif(self) -> super::Cif {
-        super::Cif::new_with_abi(self.args, self.res, self.abi)
+        self.try_into_cif().expect("low::prep_cif")
+    }
+
+    /// Attempts to build a CIF.
+    ///
+    /// This is the fallible counterpart to [`Builder::into_cif`].
+    pub fn try_into_cif(self) -> crate::low::Result<super::Cif> {
+        super::Cif::try_new_with_abi(self.args, self.res, self.abi)
     }
 
     /// Builds an immutable closure.
@@ -127,7 +134,19 @@ impl Builder {
         callback: super::Callback<U, R>,
         userdata: &U,
     ) -> super::Closure<'_> {
-        super::Closure::new(self.into_cif(), callback, userdata)
+        self.try_into_closure(callback, userdata)
+            .expect("low::prep_closure")
+    }
+
+    /// Attempts to build an immutable closure.
+    ///
+    /// This is the fallible counterpart to [`Builder::into_closure`].
+    pub fn try_into_closure<'a, U, R>(
+        self,
+        callback: super::Callback<U, R>,
+        userdata: &'a U,
+    ) -> crate::low::Result<super::Closure<'a>> {
+        super::Closure::try_new(self.try_into_cif()?, callback, userdata)
     }
 
     /// Builds a mutable closure.
@@ -146,7 +165,19 @@ impl Builder {
         callback: super::CallbackMut<U, R>,
         userdata: &mut U,
     ) -> super::Closure<'_> {
-        super::Closure::new_mut(self.into_cif(), callback, userdata)
+        self.try_into_closure_mut(callback, userdata)
+            .expect("low::prep_closure_mut")
+    }
+
+    /// Attempts to build a mutable closure.
+    ///
+    /// This is the fallible counterpart to [`Builder::into_closure_mut`].
+    pub fn try_into_closure_mut<'a, U, R>(
+        self,
+        callback: super::CallbackMut<U, R>,
+        userdata: &'a mut U,
+    ) -> crate::low::Result<super::Closure<'a>> {
+        super::Closure::try_new_mut(self.try_into_cif()?, callback, userdata)
     }
 
     /// Builds a one-shot closure.
@@ -165,6 +196,18 @@ impl Builder {
         callback: super::CallbackOnce<U, R>,
         userdata: U,
     ) -> super::ClosureOnce {
-        super::ClosureOnce::new(self.into_cif(), callback, userdata)
+        self.try_into_closure_once(callback, userdata)
+            .expect("low::prep_closure_mut")
+    }
+
+    /// Attempts to build a one-shot closure.
+    ///
+    /// This is the fallible counterpart to [`Builder::into_closure_once`].
+    pub fn try_into_closure_once<U: Any, R>(
+        self,
+        callback: super::CallbackOnce<U, R>,
+        userdata: U,
+    ) -> crate::low::Result<super::ClosureOnce> {
+        super::ClosureOnce::try_new(self.try_into_cif()?, callback, userdata)
     }
 }

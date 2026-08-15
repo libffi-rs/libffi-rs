@@ -8,7 +8,7 @@
 //! See [`middle`](crate::middle) for an easier-to-use approach.
 
 use core::ffi::{c_uint, c_void};
-use core::ptr::addr_of;
+use core::ptr::{addr_of, addr_of_mut, null_mut};
 use core::{mem, ptr};
 
 use crate::raw;
@@ -23,6 +23,8 @@ pub enum Error {
     Abi,
     /// Given a bad or unsupported argument type.
     ArgType,
+    /// A libffi-managed allocation failed.
+    Allocation,
 }
 
 /// The [`std::result::Result`] type specialized for libffi [`Error`]s.
@@ -254,7 +256,8 @@ pub unsafe fn prep_cif(
     rtype: *mut ffi_type,
     atypes: *mut *mut ffi_type,
 ) -> Result<()> {
-    let status = raw::ffi_prep_cif(cif, abi, nargs as c_uint, rtype, atypes);
+    let nargs = c_uint::try_from(nargs).map_err(|_| Error::ArgType)?;
+    let status = raw::ffi_prep_cif(cif, abi, nargs, rtype, atypes);
     status_to_result(status, ())
 }
 
@@ -293,14 +296,13 @@ pub unsafe fn prep_cif_var(
     rtype: *mut ffi_type,
     atypes: *mut *mut ffi_type,
 ) -> Result<()> {
-    let status = raw::ffi_prep_cif_var(
-        cif,
-        abi,
-        nfixedargs as c_uint,
-        ntotalargs as c_uint,
-        rtype,
-        atypes,
-    );
+    if nfixedargs > ntotalargs {
+        return Err(Error::ArgType);
+    }
+
+    let nfixedargs = c_uint::try_from(nfixedargs).map_err(|_| Error::ArgType)?;
+    let ntotalargs = c_uint::try_from(ntotalargs).map_err(|_| Error::ArgType)?;
+    let status = raw::ffi_prep_cif_var(cif, abi, nfixedargs, ntotalargs, rtype, atypes);
     status_to_result(status, ())
 }
 
@@ -622,14 +624,28 @@ pub unsafe fn call_return_into(
 /// let (closure_handle, code_ptr) = closure_alloc();
 /// ```
 pub fn closure_alloc() -> (*mut ffi_closure, CodePtr) {
+    try_closure_alloc().expect("ffi_closure_alloc")
+}
+
+/// Attempts to allocate a closure.
+///
+/// This is the fallible counterpart to [`closure_alloc`]. It returns [`None`]
+/// if libffi cannot allocate the closure and its executable code pointer.
+pub fn try_closure_alloc() -> Option<(*mut ffi_closure, CodePtr)> {
     unsafe {
-        let mut code_pointer = mem::MaybeUninit::<*mut c_void>::uninit();
+        let mut code_pointer = null_mut();
         let closure =
-            raw::ffi_closure_alloc(mem::size_of::<ffi_closure>(), code_pointer.as_mut_ptr());
-        (
-            closure as *mut ffi_closure,
-            CodePtr::from_ptr(code_pointer.assume_init()),
-        )
+            raw::ffi_closure_alloc(mem::size_of::<ffi_closure>(), addr_of_mut!(code_pointer))
+                .cast::<ffi_closure>();
+
+        if closure.is_null() || code_pointer.is_null() {
+            if !closure.is_null() {
+                raw::ffi_closure_free(closure.cast());
+            }
+            None
+        } else {
+            Some((closure, CodePtr::from_ptr(code_pointer)))
+        }
     }
 }
 
@@ -887,6 +903,40 @@ mod test {
         one: u8,
         two: u64,
         three: u16,
+    }
+
+    #[test]
+    #[cfg(target_pointer_width = "64")]
+    fn rejects_argument_count_overflow() {
+        unsafe {
+            assert_eq!(
+                prep_cif(
+                    null_mut(),
+                    ffi_abi_FFI_DEFAULT_ABI,
+                    usize::MAX,
+                    null_mut(),
+                    null_mut(),
+                ),
+                Err(Error::ArgType)
+            );
+        }
+    }
+
+    #[test]
+    fn rejects_invalid_variadic_argument_count() {
+        unsafe {
+            assert_eq!(
+                prep_cif_var(
+                    null_mut(),
+                    ffi_abi_FFI_DEFAULT_ABI,
+                    2,
+                    1,
+                    null_mut(),
+                    null_mut(),
+                ),
+                Err(Error::ArgType)
+            );
+        }
     }
 
     #[test]

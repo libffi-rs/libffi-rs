@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog] and this project adheres to
 
 ## [Unreleased]
 
+- Add fallible CIF, builder, and closure constructors.
 - Add support for getting the offsets of a struct via `low::get_struct_offsets` or `middle::Type::struct_offsets`.
 
 ## [5.1.1] - 2026-06-21
