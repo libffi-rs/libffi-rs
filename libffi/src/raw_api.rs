@@ -1,3 +1,5 @@
+use core::ptr::copy_nonoverlapping;
+
 extern "C" {
     fn ffi_prep_closure_loc(
         _: *mut ffi_closure,
@@ -19,11 +21,6 @@ extern "C" {
         rvalue: *mut ::core::ffi::c_void,
         avalue: *mut *mut ::core::ffi::c_void,
     );
-    fn memcpy(
-        __dst: *mut ::core::ffi::c_void,
-        __src: *const ::core::ffi::c_void,
-        __n: size_t,
-    ) -> *mut ::core::ffi::c_void;
 }
 pub type ffi_arg = ::core::ffi::c_ulong;
 pub type ffi_sarg = ::core::ffi::c_long;
@@ -242,9 +239,9 @@ pub unsafe extern "C" fn ffi_ptrarray_to_raw(
                 (*fresh10).ptr = **(args as *mut *mut *mut ::core::ffi::c_void);
             }
             _ => {
-                memcpy(
-                    &raw mut (*raw).data as *mut ::core::ffi::c_char as *mut ::core::ffi::c_void,
-                    *args,
+                copy_nonoverlapping(
+                    *args as *const u8,
+                    &raw mut (*raw).data as *mut u8,
                     (**tp).size,
                 );
                 raw = raw.offset(
