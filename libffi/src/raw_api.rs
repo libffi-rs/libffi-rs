@@ -48,12 +48,6 @@ pub union ffi_raw {
     pub data: [::core::ffi::c_char; 8],
     pub ptr: *mut ::core::ffi::c_void,
 }
-pub type SINT32 = ::core::ffi::c_int;
-pub type UINT32 = ::core::ffi::c_uint;
-pub type SINT16 = ::core::ffi::c_short;
-pub type UINT16 = ::core::ffi::c_ushort;
-pub type SINT8 = ::core::ffi::c_schar;
-pub type UINT8 = ::core::ffi::c_uchar;
 #[derive(Copy, Clone)]
 #[repr(C)]
 pub struct ffi_closure {
@@ -178,32 +172,32 @@ pub unsafe extern "C" fn ffi_ptrarray_to_raw(
             FFI_TYPE_UINT8 => {
                 let fresh2 = raw;
                 raw = raw.offset(1);
-                (*fresh2).uint = *(*args as *mut UINT8) as ffi_arg;
+                (*fresh2).uint = *(*args as *mut u8) as ffi_arg;
             }
             FFI_TYPE_SINT8 => {
                 let fresh3 = raw;
                 raw = raw.offset(1);
-                (*fresh3).sint = *(*args as *mut SINT8) as ffi_sarg;
+                (*fresh3).sint = *(*args as *mut i8) as ffi_sarg;
             }
             FFI_TYPE_UINT16 => {
                 let fresh4 = raw;
                 raw = raw.offset(1);
-                (*fresh4).uint = *(*args as *mut UINT16) as ffi_arg;
+                (*fresh4).uint = *(*args as *mut u16) as ffi_arg;
             }
             FFI_TYPE_SINT16 => {
                 let fresh5 = raw;
                 raw = raw.offset(1);
-                (*fresh5).sint = *(*args as *mut SINT16) as ffi_sarg;
+                (*fresh5).sint = *(*args as *mut i16) as ffi_sarg;
             }
             FFI_TYPE_UINT32 => {
                 let fresh6 = raw;
                 raw = raw.offset(1);
-                (*fresh6).uint = *(*args as *mut UINT32) as ffi_arg;
+                (*fresh6).uint = *(*args as *mut u32) as ffi_arg;
             }
             FFI_TYPE_SINT32 => {
                 let fresh7 = raw;
                 raw = raw.offset(1);
-                (*fresh7).sint = *(*args as *mut SINT32) as ffi_sarg;
+                (*fresh7).sint = *(*args as *mut i32) as ffi_sarg;
             }
             FFI_TYPE_STRUCT => {
                 let fresh8 = raw;

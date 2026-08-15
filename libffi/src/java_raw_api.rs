@@ -48,14 +48,6 @@ pub union ffi_raw {
     pub ptr: *mut ::core::ffi::c_void,
 }
 pub type ffi_java_raw = ffi_raw;
-pub type UINT64 = ::core::ffi::c_ulong;
-pub type FLOAT32 = ::core::ffi::c_float;
-pub type SINT32 = ::core::ffi::c_int;
-pub type UINT32 = ::core::ffi::c_uint;
-pub type SINT16 = ::core::ffi::c_short;
-pub type UINT16 = ::core::ffi::c_ushort;
-pub type SINT8 = ::core::ffi::c_schar;
-pub type UINT8 = ::core::ffi::c_uchar;
 #[derive(Copy, Clone)]
 #[repr(C)]
 pub struct ffi_closure {
@@ -207,40 +199,40 @@ pub unsafe extern "C" fn ffi_java_ptrarray_to_raw(
             FFI_TYPE_UINT8 => {
                 let fresh1 = raw;
                 raw = raw.offset(1);
-                (*fresh1).uint = *(*args as *mut UINT8) as ffi_arg;
+                (*fresh1).uint = *(*args as *mut u8) as ffi_arg;
             }
             FFI_TYPE_SINT8 => {
                 let fresh2 = raw;
                 raw = raw.offset(1);
-                (*fresh2).sint = *(*args as *mut SINT8) as ffi_sarg;
+                (*fresh2).sint = *(*args as *mut i8) as ffi_sarg;
             }
             FFI_TYPE_UINT16 => {
                 let fresh3 = raw;
                 raw = raw.offset(1);
-                (*fresh3).uint = *(*args as *mut UINT16) as ffi_arg;
+                (*fresh3).uint = *(*args as *mut u16) as ffi_arg;
             }
             FFI_TYPE_SINT16 => {
                 let fresh4 = raw;
                 raw = raw.offset(1);
-                (*fresh4).sint = *(*args as *mut SINT16) as ffi_sarg;
+                (*fresh4).sint = *(*args as *mut i16) as ffi_sarg;
             }
             FFI_TYPE_UINT32 => {
                 let fresh5 = raw;
                 raw = raw.offset(1);
-                (*fresh5).uint = *(*args as *mut UINT32) as ffi_arg;
+                (*fresh5).uint = *(*args as *mut u32) as ffi_arg;
             }
             FFI_TYPE_SINT32 => {
                 let fresh6 = raw;
                 raw = raw.offset(1);
-                (*fresh6).sint = *(*args as *mut SINT32) as ffi_sarg;
+                (*fresh6).sint = *(*args as *mut i32) as ffi_sarg;
             }
             FFI_TYPE_FLOAT => {
                 let fresh7 = raw;
                 raw = raw.offset(1);
-                (*fresh7).flt = *(*args as *mut FLOAT32) as ::core::ffi::c_float;
+                (*fresh7).flt = *(*args as *mut f32);
             }
             FFI_TYPE_UINT64 | FFI_TYPE_SINT64 | FFI_TYPE_DOUBLE => {
-                (*raw).uint = *(*args as *mut UINT64) as ffi_arg;
+                (*raw).uint = *(*args as *mut u64) as ffi_arg;
                 raw = raw.offset(2 as ::core::ffi::c_int as isize);
             }
             FFI_TYPE_POINTER => {

@@ -1,7 +1,5 @@
 pub use super::ffi::{_ffi_type, ffi_cif, ffi_type};
 
-pub type __int128_t = i128;
-pub type __uint128_t = u128;
 pub type ffi_abi = ::core::ffi::c_uint;
 pub const FFI_DEFAULT_ABI: ffi_abi = 1;
 pub const FFI_LAST_ABI: ffi_abi = 3;
@@ -26,14 +24,6 @@ pub struct ffi_closure {
     >,
     pub user_data: *mut ::core::ffi::c_void,
 }
-pub type UINT8 = ::core::ffi::c_uchar;
-pub type SINT8 = ::core::ffi::c_schar;
-pub type UINT16 = ::core::ffi::c_ushort;
-pub type SINT16 = ::core::ffi::c_short;
-pub type UINT32 = ::core::ffi::c_uint;
-pub type SINT32 = ::core::ffi::c_int;
-pub type UINT64 = ::core::ffi::c_ulong;
-pub type SINT64 = ::core::ffi::c_long;
 pub const FFI_TYPE_VOID: ::core::ffi::c_int = 0 as ::core::ffi::c_int;
 pub const FFI_TYPE_COMPLEX: ::core::ffi::c_int = 15 as ::core::ffi::c_int;
 pub const __DARWIN_NULL: *mut ::core::ffi::c_void = ::core::ptr::null_mut::<::core::ffi::c_void>();
@@ -66,56 +56,56 @@ pub static mut ffi_type_void: ffi_type = _ffi_type {
 };
 #[no_mangle]
 pub static mut ffi_type_uint8: ffi_type = _ffi_type {
-    size: ::core::mem::size_of::<UINT8>() as size_t,
+    size: ::core::mem::size_of::<u8>() as size_t,
     alignment: 1 as ::core::ffi::c_ulong as ::core::ffi::c_ushort,
     type_0: 5 as ::core::ffi::c_ushort,
     elements: ::core::ptr::null::<*mut _ffi_type>() as *mut *mut _ffi_type,
 };
 #[no_mangle]
 pub static mut ffi_type_sint8: ffi_type = _ffi_type {
-    size: ::core::mem::size_of::<SINT8>() as size_t,
+    size: ::core::mem::size_of::<i8>() as size_t,
     alignment: 1 as ::core::ffi::c_ulong as ::core::ffi::c_ushort,
     type_0: 6 as ::core::ffi::c_ushort,
     elements: ::core::ptr::null::<*mut _ffi_type>() as *mut *mut _ffi_type,
 };
 #[no_mangle]
 pub static mut ffi_type_uint16: ffi_type = _ffi_type {
-    size: ::core::mem::size_of::<UINT16>() as size_t,
+    size: ::core::mem::size_of::<u16>() as size_t,
     alignment: 2 as ::core::ffi::c_ulong as ::core::ffi::c_ushort,
     type_0: 7 as ::core::ffi::c_ushort,
     elements: ::core::ptr::null::<*mut _ffi_type>() as *mut *mut _ffi_type,
 };
 #[no_mangle]
 pub static mut ffi_type_sint16: ffi_type = _ffi_type {
-    size: ::core::mem::size_of::<SINT16>() as size_t,
+    size: ::core::mem::size_of::<i16>() as size_t,
     alignment: 2 as ::core::ffi::c_ulong as ::core::ffi::c_ushort,
     type_0: 8 as ::core::ffi::c_ushort,
     elements: ::core::ptr::null::<*mut _ffi_type>() as *mut *mut _ffi_type,
 };
 #[no_mangle]
 pub static mut ffi_type_uint32: ffi_type = _ffi_type {
-    size: ::core::mem::size_of::<UINT32>() as size_t,
+    size: ::core::mem::size_of::<u32>() as size_t,
     alignment: 4 as ::core::ffi::c_ulong as ::core::ffi::c_ushort,
     type_0: 9 as ::core::ffi::c_ushort,
     elements: ::core::ptr::null::<*mut _ffi_type>() as *mut *mut _ffi_type,
 };
 #[no_mangle]
 pub static mut ffi_type_sint32: ffi_type = _ffi_type {
-    size: ::core::mem::size_of::<SINT32>() as size_t,
+    size: ::core::mem::size_of::<i32>() as size_t,
     alignment: 4 as ::core::ffi::c_ulong as ::core::ffi::c_ushort,
     type_0: 10 as ::core::ffi::c_ushort,
     elements: ::core::ptr::null::<*mut _ffi_type>() as *mut *mut _ffi_type,
 };
 #[no_mangle]
 pub static mut ffi_type_uint64: ffi_type = _ffi_type {
-    size: ::core::mem::size_of::<UINT64>() as size_t,
+    size: ::core::mem::size_of::<u64>() as size_t,
     alignment: 8 as ::core::ffi::c_ulong as ::core::ffi::c_ushort,
     type_0: 11 as ::core::ffi::c_ushort,
     elements: ::core::ptr::null::<*mut _ffi_type>() as *mut *mut _ffi_type,
 };
 #[no_mangle]
 pub static mut ffi_type_sint64: ffi_type = _ffi_type {
-    size: ::core::mem::size_of::<SINT64>() as size_t,
+    size: ::core::mem::size_of::<i64>() as size_t,
     alignment: 8 as ::core::ffi::c_ulong as ::core::ffi::c_ushort,
     type_0: 12 as ::core::ffi::c_ushort,
     elements: ::core::ptr::null::<*mut _ffi_type>() as *mut *mut _ffi_type,
@@ -199,14 +189,14 @@ pub static mut ffi_type_complex_longdouble: ffi_type = _ffi_type {
 };
 #[no_mangle]
 pub static mut ffi_type_uint128: ffi_type = _ffi_type {
-    size: ::core::mem::size_of::<__uint128_t>() as size_t,
+    size: ::core::mem::size_of::<u128>() as size_t,
     alignment: 16 as ::core::ffi::c_ulong as ::core::ffi::c_ushort,
     type_0: 16 as ::core::ffi::c_ushort,
     elements: ::core::ptr::null::<*mut _ffi_type>() as *mut *mut _ffi_type,
 };
 #[no_mangle]
 pub static mut ffi_type_sint128: ffi_type = _ffi_type {
-    size: ::core::mem::size_of::<__int128_t>() as size_t,
+    size: ::core::mem::size_of::<i128>() as size_t,
     alignment: 16 as ::core::ffi::c_ulong as ::core::ffi::c_ushort,
     type_0: 17 as ::core::ffi::c_ushort,
     elements: ::core::ptr::null::<*mut _ffi_type>() as *mut *mut _ffi_type,

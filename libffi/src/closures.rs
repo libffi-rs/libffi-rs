@@ -85,13 +85,12 @@ pub struct ffi_trampoline_table_entry {
 #[repr(C)]
 pub struct ffi_trampoline_table {
     pub config_page: vm_address_t,
-    pub free_count: uint16_t,
+    pub free_count: u16,
     pub free_list: *mut ffi_trampoline_table_entry,
     pub free_list_pool: *mut ffi_trampoline_table_entry,
     pub prev: *mut ffi_trampoline_table,
     pub next: *mut ffi_trampoline_table,
 }
-pub type uint16_t = u16;
 pub type vm_address_t = vm_offset_t;
 pub type vm_offset_t = uintptr_t;
 pub type pthread_mutex_t = __darwin_pthread_mutex_t;
@@ -186,7 +185,7 @@ unsafe fn ffi_trampoline_table_alloc() -> *mut ffi_trampoline_table {
     let mut cur_prot: vm_prot_t = 0;
     let mut max_prot: vm_prot_t = 0;
     let mut kt: kern_return_t = 0;
-    let mut i: uint16_t = 0;
+    let mut i: u16 = 0;
     config_page = 0 as vm_address_t;
     kt = vm_allocate(
         mach_task_self_ as vm_map_t,
@@ -241,13 +240,13 @@ unsafe fn ffi_trampoline_table_alloc() -> *mut ffi_trampoline_table {
         1 as size_t,
         ::core::mem::size_of::<ffi_trampoline_table>() as size_t,
     ) as *mut ffi_trampoline_table;
-    (*table).free_count = FFI_TRAMPOLINE_COUNT as uint16_t;
+    (*table).free_count = FFI_TRAMPOLINE_COUNT as u16;
     (*table).config_page = config_page;
     (*table).free_list_pool = calloc(
         FFI_TRAMPOLINE_COUNT as size_t,
         ::core::mem::size_of::<ffi_trampoline_table_entry>() as size_t,
     ) as *mut ffi_trampoline_table_entry;
-    i = 0 as uint16_t;
+    i = 0_u16;
     while (i as ::core::ffi::c_int) < (*table).free_count as ::core::ffi::c_int {
         let mut entry: *mut ffi_trampoline_table_entry =
             (*table).free_list_pool.offset(i as isize) as *mut ffi_trampoline_table_entry;

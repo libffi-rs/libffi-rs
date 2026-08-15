@@ -21,7 +21,6 @@ pub type __darwin_ssize_t = isize;
 pub type uintptr_t = usize;
 pub type size_t = __darwin_size_t;
 pub type ssize_t = __darwin_ssize_t;
-pub type uint8_t = u8;
 pub type ffi_arg = core::ffi::c_ulong;
 pub type ffi_abi = core::ffi::c_uint;
 pub const FFI_DEFAULT_ABI: ffi_abi = 1;
@@ -54,9 +53,8 @@ pub struct ffi_closure {
 #[repr(C)]
 pub struct call_context {
     pub v: [_v; 8],
-    pub x: [UINT64; 8],
+    pub x: [u64; 8],
 }
-pub type UINT64 = core::ffi::c_ulong;
 #[derive(Copy, Clone)]
 #[repr(C)]
 pub struct _v {
@@ -65,10 +63,9 @@ pub struct _v {
 #[derive(Copy, Clone)]
 #[repr(C)]
 pub union _d {
-    pub d: UINT64,
-    pub s: [UINT32; 2],
+    pub d: u64,
+    pub s: [u32; 2],
 }
-pub type UINT32 = core::ffi::c_uint;
 #[derive(Copy, Clone)]
 #[repr(C)]
 pub struct arg_state {
@@ -78,11 +75,6 @@ pub struct arg_state {
     pub next_struct_area: size_t,
     pub allocating_variadic: core::ffi::c_uint,
 }
-pub type SINT32 = core::ffi::c_int;
-pub type SINT16 = core::ffi::c_short;
-pub type UINT16 = core::ffi::c_ushort;
-pub type SINT8 = core::ffi::c_schar;
-pub type UINT8 = core::ffi::c_uchar;
 pub const __DARWIN_NULL: *mut core::ffi::c_void = core::ptr::null_mut::<core::ffi::c_void>();
 pub const NULL: *mut core::ffi::c_void = __DARWIN_NULL;
 pub const FFI_TYPE_VOID: core::ffi::c_int = 0;
@@ -313,67 +305,67 @@ unsafe fn extend_integer_type(
 ) -> ffi_arg {
     match type_0 {
         FFI_TYPE_UINT8 => {
-            let mut u8: UINT8 = 0;
+            let mut value = 0_u8;
             copy_nonoverlapping(
                 source as *const u8,
-                &raw mut u8 as *mut u8,
-                core::mem::size_of::<UINT8>(),
+                &raw mut value,
+                core::mem::size_of::<u8>(),
             );
-            return u8 as ffi_arg;
+            return value as ffi_arg;
         }
         FFI_TYPE_SINT8 => {
-            let mut s8: SINT8 = 0;
+            let mut value = 0_i8;
             copy_nonoverlapping(
                 source as *const u8,
-                &raw mut s8 as *mut u8,
-                core::mem::size_of::<SINT8>(),
+                (&raw mut value).cast(),
+                core::mem::size_of::<i8>(),
             );
-            return s8 as ffi_arg;
+            return value as ffi_arg;
         }
         FFI_TYPE_UINT16 => {
-            let mut u16: UINT16 = 0;
+            let mut value = 0_u16;
             copy_nonoverlapping(
                 source as *const u8,
-                &raw mut u16 as *mut u8,
-                core::mem::size_of::<UINT16>(),
+                (&raw mut value).cast(),
+                core::mem::size_of::<u16>(),
             );
-            return u16 as ffi_arg;
+            return value as ffi_arg;
         }
         FFI_TYPE_SINT16 => {
-            let mut s16: SINT16 = 0;
+            let mut value = 0_i16;
             copy_nonoverlapping(
                 source as *const u8,
-                &raw mut s16 as *mut u8,
-                core::mem::size_of::<SINT16>(),
+                (&raw mut value).cast(),
+                core::mem::size_of::<i16>(),
             );
-            return s16 as ffi_arg;
+            return value as ffi_arg;
         }
         FFI_TYPE_UINT32 => {
-            let mut u32: UINT32 = 0;
+            let mut value = 0_u32;
             copy_nonoverlapping(
                 source as *const u8,
-                &raw mut u32 as *mut u8,
-                core::mem::size_of::<UINT32>(),
+                (&raw mut value).cast(),
+                core::mem::size_of::<u32>(),
             );
-            return u32 as ffi_arg;
+            return value as ffi_arg;
         }
         FFI_TYPE_INT | FFI_TYPE_SINT32 => {
-            let mut s32: SINT32 = 0;
+            let mut value = 0_i32;
             copy_nonoverlapping(
                 source as *const u8,
-                &raw mut s32 as *mut u8,
-                core::mem::size_of::<SINT32>(),
+                (&raw mut value).cast(),
+                core::mem::size_of::<i32>(),
             );
-            return s32 as ffi_arg;
+            return value as ffi_arg;
         }
         FFI_TYPE_UINT64 | FFI_TYPE_SINT64 => {
-            let mut u64: UINT64 = 0;
+            let mut value = 0_u64;
             copy_nonoverlapping(
                 source as *const u8,
-                &raw mut u64 as *mut u8,
-                core::mem::size_of::<UINT64>(),
+                (&raw mut value).cast(),
+                core::mem::size_of::<u64>(),
             );
-            return u64 as ffi_arg;
+            return value as ffi_arg;
         }
         FFI_TYPE_POINTER => {
             let mut uptr: uintptr_t = 0;
@@ -501,7 +493,7 @@ unsafe fn allocate_int_to_reg_or_stack(
     if (*state).ngrn < N_X_ARG_REG as core::ffi::c_uint {
         let fresh3 = (*state).ngrn;
         (*state).ngrn = (*state).ngrn.wrapping_add(1);
-        return (&raw mut (*context).x as *mut UINT64).offset(fresh3 as isize) as *mut UINT64
+        return (&raw mut (*context).x as *mut u64).offset(fresh3 as isize)
             as *mut core::ffi::c_void;
     }
     (*state).ngrn = N_X_ARG_REG as core::ffi::c_uint;
@@ -515,7 +507,7 @@ unsafe fn allocate_int128_to_reg_or_stack(
     let mut ngrn: core::ffi::c_uint = (*state).ngrn;
     let mut ret: *mut core::ffi::c_void = core::ptr::null_mut::<core::ffi::c_void>();
     if ngrn < N_X_ARG_REG as core::ffi::c_uint {
-        ret = (&raw mut (*context).x as *mut UINT64).offset(ngrn as isize) as *mut UINT64
+        ret = (&raw mut (*context).x as *mut u64).offset(ngrn as isize)
             as *mut core::ffi::c_void;
         ngrn = ngrn.wrapping_add(2 as core::ffi::c_uint);
     } else {
@@ -715,9 +707,8 @@ unsafe fn ffi_call_int(
                         if state.ngrn.wrapping_add(elems as core::ffi::c_uint)
                             <= N_X_ARG_REG as core::ffi::c_uint
                         {
-                            dest = (&raw mut (*context).x as *mut UINT64)
+                            dest = (&raw mut (*context).x as *mut u64)
                                 .offset(state.ngrn as isize)
-                                as *mut UINT64
                                 as *mut core::ffi::c_void;
                             state.ngrn = state.ngrn.wrapping_add(elems as core::ffi::c_uint);
                             extend_hfa_type(dest, a, h);
@@ -761,8 +752,7 @@ unsafe fn ffi_call_int(
                 } else {
                     let mut n: size_t = s.wrapping_add(7 as size_t).wrapping_div(8 as size_t);
                     if (state.ngrn as size_t).wrapping_add(n) <= N_X_ARG_REG as size_t {
-                        dest = (&raw mut (*context).x as *mut UINT64).offset(state.ngrn as isize)
-                            as *mut UINT64
+                        dest = (&raw mut (*context).x as *mut u64).offset(state.ngrn as isize)
                             as *mut core::ffi::c_void;
                         state.ngrn = state.ngrn.wrapping_add(n as core::ffi::c_uint);
                     } else {
@@ -791,7 +781,7 @@ unsafe fn ffi_call_int(
                 if state.ngrn < N_X_ARG_REG as core::ffi::c_uint {
                     let fresh2 = state.ngrn;
                     state.ngrn = state.ngrn.wrapping_add(1);
-                    (*context).x[fresh2 as usize] = ext as UINT64;
+                    (*context).x[fresh2 as usize] = ext as u64;
                 } else {
                     let mut d: *mut core::ffi::c_void =
                         allocate_to_stack(&raw mut state, stack, (*ty).alignment as size_t, s);
@@ -855,7 +845,7 @@ pub unsafe extern "C" fn ffi_prep_closure_loc(
         start = Some(ffi_closure_SYSV as unsafe extern "C" fn() -> ())
             as Option<unsafe extern "C" fn() -> ()>;
     }
-    let mut config: *mut *mut core::ffi::c_void = (codeloc as *mut uint8_t)
+    let mut config: *mut *mut core::ffi::c_void = (codeloc as *mut u8)
         .offset(-(PAGE_MAX_SIZE as isize))
         as *mut *mut core::ffi::c_void;
     let ref mut fresh0 = *config.offset(0 as core::ffi::c_int as isize);
@@ -944,8 +934,7 @@ pub unsafe extern "C" fn ffi_closure_SYSV_inner(
                     {
                         if (state.ngrn as size_t).wrapping_add(n) <= N_X_ARG_REG as size_t {
                             let mut reg: *mut core::ffi::c_void =
-                                (&raw mut (*context).x as *mut UINT64).offset(state.ngrn as isize)
-                                    as *mut UINT64
+                                (&raw mut (*context).x as *mut u64).offset(state.ngrn as isize)
                                     as *mut core::ffi::c_void;
                             state.ngrn = state.ngrn.wrapping_add(n as core::ffi::c_uint);
                             let ref mut fresh6 = *avalue.offset(i as isize);
@@ -986,9 +975,8 @@ pub unsafe extern "C" fn ffi_closure_SYSV_inner(
                     n = s.wrapping_add(7 as size_t).wrapping_div(8 as size_t);
                     if (state.ngrn as size_t).wrapping_add(n) <= N_X_ARG_REG as size_t {
                         let ref mut fresh11 = *avalue.offset(i as isize);
-                        *fresh11 = (&raw mut (*context).x as *mut UINT64)
+                        *fresh11 = (&raw mut (*context).x as *mut u64)
                             .offset(state.ngrn as isize)
-                            as *mut UINT64
                             as *mut core::ffi::c_void;
                         state.ngrn = state.ngrn.wrapping_add(n as core::ffi::c_uint);
                     } else {
