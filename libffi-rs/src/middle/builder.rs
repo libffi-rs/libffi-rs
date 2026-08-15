@@ -176,7 +176,7 @@ impl Builder {
         self,
         callback: super::CallbackMut<U, R>,
         userdata: &mut U,
-    ) -> crate::low::Result<super::Closure> {
+    ) -> crate::low::Result<super::Closure<'_>> {
         super::Closure::try_new_mut(self.try_into_cif()?, callback, userdata)
     }
 
