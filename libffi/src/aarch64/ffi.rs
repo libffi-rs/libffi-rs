@@ -1,12 +1,7 @@
-use core::arch::asm;
+use core::{arch::asm, ptr::copy_nonoverlapping};
 
 extern "C" {
     fn abort() -> !;
-    fn memcpy(
-        __dst: *mut core::ffi::c_void,
-        __src: *const core::ffi::c_void,
-        __n: size_t,
-    ) -> *mut core::ffi::c_void;
     fn ffi_call_SYSV(
         context: *mut call_context,
         frame: *mut core::ffi::c_void,
@@ -325,11 +320,10 @@ unsafe fn allocate_and_copy_struct_to_stack(
     let mut dest: size_t = (*state).next_struct_area.wrapping_sub(size);
     dest = dest & alignment.wrapping_neg();
     (*state).next_struct_area = dest;
-    return memcpy(
-        (stack as *mut core::ffi::c_char).offset(dest as isize) as *mut core::ffi::c_void,
-        value,
-        size,
-    );
+    let dest = (stack as *mut core::ffi::c_char).offset(dest as isize)
+        as *mut core::ffi::c_void;
+    copy_nonoverlapping(value as *const u8, dest as *mut u8, size);
+    return dest;
 }
 unsafe fn extend_integer_type(
     mut source: *mut core::ffi::c_void,
@@ -338,73 +332,73 @@ unsafe fn extend_integer_type(
     match type_0 {
         FFI_TYPE_UINT8 => {
             let mut u8: UINT8 = 0;
-            memcpy(
-                &raw mut u8 as *mut core::ffi::c_void,
-                source,
-                core::mem::size_of::<UINT8>() as size_t,
+            copy_nonoverlapping(
+                source as *const u8,
+                &raw mut u8 as *mut u8,
+                core::mem::size_of::<UINT8>(),
             );
             return u8 as ffi_arg;
         }
         FFI_TYPE_SINT8 => {
             let mut s8: SINT8 = 0;
-            memcpy(
-                &raw mut s8 as *mut core::ffi::c_void,
-                source,
-                core::mem::size_of::<SINT8>() as size_t,
+            copy_nonoverlapping(
+                source as *const u8,
+                &raw mut s8 as *mut u8,
+                core::mem::size_of::<SINT8>(),
             );
             return s8 as ffi_arg;
         }
         FFI_TYPE_UINT16 => {
             let mut u16: UINT16 = 0;
-            memcpy(
-                &raw mut u16 as *mut core::ffi::c_void,
-                source,
-                core::mem::size_of::<UINT16>() as size_t,
+            copy_nonoverlapping(
+                source as *const u8,
+                &raw mut u16 as *mut u8,
+                core::mem::size_of::<UINT16>(),
             );
             return u16 as ffi_arg;
         }
         FFI_TYPE_SINT16 => {
             let mut s16: SINT16 = 0;
-            memcpy(
-                &raw mut s16 as *mut core::ffi::c_void,
-                source,
-                core::mem::size_of::<SINT16>() as size_t,
+            copy_nonoverlapping(
+                source as *const u8,
+                &raw mut s16 as *mut u8,
+                core::mem::size_of::<SINT16>(),
             );
             return s16 as ffi_arg;
         }
         FFI_TYPE_UINT32 => {
             let mut u32: UINT32 = 0;
-            memcpy(
-                &raw mut u32 as *mut core::ffi::c_void,
-                source,
-                core::mem::size_of::<UINT32>() as size_t,
+            copy_nonoverlapping(
+                source as *const u8,
+                &raw mut u32 as *mut u8,
+                core::mem::size_of::<UINT32>(),
             );
             return u32 as ffi_arg;
         }
         FFI_TYPE_INT | FFI_TYPE_SINT32 => {
             let mut s32: SINT32 = 0;
-            memcpy(
-                &raw mut s32 as *mut core::ffi::c_void,
-                source,
-                core::mem::size_of::<SINT32>() as size_t,
+            copy_nonoverlapping(
+                source as *const u8,
+                &raw mut s32 as *mut u8,
+                core::mem::size_of::<SINT32>(),
             );
             return s32 as ffi_arg;
         }
         FFI_TYPE_UINT64 | FFI_TYPE_SINT64 => {
             let mut u64: UINT64 = 0;
-            memcpy(
-                &raw mut u64 as *mut core::ffi::c_void,
-                source,
-                core::mem::size_of::<UINT64>() as size_t,
+            copy_nonoverlapping(
+                source as *const u8,
+                &raw mut u64 as *mut u8,
+                core::mem::size_of::<UINT64>(),
             );
             return u64 as ffi_arg;
         }
         FFI_TYPE_POINTER => {
             let mut uptr: uintptr_t = 0;
-            memcpy(
-                &raw mut uptr as *mut core::ffi::c_void,
-                source,
-                core::mem::size_of::<uintptr_t>() as size_t,
+            copy_nonoverlapping(
+                source as *const u8,
+                &raw mut uptr as *mut u8,
+                core::mem::size_of::<uintptr_t>(),
             );
             return uptr as ffi_arg;
         }
@@ -504,9 +498,9 @@ unsafe fn compress_hfa_type(
         }
         _ => {
             if dest != reg {
-                return memcpy(
-                    dest,
-                    reg,
+                copy_nonoverlapping(
+                    reg as *const u8,
+                    dest as *mut u8,
                     (16 as core::ffi::c_int
                         * (4 as core::ffi::c_int - (h & 3 as core::ffi::c_int)))
                         as size_t,
@@ -723,7 +717,7 @@ unsafe fn ffi_call_int(
             }
             FFI_TYPE_UINT128 | FFI_TYPE_SINT128 => {
                 dest = allocate_int128_to_reg_or_stack(context, &raw mut state, stack);
-                memcpy(dest, a, 16 as size_t);
+                copy_nonoverlapping(a as *const u8, dest as *mut u8, 16 as size_t);
                 current_block_57 = 6243635450180130569;
             }
             FFI_TYPE_FLOAT | FFI_TYPE_DOUBLE | FFI_TYPE_LONGDOUBLE | FFI_TYPE_STRUCT
@@ -800,7 +794,7 @@ unsafe fn ffi_call_int(
                     12308861024312953424 => {}
                     6243635450180130569 => {}
                     _ => {
-                        memcpy(dest, a, s);
+                        copy_nonoverlapping(a as *const u8, dest as *mut u8, s);
                         current_block_57 = 6243635450180130569;
                     }
                 }
@@ -820,7 +814,7 @@ unsafe fn ffi_call_int(
                     let mut d: *mut core::ffi::c_void =
                         allocate_to_stack(&raw mut state, stack, (*ty).alignment as size_t, s);
                     state.ngrn = N_X_ARG_REG as core::ffi::c_uint;
-                    memcpy(d, a, s);
+                    copy_nonoverlapping(a as *const u8, d as *mut u8, s);
                 }
             }
             _ => {}
@@ -834,7 +828,11 @@ unsafe fn ffi_call_int(
     }
     ffi_call_SYSV(context, frame, fn_0, rvalue, flags, closure);
     if flags & AARCH64_RET_NEED_COPY != 0 {
-        memcpy(orig_rvalue, rvalue, rtype_size);
+        copy_nonoverlapping(
+            rvalue as *const u8,
+            orig_rvalue as *mut u8,
+            rtype_size,
+        );
     }
 }
 #[no_mangle]
