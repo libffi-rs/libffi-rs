@@ -126,8 +126,8 @@ pub const PAGE_MAX_SIZE: core::ffi::c_int = (1 as core::ffi::c_int) << PAGE_MAX_
 /// A subroutine of is_vfp_type.  Given a structure type, return the type code
 /// of the first non-structure element.  Recurse for structure elements.
 /// Return -1 if the structure is in fact empty, i.e. no nested elements
-unsafe fn is_hfa0(mut ty: *const ffi_type) -> core::ffi::c_int {
-    let mut elements: *mut *mut ffi_type = (*ty).elements as *mut *mut ffi_type;
+unsafe fn is_hfa0(ty: *const ffi_type) -> core::ffi::c_int {
+    let elements: *mut *mut ffi_type = (*ty).elements as *mut *mut ffi_type;
     let mut i: core::ffi::c_int = 0;
     let mut ret: core::ffi::c_int = -(1 as core::ffi::c_int);
     if !elements.is_null() {
@@ -149,13 +149,13 @@ unsafe fn is_hfa0(mut ty: *const ffi_type) -> core::ffi::c_int {
 
 /// A subroutine of is_vfp_type.  Given a structure type, return true if all
 /// of the non-structure elements are the same as CANDIDATE.
-unsafe fn is_hfa1(mut ty: *const ffi_type, mut candidate: core::ffi::c_int) -> core::ffi::c_int {
-    let mut elements: *mut *mut ffi_type = (*ty).elements as *mut *mut ffi_type;
+unsafe fn is_hfa1(ty: *const ffi_type, candidate: core::ffi::c_int) -> core::ffi::c_int {
+    let elements: *mut *mut ffi_type = (*ty).elements as *mut *mut ffi_type;
     let mut i: core::ffi::c_int = 0;
     if !elements.is_null() {
         i = 0 as core::ffi::c_int;
         while !(*elements.add(i as usize)).is_null() {
-            let mut t: core::ffi::c_int = (**elements.add(i as usize)).type_0 as core::ffi::c_int;
+            let t: core::ffi::c_int = (**elements.add(i as usize)).type_0 as core::ffi::c_int;
             if t == FFI_TYPE_STRUCT || t == FFI_TYPE_COMPLEX {
                 if is_hfa1(*elements.add(i as usize), candidate) == 0 {
                     return 0 as core::ffi::c_int;
@@ -168,7 +168,7 @@ unsafe fn is_hfa1(mut ty: *const ffi_type, mut candidate: core::ffi::c_int) -> c
     }
     return 1 as core::ffi::c_int;
 }
-unsafe fn is_vfp_type(mut ty: *const ffi_type) -> core::ffi::c_int {
+unsafe fn is_vfp_type(ty: *const ffi_type) -> core::ffi::c_int {
     let mut elements: *mut *mut ffi_type = core::ptr::null_mut::<*mut ffi_type>();
     let mut candidate: core::ffi::c_int = 0;
     let mut i: core::ffi::c_int = 0;
@@ -243,8 +243,7 @@ unsafe fn is_vfp_type(mut ty: *const ffi_type) -> core::ffi::c_int {
             }
             i = 0 as core::ffi::c_int;
             while !(*elements.add(i as usize)).is_null() {
-                let mut t: core::ffi::c_int =
-                    (**elements.add(i as usize)).type_0 as core::ffi::c_int;
+                let t: core::ffi::c_int = (**elements.add(i as usize)).type_0 as core::ffi::c_int;
                 if t == FFI_TYPE_STRUCT || t == FFI_TYPE_COMPLEX {
                     if is_hfa1(*elements.add(i as usize), candidate) == 0 {
                         return 0 as core::ffi::c_int;
@@ -260,7 +259,7 @@ unsafe fn is_vfp_type(mut ty: *const ffi_type) -> core::ffi::c_int {
     return candidate * 4 as core::ffi::c_int
         + (4 as core::ffi::c_int - ele_count as core::ffi::c_int);
 }
-unsafe fn arg_init(mut state: *mut arg_state, mut size: size_t) {
+unsafe fn arg_init(state: *mut arg_state, size: size_t) {
     (*state).ngrn = 0 as core::ffi::c_uint;
     (*state).nsrn = 0 as core::ffi::c_uint;
     (*state).nsaa = 0 as size_t;
@@ -268,10 +267,10 @@ unsafe fn arg_init(mut state: *mut arg_state, mut size: size_t) {
     (*state).allocating_variadic = 0 as core::ffi::c_uint;
 }
 unsafe fn allocate_to_stack(
-    mut state: *mut arg_state,
-    mut stack: *mut core::ffi::c_void,
+    state: *mut arg_state,
+    stack: *mut core::ffi::c_void,
     mut alignment: size_t,
-    mut size: size_t,
+    size: size_t,
 ) -> *mut core::ffi::c_void {
     let mut nsaa: size_t = (*state).nsaa;
     if (*state).allocating_variadic != 0 && alignment < 8 as size_t {
@@ -283,11 +282,11 @@ unsafe fn allocate_to_stack(
     return (stack as *mut core::ffi::c_char).add(nsaa) as *mut core::ffi::c_void;
 }
 unsafe fn allocate_and_copy_struct_to_stack(
-    mut state: *mut arg_state,
-    mut stack: *mut core::ffi::c_void,
-    mut alignment: size_t,
-    mut size: size_t,
-    mut value: *mut core::ffi::c_void,
+    state: *mut arg_state,
+    stack: *mut core::ffi::c_void,
+    alignment: size_t,
+    size: size_t,
+    value: *mut core::ffi::c_void,
 ) -> *mut core::ffi::c_void {
     let mut dest: size_t = (*state).next_struct_area.wrapping_sub(size);
     dest = dest & alignment.wrapping_neg();
@@ -296,10 +295,7 @@ unsafe fn allocate_and_copy_struct_to_stack(
     copy_nonoverlapping(value as *const u8, dest as *mut u8, size);
     return dest;
 }
-unsafe fn extend_integer_type(
-    mut source: *mut core::ffi::c_void,
-    mut type_0: core::ffi::c_int,
-) -> ffi_arg {
+unsafe fn extend_integer_type(source: *mut core::ffi::c_void, type_0: core::ffi::c_int) -> ffi_arg {
     match type_0 {
         FFI_TYPE_UINT8 => {
             let mut value = 0_u8;
@@ -379,11 +375,11 @@ unsafe fn extend_integer_type(
     };
 }
 unsafe fn extend_hfa_type(
-    mut dest: *mut core::ffi::c_void,
-    mut src: *mut core::ffi::c_void,
-    mut h: core::ffi::c_int,
+    dest: *mut core::ffi::c_void,
+    src: *mut core::ffi::c_void,
+    h: core::ffi::c_int,
 ) {
-    let mut f: ssize_t = (h - AARCH64_RET_S4) as ssize_t;
+    let f: ssize_t = (h - AARCH64_RET_S4) as ssize_t;
     let mut x0: *mut core::ffi::c_void = core::ptr::null_mut::<core::ffi::c_void>();
     asm!(
         "adr\t{0}, 0f\n", "\tadd\t{0}, {0}, {1}\n", "\tbr\t{0}\n", "0:\thint #36\n",
@@ -406,9 +402,9 @@ unsafe fn extend_hfa_type(
     );
 }
 unsafe fn compress_hfa_type(
-    mut dest: *mut core::ffi::c_void,
-    mut reg: *mut core::ffi::c_void,
-    mut h: core::ffi::c_int,
+    dest: *mut core::ffi::c_void,
+    reg: *mut core::ffi::c_void,
+    h: core::ffi::c_int,
 ) -> *mut core::ffi::c_void {
     match h {
         AARCH64_RET_S1 => {
@@ -481,10 +477,10 @@ unsafe fn compress_hfa_type(
     return dest;
 }
 unsafe fn allocate_int_to_reg_or_stack(
-    mut context: *mut call_context,
-    mut state: *mut arg_state,
-    mut stack: *mut core::ffi::c_void,
-    mut size: size_t,
+    context: *mut call_context,
+    state: *mut arg_state,
+    stack: *mut core::ffi::c_void,
+    size: size_t,
 ) -> *mut core::ffi::c_void {
     if (*state).ngrn < N_X_ARG_REG as core::ffi::c_uint {
         let fresh3 = (*state).ngrn;
@@ -495,9 +491,9 @@ unsafe fn allocate_int_to_reg_or_stack(
     return allocate_to_stack(state, stack, size, size);
 }
 unsafe fn allocate_int128_to_reg_or_stack(
-    mut context: *mut call_context,
-    mut state: *mut arg_state,
-    mut stack: *mut core::ffi::c_void,
+    context: *mut call_context,
+    state: *mut arg_state,
+    stack: *mut core::ffi::c_void,
 ) -> *mut core::ffi::c_void {
     let mut ngrn: core::ffi::c_uint = (*state).ngrn;
     let mut ret: *mut core::ffi::c_void = core::ptr::null_mut::<core::ffi::c_void>();
@@ -512,8 +508,8 @@ unsafe fn allocate_int128_to_reg_or_stack(
     return ret;
 }
 #[no_mangle]
-pub unsafe extern "C" fn ffi_prep_cif_machdep(mut cif: *mut ffi_cif) -> ffi_status {
-    let mut rtype: *mut ffi_type = (*cif).rtype;
+pub unsafe extern "C" fn ffi_prep_cif_machdep(cif: *mut ffi_cif) -> ffi_status {
+    let rtype: *mut ffi_type = (*cif).rtype;
     let mut bytes: size_t = (*cif).bytes as size_t;
     let mut flags: core::ffi::c_int = 0;
     let mut i: core::ffi::c_int = 0;
@@ -557,7 +553,7 @@ pub unsafe extern "C" fn ffi_prep_cif_machdep(mut cif: *mut ffi_cif) -> ffi_stat
         | FFI_TYPE_COMPLEX => {
             flags = is_vfp_type(rtype);
             if flags == 0 as core::ffi::c_int {
-                let mut s: size_t = (*rtype).size;
+                let s: size_t = (*rtype).size;
                 if s > 16 as size_t {
                     flags = AARCH64_RET_VOID | AARCH64_RET_IN_MEM;
                     bytes = bytes.wrapping_add(8 as size_t);
@@ -593,20 +589,20 @@ pub unsafe extern "C" fn ffi_prep_cif_machdep(mut cif: *mut ffi_cif) -> ffi_stat
 }
 #[no_mangle]
 pub unsafe extern "C" fn ffi_prep_cif_machdep_var(
-    mut cif: *mut ffi_cif,
-    mut nfixedargs: core::ffi::c_uint,
-    mut ntotalargs: core::ffi::c_uint,
+    cif: *mut ffi_cif,
+    nfixedargs: core::ffi::c_uint,
+    ntotalargs: core::ffi::c_uint,
 ) -> ffi_status {
-    let mut status: ffi_status = ffi_prep_cif_machdep(cif);
+    let status: ffi_status = ffi_prep_cif_machdep(cif);
     (*cif).aarch64_nfixedargs = nfixedargs;
     return status;
 }
 unsafe fn ffi_call_int(
-    mut cif: *mut ffi_cif,
-    mut fn_0: Option<unsafe extern "C" fn() -> ()>,
-    mut orig_rvalue: *mut core::ffi::c_void,
-    mut avalue: *mut *mut core::ffi::c_void,
-    mut closure: *mut core::ffi::c_void,
+    cif: *mut ffi_cif,
+    fn_0: Option<unsafe extern "C" fn() -> ()>,
+    orig_rvalue: *mut core::ffi::c_void,
+    avalue: *mut *mut core::ffi::c_void,
+    closure: *mut core::ffi::c_void,
 ) {
     let mut alloca_allocations: Vec<Vec<u8>> = Vec::new();
     let mut context: *mut call_context = core::ptr::null_mut::<call_context>();
@@ -666,7 +662,7 @@ unsafe fn ffi_call_int(
     i = 0 as core::ffi::c_int;
     nargs = (*cif).nargs as core::ffi::c_int;
     while i < nargs {
-        let mut ty: *mut ffi_type = *(*cif).arg_types.add(i as usize);
+        let ty: *mut ffi_type = *(*cif).arg_types.add(i as usize);
         let mut s: size_t = (*ty).size;
         let mut a: *mut core::ffi::c_void = *avalue.add(i as usize);
         let mut h: core::ffi::c_int = 0;
@@ -692,7 +688,7 @@ unsafe fn ffi_call_int(
             | FFI_TYPE_COMPLEX => {
                 h = is_vfp_type(ty);
                 if h != 0 {
-                    let mut elems: core::ffi::c_int =
+                    let elems: core::ffi::c_int =
                         4 as core::ffi::c_int - (h & 3 as core::ffi::c_int);
                     if (*cif).abi as core::ffi::c_uint
                         == FFI_WIN64 as core::ffi::c_int as core::ffi::c_uint
@@ -743,7 +739,7 @@ unsafe fn ffi_call_int(
                     s = core::mem::size_of::<*mut core::ffi::c_void>() as usize as size_t;
                     current_block_57 = 12308861024312953424;
                 } else {
-                    let mut n: size_t = s.wrapping_add(7 as size_t).wrapping_div(8 as size_t);
+                    let n: size_t = s.wrapping_add(7 as size_t).wrapping_div(8 as size_t);
                     if (state.ngrn as size_t).wrapping_add(n) <= N_X_ARG_REG as size_t {
                         dest = (&raw mut (*context).x as *mut u64).add(state.ngrn as usize)
                             as *mut core::ffi::c_void;
@@ -770,13 +766,13 @@ unsafe fn ffi_call_int(
         }
         match current_block_57 {
             12308861024312953424 => {
-                let mut ext: ffi_arg = extend_integer_type(a, t);
+                let ext: ffi_arg = extend_integer_type(a, t);
                 if state.ngrn < N_X_ARG_REG as core::ffi::c_uint {
                     let fresh2 = state.ngrn;
                     state.ngrn = state.ngrn.wrapping_add(1);
                     (*context).x[fresh2 as usize] = ext as u64;
                 } else {
-                    let mut d: *mut core::ffi::c_void =
+                    let d: *mut core::ffi::c_void =
                         allocate_to_stack(&raw mut state, stack, (*ty).alignment as size_t, s);
                     state.ngrn = N_X_ARG_REG as core::ffi::c_uint;
                     copy_nonoverlapping(a as *const u8, d as *mut u8, s);
@@ -798,18 +794,18 @@ unsafe fn ffi_call_int(
 }
 #[no_mangle]
 pub unsafe extern "C" fn ffi_call(
-    mut cif: *mut ffi_cif,
-    mut fn_0: Option<unsafe extern "C" fn() -> ()>,
-    mut rvalue: *mut core::ffi::c_void,
-    mut avalue: *mut *mut core::ffi::c_void,
+    cif: *mut ffi_cif,
+    fn_0: Option<unsafe extern "C" fn() -> ()>,
+    rvalue: *mut core::ffi::c_void,
+    avalue: *mut *mut core::ffi::c_void,
 ) {
     ffi_call_int(cif, fn_0, rvalue, avalue, NULL);
 }
 #[no_mangle]
 pub unsafe extern "C" fn ffi_prep_closure_loc(
-    mut closure: *mut ffi_closure,
-    mut cif: *mut ffi_cif,
-    mut fun: Option<
+    closure: *mut ffi_closure,
+    cif: *mut ffi_cif,
+    fun: Option<
         unsafe extern "C" fn(
             *mut ffi_cif,
             *mut core::ffi::c_void,
@@ -817,8 +813,8 @@ pub unsafe extern "C" fn ffi_prep_closure_loc(
             *mut core::ffi::c_void,
         ) -> (),
     >,
-    mut user_data: *mut core::ffi::c_void,
-    mut codeloc: *mut core::ffi::c_void,
+    user_data: *mut core::ffi::c_void,
+    codeloc: *mut core::ffi::c_void,
 ) -> ffi_status {
     if (*cif).abi as core::ffi::c_uint != FFI_SYSV as core::ffi::c_int as core::ffi::c_uint
         && (*cif).abi as core::ffi::c_uint != FFI_WIN64 as core::ffi::c_int as core::ffi::c_uint
@@ -833,7 +829,7 @@ pub unsafe extern "C" fn ffi_prep_closure_loc(
         start = Some(ffi_closure_SYSV as unsafe extern "C" fn() -> ())
             as Option<unsafe extern "C" fn() -> ()>;
     }
-    let mut config: *mut *mut core::ffi::c_void =
+    let config: *mut *mut core::ffi::c_void =
         (codeloc as *mut u8).sub(PAGE_MAX_SIZE as usize) as *mut *mut core::ffi::c_void;
     let ref mut fresh0 = *config;
     *fresh0 = closure as *mut core::ffi::c_void;
@@ -847,8 +843,8 @@ pub unsafe extern "C" fn ffi_prep_closure_loc(
 }
 #[no_mangle]
 pub unsafe extern "C" fn ffi_closure_SYSV_inner(
-    mut cif: *mut ffi_cif,
-    mut fun: Option<
+    cif: *mut ffi_cif,
+    fun: Option<
         unsafe extern "C" fn(
             *mut ffi_cif,
             *mut core::ffi::c_void,
@@ -856,11 +852,11 @@ pub unsafe extern "C" fn ffi_closure_SYSV_inner(
             *mut core::ffi::c_void,
         ) -> (),
     >,
-    mut user_data: *mut core::ffi::c_void,
-    mut context: *mut call_context,
-    mut stack: *mut core::ffi::c_void,
+    user_data: *mut core::ffi::c_void,
+    context: *mut call_context,
+    stack: *mut core::ffi::c_void,
     mut rvalue: *mut core::ffi::c_void,
-    mut struct_rvalue: *mut core::ffi::c_void,
+    struct_rvalue: *mut core::ffi::c_void,
 ) -> core::ffi::c_int {
     let mut alloca_allocations: Vec<Vec<u8>> = Vec::new();
     alloca_allocations.push(::std::vec::from_elem(
@@ -868,7 +864,7 @@ pub unsafe extern "C" fn ffi_closure_SYSV_inner(
         ((*cif).nargs as usize)
             .wrapping_mul(core::mem::size_of::<*mut core::ffi::c_void>() as usize) as usize,
     ));
-    let mut avalue: *mut *mut core::ffi::c_void =
+    let avalue: *mut *mut core::ffi::c_void =
         alloca_allocations.last_mut().unwrap().as_mut_ptr() as *mut *mut core::ffi::c_void;
     let mut i: core::ffi::c_int = 0;
     let mut h: core::ffi::c_int = 0;
@@ -891,10 +887,10 @@ pub unsafe extern "C" fn ffi_closure_SYSV_inner(
     i = 0 as core::ffi::c_int;
     nargs = (*cif).nargs as core::ffi::c_int;
     while i < nargs {
-        let mut ty: *mut ffi_type = *(*cif).arg_types.add(i as usize);
-        let mut t: core::ffi::c_int = (*ty).type_0 as core::ffi::c_int;
+        let ty: *mut ffi_type = *(*cif).arg_types.add(i as usize);
+        let t: core::ffi::c_int = (*ty).type_0 as core::ffi::c_int;
         let mut n: size_t = 0;
-        let mut s: size_t = (*ty).size;
+        let s: size_t = (*ty).size;
         match t {
             FFI_TYPE_VOID => {}
             FFI_TYPE_INT | FFI_TYPE_UINT8 | FFI_TYPE_SINT8 | FFI_TYPE_UINT16 | FFI_TYPE_SINT16
@@ -917,9 +913,9 @@ pub unsafe extern "C" fn ffi_closure_SYSV_inner(
                         && isvariadic != 0
                     {
                         if (state.ngrn as size_t).wrapping_add(n) <= N_X_ARG_REG as size_t {
-                            let mut reg: *mut core::ffi::c_void =
-                                (&raw mut (*context).x as *mut u64).add(state.ngrn as usize)
-                                    as *mut core::ffi::c_void;
+                            let reg: *mut core::ffi::c_void = (&raw mut (*context).x as *mut u64)
+                                .add(state.ngrn as usize)
+                                as *mut core::ffi::c_void;
                             state.ngrn = state.ngrn.wrapping_add(n as core::ffi::c_uint);
                             let ref mut fresh6 = *avalue.add(i as usize);
                             *fresh6 = compress_hfa_type(reg, reg, h);
@@ -935,7 +931,7 @@ pub unsafe extern "C" fn ffi_closure_SYSV_inner(
                             );
                         }
                     } else if (state.nsrn as size_t).wrapping_add(n) <= N_V_ARG_REG as size_t {
-                        let mut reg_0: *mut core::ffi::c_void =
+                        let reg_0: *mut core::ffi::c_void =
                             (&raw mut (*context).v as *mut _v).add(state.nsrn as usize) as *mut _v
                                 as *mut core::ffi::c_void;
                         state.nsrn = state.nsrn.wrapping_add(n as core::ffi::c_uint);
