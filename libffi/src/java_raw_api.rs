@@ -273,12 +273,12 @@ pub unsafe extern "C" fn ffi_java_ptrarray_to_raw(
         args = args.offset(1);
     }
 }
-unsafe extern "C" fn ffi_java_rvalue_to_raw(
+unsafe fn ffi_java_rvalue_to_raw(
     mut cif: *mut ffi_cif,
     mut rvalue: *mut ::core::ffi::c_void,
 ) {
 }
-unsafe extern "C" fn ffi_java_raw_to_rvalue(
+unsafe fn ffi_java_raw_to_rvalue(
     mut cif: *mut ffi_cif,
     mut rvalue: *mut ::core::ffi::c_void,
 ) {

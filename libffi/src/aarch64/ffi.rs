@@ -156,7 +156,7 @@ pub const N_V_ARG_REG: core::ffi::c_int = 8 as core::ffi::c_int;
 pub const FFI_TYPE_LONGDOUBLE: core::ffi::c_int = 4;
 pub const PAGE_MAX_SHIFT: core::ffi::c_int = 14 as core::ffi::c_int;
 pub const PAGE_MAX_SIZE: core::ffi::c_int = (1 as core::ffi::c_int) << PAGE_MAX_SHIFT;
-unsafe extern "C" fn is_hfa0(mut ty: *const ffi_type) -> core::ffi::c_int {
+unsafe fn is_hfa0(mut ty: *const ffi_type) -> core::ffi::c_int {
     let mut elements: *mut *mut ffi_type = (*ty).elements as *mut *mut ffi_type;
     let mut i: core::ffi::c_int = 0;
     let mut ret: core::ffi::c_int = -(1 as core::ffi::c_int);
@@ -176,7 +176,7 @@ unsafe extern "C" fn is_hfa0(mut ty: *const ffi_type) -> core::ffi::c_int {
     }
     return ret;
 }
-unsafe extern "C" fn is_hfa1(
+unsafe fn is_hfa1(
     mut ty: *const ffi_type,
     mut candidate: core::ffi::c_int,
 ) -> core::ffi::c_int {
@@ -199,7 +199,7 @@ unsafe extern "C" fn is_hfa1(
     }
     return 1 as core::ffi::c_int;
 }
-unsafe extern "C" fn is_vfp_type(mut ty: *const ffi_type) -> core::ffi::c_int {
+unsafe fn is_vfp_type(mut ty: *const ffi_type) -> core::ffi::c_int {
     let mut elements: *mut *mut ffi_type = core::ptr::null_mut::<*mut ffi_type>();
     let mut candidate: core::ffi::c_int = 0;
     let mut i: core::ffi::c_int = 0;
@@ -293,14 +293,14 @@ unsafe extern "C" fn is_vfp_type(mut ty: *const ffi_type) -> core::ffi::c_int {
     return candidate * 4 as core::ffi::c_int
         + (4 as core::ffi::c_int - ele_count as core::ffi::c_int);
 }
-unsafe extern "C" fn arg_init(mut state: *mut arg_state, mut size: size_t) {
+unsafe fn arg_init(mut state: *mut arg_state, mut size: size_t) {
     (*state).ngrn = 0 as core::ffi::c_uint;
     (*state).nsrn = 0 as core::ffi::c_uint;
     (*state).nsaa = 0 as size_t;
     (*state).next_struct_area = size;
     (*state).allocating_variadic = 0 as core::ffi::c_uint;
 }
-unsafe extern "C" fn allocate_to_stack(
+unsafe fn allocate_to_stack(
     mut state: *mut arg_state,
     mut stack: *mut core::ffi::c_void,
     mut alignment: size_t,
@@ -315,7 +315,7 @@ unsafe extern "C" fn allocate_to_stack(
     (*state).nsaa = nsaa.wrapping_add(size);
     return (stack as *mut core::ffi::c_char).offset(nsaa as isize) as *mut core::ffi::c_void;
 }
-unsafe extern "C" fn allocate_and_copy_struct_to_stack(
+unsafe fn allocate_and_copy_struct_to_stack(
     mut state: *mut arg_state,
     mut stack: *mut core::ffi::c_void,
     mut alignment: size_t,
@@ -331,7 +331,7 @@ unsafe extern "C" fn allocate_and_copy_struct_to_stack(
         size,
     );
 }
-unsafe extern "C" fn extend_integer_type(
+unsafe fn extend_integer_type(
     mut source: *mut core::ffi::c_void,
     mut type_0: core::ffi::c_int,
 ) -> ffi_arg {
@@ -413,7 +413,7 @@ unsafe extern "C" fn extend_integer_type(
         }
     };
 }
-unsafe extern "C" fn extend_hfa_type(
+unsafe fn extend_hfa_type(
     mut dest: *mut core::ffi::c_void,
     mut src: *mut core::ffi::c_void,
     mut h: core::ffi::c_int,
@@ -440,7 +440,7 @@ unsafe extern "C" fn extend_hfa_type(
         out("v18") _, out("v19") _, options(preserves_flags)
     );
 }
-unsafe extern "C" fn compress_hfa_type(
+unsafe fn compress_hfa_type(
     mut dest: *mut core::ffi::c_void,
     mut reg: *mut core::ffi::c_void,
     mut h: core::ffi::c_int,
@@ -516,7 +516,7 @@ unsafe extern "C" fn compress_hfa_type(
     }
     return dest;
 }
-unsafe extern "C" fn allocate_int_to_reg_or_stack(
+unsafe fn allocate_int_to_reg_or_stack(
     mut context: *mut call_context,
     mut state: *mut arg_state,
     mut stack: *mut core::ffi::c_void,
@@ -531,7 +531,7 @@ unsafe extern "C" fn allocate_int_to_reg_or_stack(
     (*state).ngrn = N_X_ARG_REG as core::ffi::c_uint;
     return allocate_to_stack(state, stack, size, size);
 }
-unsafe extern "C" fn allocate_int128_to_reg_or_stack(
+unsafe fn allocate_int128_to_reg_or_stack(
     mut context: *mut call_context,
     mut state: *mut arg_state,
     mut stack: *mut core::ffi::c_void,
@@ -639,7 +639,7 @@ pub unsafe extern "C" fn ffi_prep_cif_machdep_var(
     (*cif).aarch64_nfixedargs = nfixedargs;
     return status;
 }
-unsafe extern "C" fn ffi_call_int(
+unsafe fn ffi_call_int(
     mut cif: *mut ffi_cif,
     mut fn_0: Option<unsafe extern "C" fn() -> ()>,
     mut orig_rvalue: *mut core::ffi::c_void,

@@ -75,7 +75,7 @@ pub const FFI_TYPE_STRUCT: ::core::ffi::c_int = 13 as ::core::ffi::c_int;
 pub const FFI_TYPE_COMPLEX: ::core::ffi::c_int = 15 as ::core::ffi::c_int;
 pub const __DARWIN_NULL: *mut ::core::ffi::c_void = ::core::ptr::null_mut::<::core::ffi::c_void>();
 pub const NULL: *mut ::core::ffi::c_void = __DARWIN_NULL;
-unsafe extern "C" fn initialize_aggregate(
+unsafe fn initialize_aggregate(
     mut arg: *mut ffi_type,
     mut offsets: *mut size_t,
 ) -> ffi_status {

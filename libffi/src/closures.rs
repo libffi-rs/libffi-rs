@@ -196,7 +196,7 @@ static mut ffi_trampoline_lock: pthread_mutex_t = _opaque_pthread_mutex_t {
 };
 static mut ffi_trampoline_tables: *mut ffi_trampoline_table =
     ::core::ptr::null::<ffi_trampoline_table>() as *mut ffi_trampoline_table;
-unsafe extern "C" fn ffi_trampoline_table_alloc() -> *mut ffi_trampoline_table {
+unsafe fn ffi_trampoline_table_alloc() -> *mut ffi_trampoline_table {
     let mut table: *mut ffi_trampoline_table = ::core::ptr::null_mut::<ffi_trampoline_table>();
     let mut config_page: vm_address_t = 0;
     let mut trampoline_page: vm_address_t = 0;
@@ -290,7 +290,7 @@ unsafe extern "C" fn ffi_trampoline_table_alloc() -> *mut ffi_trampoline_table {
     (*table).free_list = (*table).free_list_pool;
     return table;
 }
-unsafe extern "C" fn ffi_trampoline_table_free(mut table: *mut ffi_trampoline_table) {
+unsafe fn ffi_trampoline_table_free(mut table: *mut ffi_trampoline_table) {
     if !(*table).prev.is_null() {
         (*(*table).prev).next = (*table).next;
     }
