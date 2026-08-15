@@ -1,6 +1,6 @@
 [package]
 name = "libffi"
-version = "5.1.1"
+version = "5.2.0"
 authors.workspace = true
 description = "Rust bindings for libffi"
 repository.workspace = true
