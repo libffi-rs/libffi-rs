@@ -1,1 +1,0 @@
-PASS: no -lffi or rustc-link-lib=ffi in verbose link log

@@ -1,4 +1,0 @@
-[target.riscv64gc-unknown-linux-musl]
-linker = "rust-lld"
-runner = "qemu-riscv64"
-rustflags = ["-C", "target-feature=+crt-static"]

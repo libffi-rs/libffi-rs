@@ -1,7 +1,0 @@
-Transpiling prep_cif.c
-Transpiling types.c
-Transpiling raw_api.c
-Transpiling java_raw_api.c
-Transpiling closures.c
-Transpiling tramp.c
-Transpiling ffi.c

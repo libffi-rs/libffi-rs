@@ -1,6 +1,0 @@
-source commit: 893bd63954735468305c83ddd56718e3863fdacd
-CC: /home/ubuntu/work/arm-linux-musleabihf-cross/bin/arm-linux-musleabihf-gcc
-arm-linux-musleabihf-gcc (GCC) 11.2.1 20211120
-C2Rust: C2Rust 0.22.1
-rustc: rustc 1.97.1 (8bab26f4f 2026-07-14)
-qemu: qemu-arm version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.18)

@@ -1,7 +1,0 @@
-Repository: https://github.com/libffi-rs/libffi-rs.git
-Branch reviewed: rrir
-Exact HEAD: 893bd63954735468305c83ddd56718e3863fdacd
-Upstream bundled libffi version: 3.5.2
-Target configure host: arm-linux-gnueabihf
-Rust target: armv7-unknown-linux-gnueabihf
-C2Rust: 0.22.1

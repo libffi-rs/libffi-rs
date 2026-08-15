@@ -1,8 +1,0 @@
-
-running 2 tests
-
-thread 'executable_closure_i64' (18770) panicked at src/powerpc/ffi_linux64.rs:1297:15:
-null pointer dereference occurred
-note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
-thread caused non-unwinding panic. aborting.
-qemu: uncaught target signal 6 (Aborted) - core dumped

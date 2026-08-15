@@ -1,5 +1,0 @@
-[toolchain]
-channel = "stable"
-profile = "minimal"
-targets = ["loongarch64-unknown-linux-gnu"]
-components = ["rustfmt"]

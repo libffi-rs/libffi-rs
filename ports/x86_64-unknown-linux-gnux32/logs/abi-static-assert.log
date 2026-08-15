@@ -1,3 +1,0 @@
-+ clang -mx32 -Iasm/include -c tests/abi_layout.c -o /tmp/abi_layout_x32.o
-+ file /tmp/abi_layout_x32.o
-/tmp/abi_layout_x32.o: ELF 32-bit LSB relocatable, x86-64, version 1 (SYSV), not stripped

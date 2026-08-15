@@ -1,5 +1,0 @@
-[toolchain]
-channel = "stable"
-profile = "minimal"
-components = ["rustfmt"]
-targets = ["i686-unknown-linux-gnu"]

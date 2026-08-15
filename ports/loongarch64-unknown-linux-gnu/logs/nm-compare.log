@@ -1,6 +1,0 @@
---- upstream ffi symbols absent from port ---
---- port ffi symbols absent upstream ---
-ffi_call_asm_stack_bridge
-ffi_type_complex_double
-ffi_type_complex_float
-ffi_type_complex_longdouble

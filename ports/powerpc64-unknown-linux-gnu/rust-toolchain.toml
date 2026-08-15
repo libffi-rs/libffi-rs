@@ -1,4 +1,0 @@
-[toolchain]
-channel = "stable"
-targets = ["powerpc64-unknown-linux-gnu"]
-profile = "minimal"

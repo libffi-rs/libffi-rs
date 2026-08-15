@@ -1,1 +1,0 @@
-PASS: no system libffi linker reference; executable has no dynamic section and defines libffi symbols internally

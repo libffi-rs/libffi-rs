@@ -1,8 +1,0 @@
-repository=https://github.com/libffi-rs/libffi-rs.git
-branch=rrir
-commit=893bd63954735468305c83ddd56718e3863fdacd
-target=i686-unknown-linux-gnu
-worker_instance=i-09b8b4fc1e77b8faf
-worker_public_ip=18.234.152.83
-worker_os=Ubuntu 24.04.4 LTS x86_64
-execution=native 32-bit i686 compatibility mode on x86_64

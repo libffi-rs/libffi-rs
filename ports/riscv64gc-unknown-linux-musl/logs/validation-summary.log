@@ -1,6 +1,0 @@
-PASS cargo fmt --check
-PASS cargo check --target riscv64gc-unknown-linux-musl
-PASS cargo build --release --target riscv64gc-unknown-linux-musl
-PASS qemu integration tests: 3/3
-PASS required ffi symbols in staticlib
-PASS test executable is statically linked with no dynamic section, NEEDED entries, or unresolved ffi symbols

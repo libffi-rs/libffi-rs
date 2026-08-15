@@ -1,2 +1,0 @@
-Build-input dependency scan (excluding logs and provenance databases):
-PASS: no absolute, temporary, or system-libffi build dependency

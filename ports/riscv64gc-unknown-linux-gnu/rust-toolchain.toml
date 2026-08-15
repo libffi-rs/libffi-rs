@@ -1,5 +1,0 @@
-[toolchain]
-channel = "stable"
-targets = ["riscv64gc-unknown-linux-gnu"]
-components = ["rustfmt"]
-profile = "minimal"

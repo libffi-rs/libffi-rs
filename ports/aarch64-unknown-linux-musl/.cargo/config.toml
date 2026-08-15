@@ -1,5 +1,0 @@
-[target.aarch64-unknown-linux-musl]
-linker = "musl-gcc"
-
-[env]
-CC_aarch64_unknown_linux_musl = "musl-gcc"

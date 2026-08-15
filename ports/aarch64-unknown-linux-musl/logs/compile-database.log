@@ -1,9 +1,0 @@
-Configured compilation database validation:
-porting/c-source/src/prep_cif.c
-porting/c-source/src/types.c
-porting/c-source/src/raw_api.c
-porting/c-source/src/java_raw_api.c
-porting/c-source/src/closures.c
-porting/c-source/src/tramp.c
-porting/c-source/src/aarch64/ffi.c
-7 selected C commands: OK

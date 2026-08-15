@@ -1,4 +1,0 @@
-/tmp/abi-i686: ELF 32-bit LSB pie executable, Intel 80386, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux.so.2, BuildID[sha1]=c7f3c8654482e1b86e817eecc2c6f7ef4016e921, for GNU/Linux 3.2.0, not stripped
-compiler=13.3.0
-pointer=4 long=4 long_double=12 align_long_double=4 complex_long_double=24 align_complex_long_double=4
-ffi_type_layout=12 ffi_cif_layout=24

@@ -1,7 +1,0 @@
-date=2026-08-12T06:52:58Z
-source_head=893bd63954735468305c83ddd56718e3863fdacd
-rustc 1.97.1 (8bab26f4f 2026-07-14)
-cargo 1.97.1 (c980f4866 2026-06-30)
-C2Rust 0.22.1
-riscv64-linux-musl-gcc (GCC) 11.2.1 20211120
-qemu-riscv64 version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.18)

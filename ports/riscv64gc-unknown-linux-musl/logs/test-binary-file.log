@@ -1,2 +1,0 @@
-target/riscv64gc-unknown-linux-musl/debug/deps/e2e-eacbd30ca0a0cb22:   ELF 64-bit LSB executable, UCB RISC-V, RVC, double-float ABI, version 1 (GNU/Linux), statically linked, with debug_info, not stripped
-target/riscv64gc-unknown-linux-musl/debug/deps/e2e-eacbd30ca0a0cb22.d: ASCII text

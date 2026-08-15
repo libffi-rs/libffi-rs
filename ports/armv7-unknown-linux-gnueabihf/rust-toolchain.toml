@@ -1,5 +1,0 @@
-[toolchain]
-channel = "stable"
-targets = ["armv7-unknown-linux-gnueabihf"]
-components = ["rustfmt"]
-profile = "minimal"
