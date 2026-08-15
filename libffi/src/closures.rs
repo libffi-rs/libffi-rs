@@ -248,8 +248,7 @@ unsafe fn ffi_trampoline_table_alloc() -> *mut ffi_trampoline_table {
     ) as *mut ffi_trampoline_table_entry;
     i = 0_u16;
     while (i as ::core::ffi::c_int) < (*table).free_count as ::core::ffi::c_int {
-        let mut entry: *mut ffi_trampoline_table_entry =
-            (*table).free_list_pool.offset(i as isize) as *mut ffi_trampoline_table_entry;
+        let mut entry: *mut ffi_trampoline_table_entry = (*table).free_list_pool.add(i as usize);
         (*entry).trampoline = ::core::mem::transmute::<
             *mut ::core::ffi::c_void,
             Option<unsafe extern "C" fn() -> *mut ::core::ffi::c_void>,
@@ -261,10 +260,7 @@ unsafe fn ffi_trampoline_table_alloc() -> *mut ffi_trampoline_table {
         if (i as ::core::ffi::c_int)
             < (*table).free_count as ::core::ffi::c_int - 1 as ::core::ffi::c_int
         {
-            (*entry).next = (*table)
-                .free_list_pool
-                .offset((i as ::core::ffi::c_int + 1 as ::core::ffi::c_int) as isize)
-                as *mut ffi_trampoline_table_entry;
+            (*entry).next = (*table).free_list_pool.add(i as usize + 1);
         }
         i = i.wrapping_add(1);
     }

@@ -57,10 +57,7 @@ pub const FFI_TYPE_STRUCT: ::core::ffi::c_int = 13 as ::core::ffi::c_int;
 pub const FFI_TYPE_COMPLEX: ::core::ffi::c_int = 15 as ::core::ffi::c_int;
 pub const __DARWIN_NULL: *mut ::core::ffi::c_void = ::core::ptr::null_mut::<::core::ffi::c_void>();
 pub const NULL: *mut ::core::ffi::c_void = __DARWIN_NULL;
-unsafe fn initialize_aggregate(
-    mut arg: *mut ffi_type,
-    mut offsets: *mut size_t,
-) -> ffi_status {
+unsafe fn initialize_aggregate(mut arg: *mut ffi_type, mut offsets: *mut size_t) -> ffi_status {
     let mut ptr: *mut *mut ffi_type = ::core::ptr::null_mut::<*mut ffi_type>();
     if ((arg.is_null() || (*arg).elements.is_null()) as ::core::ffi::c_int
         != 0 as ::core::ffi::c_int) as ::core::ffi::c_int as ::core::ffi::c_long
@@ -70,8 +67,7 @@ unsafe fn initialize_aggregate(
     }
     (*arg).size = 0 as size_t;
     (*arg).alignment = 0 as ::core::ffi::c_ushort;
-    ptr = (*arg).elements.offset(0 as ::core::ffi::c_int as isize) as *mut *mut _ffi_type
-        as *mut *mut ffi_type;
+    ptr = (*arg).elements;
     if ((ptr == ::core::ptr::null_mut::<*mut ffi_type>()) as ::core::ffi::c_int
         != 0 as ::core::ffi::c_int) as ::core::ffi::c_int as ::core::ffi::c_long
         != 0
@@ -93,7 +89,7 @@ unsafe fn initialize_aggregate(
             .wrapping_add(1 as size_t);
         if !offsets.is_null() {
             let fresh0 = offsets;
-            offsets = offsets.offset(1);
+            offsets = offsets.add(1);
             *fresh0 = (*arg).size;
         }
         (*arg).size = (*arg).size.wrapping_add((**ptr).size);
@@ -103,7 +99,7 @@ unsafe fn initialize_aggregate(
             } else {
                 (**ptr).alignment as ::core::ffi::c_int
             }) as ::core::ffi::c_ushort;
-        ptr = ptr.offset(1);
+        ptr = ptr.add(1);
     }
     (*arg).size = ((*arg).size.wrapping_sub(1 as size_t)
         | ((*arg).alignment as ::core::ffi::c_int - 1 as ::core::ffi::c_int) as size_t)
@@ -173,7 +169,7 @@ pub unsafe extern "C" fn ffi_prep_cif_core(
                 .wrapping_add(1 as size_t) as ::core::ffi::c_uint,
         );
         i = i.wrapping_sub(1);
-        ptr = ptr.offset(1);
+        ptr = ptr.add(1);
     }
     (*cif).bytes = bytes;
     if isvariadic != 0 {
@@ -225,7 +221,7 @@ pub unsafe extern "C" fn ffi_prep_cif_var(
     }
     i = nfixedargs;
     while i < ntotalargs {
-        let mut arg_type: *mut ffi_type = *atypes.offset(i as isize);
+        let mut arg_type: *mut ffi_type = *atypes.add(i as usize);
         if arg_type == &raw mut ffi_type_float
             || (*arg_type).type_0 as ::core::ffi::c_int != FFI_TYPE_STRUCT
                 && (*arg_type).type_0 as ::core::ffi::c_int != FFI_TYPE_COMPLEX

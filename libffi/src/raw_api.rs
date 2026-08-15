@@ -120,7 +120,7 @@ pub unsafe extern "C" fn ffi_raw_size(mut cif: *mut ffi_cif) -> size_t {
             );
         }
         i -= 1;
-        at = at.offset(1);
+        at = at.add(1);
     }
     return result;
 }
@@ -136,26 +136,25 @@ pub unsafe extern "C" fn ffi_raw_to_ptrarray(
     while i < (*cif).nargs {
         if (**tp).type_0 as ::core::ffi::c_int == FFI_TYPE_STRUCT {
             let fresh0 = raw;
-            raw = raw.offset(1);
+            raw = raw.add(1);
             *args = (*fresh0).ptr;
         } else if (**tp).type_0 as ::core::ffi::c_int == FFI_TYPE_COMPLEX {
             let fresh1 = raw;
-            raw = raw.offset(1);
+            raw = raw.add(1);
             *args = (*fresh1).ptr;
         } else {
             *args = raw as *mut ::core::ffi::c_void;
-            raw = raw.offset(
+            raw = raw.add(
                 ((**tp).size.wrapping_sub(1 as size_t)
                     | (::core::mem::size_of::<*mut ::core::ffi::c_void>() as size_t)
                         .wrapping_sub(1 as size_t))
                 .wrapping_add(1 as size_t)
-                .wrapping_div(::core::mem::size_of::<*mut ::core::ffi::c_void>() as size_t)
-                    as isize,
+                .wrapping_div(::core::mem::size_of::<*mut ::core::ffi::c_void>() as size_t),
             );
         }
         i = i.wrapping_add(1);
-        tp = tp.offset(1);
-        args = args.offset(1);
+        tp = tp.add(1);
+        args = args.add(1);
     }
 }
 #[no_mangle]
@@ -171,47 +170,47 @@ pub unsafe extern "C" fn ffi_ptrarray_to_raw(
         match (**tp).type_0 as ::core::ffi::c_int {
             FFI_TYPE_UINT8 => {
                 let fresh2 = raw;
-                raw = raw.offset(1);
+                raw = raw.add(1);
                 (*fresh2).uint = *(*args as *mut u8) as ffi_arg;
             }
             FFI_TYPE_SINT8 => {
                 let fresh3 = raw;
-                raw = raw.offset(1);
+                raw = raw.add(1);
                 (*fresh3).sint = *(*args as *mut i8) as ffi_sarg;
             }
             FFI_TYPE_UINT16 => {
                 let fresh4 = raw;
-                raw = raw.offset(1);
+                raw = raw.add(1);
                 (*fresh4).uint = *(*args as *mut u16) as ffi_arg;
             }
             FFI_TYPE_SINT16 => {
                 let fresh5 = raw;
-                raw = raw.offset(1);
+                raw = raw.add(1);
                 (*fresh5).sint = *(*args as *mut i16) as ffi_sarg;
             }
             FFI_TYPE_UINT32 => {
                 let fresh6 = raw;
-                raw = raw.offset(1);
+                raw = raw.add(1);
                 (*fresh6).uint = *(*args as *mut u32) as ffi_arg;
             }
             FFI_TYPE_SINT32 => {
                 let fresh7 = raw;
-                raw = raw.offset(1);
+                raw = raw.add(1);
                 (*fresh7).sint = *(*args as *mut i32) as ffi_sarg;
             }
             FFI_TYPE_STRUCT => {
                 let fresh8 = raw;
-                raw = raw.offset(1);
+                raw = raw.add(1);
                 (*fresh8).ptr = *args;
             }
             FFI_TYPE_COMPLEX => {
                 let fresh9 = raw;
-                raw = raw.offset(1);
+                raw = raw.add(1);
                 (*fresh9).ptr = *args;
             }
             FFI_TYPE_POINTER => {
                 let fresh10 = raw;
-                raw = raw.offset(1);
+                raw = raw.add(1);
                 (*fresh10).ptr = **(args as *mut *mut *mut ::core::ffi::c_void);
             }
             _ => {
@@ -220,17 +219,17 @@ pub unsafe extern "C" fn ffi_ptrarray_to_raw(
                     &raw mut (*raw).data as *mut u8,
                     (**tp).size,
                 );
-                raw = raw.offset(
+                raw = raw.add(
                     ((**tp).size.wrapping_sub(1 as size_t)
                         | (8 as ::core::ffi::c_int - 1 as ::core::ffi::c_int) as size_t)
                         .wrapping_add(1 as size_t)
-                        .wrapping_div(FFI_SIZEOF_ARG as size_t) as isize,
+                        .wrapping_div(FFI_SIZEOF_ARG as size_t),
                 );
             }
         }
         i = i.wrapping_add(1);
-        tp = tp.offset(1);
-        args = args.offset(1);
+        tp = tp.add(1);
+        args = args.add(1);
     }
 }
 #[no_mangle]

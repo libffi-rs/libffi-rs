@@ -152,7 +152,7 @@ pub unsafe extern "C" fn ffi_java_raw_size(mut cif: *mut ffi_cif) -> size_t {
             }
         }
         i -= 1;
-        at = at.offset(1);
+        at = at.add(1);
     }
     return result;
 }
@@ -169,20 +169,20 @@ pub unsafe extern "C" fn ffi_java_raw_to_ptrarray(
         match (**tp).type_0 as ::core::ffi::c_int {
             FFI_TYPE_UINT64 | FFI_TYPE_SINT64 | FFI_TYPE_DOUBLE => {
                 *args = raw as *mut ::core::ffi::c_void;
-                raw = raw.offset(2 as ::core::ffi::c_int as isize);
+                raw = raw.add(2);
             }
             FFI_TYPE_COMPLEX => {
                 abort();
             }
             _ => {
                 let fresh0 = raw;
-                raw = raw.offset(1);
+                raw = raw.add(1);
                 *args = fresh0 as *mut ::core::ffi::c_void;
             }
         }
         i = i.wrapping_add(1);
-        tp = tp.offset(1);
-        args = args.offset(1);
+        tp = tp.add(1);
+        args = args.add(1);
     }
 }
 #[no_mangle]
@@ -198,65 +198,57 @@ pub unsafe extern "C" fn ffi_java_ptrarray_to_raw(
         match (**tp).type_0 as ::core::ffi::c_int {
             FFI_TYPE_UINT8 => {
                 let fresh1 = raw;
-                raw = raw.offset(1);
+                raw = raw.add(1);
                 (*fresh1).uint = *(*args as *mut u8) as ffi_arg;
             }
             FFI_TYPE_SINT8 => {
                 let fresh2 = raw;
-                raw = raw.offset(1);
+                raw = raw.add(1);
                 (*fresh2).sint = *(*args as *mut i8) as ffi_sarg;
             }
             FFI_TYPE_UINT16 => {
                 let fresh3 = raw;
-                raw = raw.offset(1);
+                raw = raw.add(1);
                 (*fresh3).uint = *(*args as *mut u16) as ffi_arg;
             }
             FFI_TYPE_SINT16 => {
                 let fresh4 = raw;
-                raw = raw.offset(1);
+                raw = raw.add(1);
                 (*fresh4).sint = *(*args as *mut i16) as ffi_sarg;
             }
             FFI_TYPE_UINT32 => {
                 let fresh5 = raw;
-                raw = raw.offset(1);
+                raw = raw.add(1);
                 (*fresh5).uint = *(*args as *mut u32) as ffi_arg;
             }
             FFI_TYPE_SINT32 => {
                 let fresh6 = raw;
-                raw = raw.offset(1);
+                raw = raw.add(1);
                 (*fresh6).sint = *(*args as *mut i32) as ffi_sarg;
             }
             FFI_TYPE_FLOAT => {
                 let fresh7 = raw;
-                raw = raw.offset(1);
+                raw = raw.add(1);
                 (*fresh7).flt = *(*args as *mut f32);
             }
             FFI_TYPE_UINT64 | FFI_TYPE_SINT64 | FFI_TYPE_DOUBLE => {
                 (*raw).uint = *(*args as *mut u64) as ffi_arg;
-                raw = raw.offset(2 as ::core::ffi::c_int as isize);
+                raw = raw.add(2);
             }
             FFI_TYPE_POINTER => {
                 let fresh8 = raw;
-                raw = raw.offset(1);
+                raw = raw.add(1);
                 (*fresh8).ptr = **(args as *mut *mut *mut ::core::ffi::c_void);
             }
             _ => {}
         }
         i = i.wrapping_add(1);
-        tp = tp.offset(1);
-        args = args.offset(1);
+        tp = tp.add(1);
+        args = args.add(1);
     }
 }
-unsafe fn ffi_java_rvalue_to_raw(
-    mut cif: *mut ffi_cif,
-    mut rvalue: *mut ::core::ffi::c_void,
-) {
-}
-unsafe fn ffi_java_raw_to_rvalue(
-    mut cif: *mut ffi_cif,
-    mut rvalue: *mut ::core::ffi::c_void,
-) {
-}
+unsafe fn ffi_java_rvalue_to_raw(mut cif: *mut ffi_cif, mut rvalue: *mut ::core::ffi::c_void) {}
+unsafe fn ffi_java_raw_to_rvalue(mut cif: *mut ffi_cif, mut rvalue: *mut ::core::ffi::c_void) {}
 #[no_mangle]
 pub unsafe extern "C" fn ffi_java_raw_call(
     mut cif: *mut ffi_cif,
